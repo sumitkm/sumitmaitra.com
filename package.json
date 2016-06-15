@@ -1,0 +1,19 @@
+{
+  "name": "sumitmaitra.com",
+  "version": "1.0.0",
+  "description": "sumitmaitra.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumitkm/sumitmaitra.com.git"
+  },
+  "author": "Sumit Maitra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sumitkm/sumitmaitra.com/issues"
+  },
+  "homepage": "https://github.com/sumitkm/sumitmaitra.com#readme"
+}

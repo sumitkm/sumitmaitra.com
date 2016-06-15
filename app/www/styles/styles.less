@@ -1,0 +1,118 @@
+@primary-background-color: #243B74;
+@primary-foreground-color: #F1F2F2;
+@secondary-background-color: #FEFEFE;
+@secondary-foreground-color: #27307A;
+
+@nav-background-color: lighten(@primary-background-color, 10%);
+@nav-color: @primary-foreground-color;
+@nav-height: (@nav-font-size + (2*@element-padding) + (2*@nav-padding));
+@nav-font-size: 16px;
+@nav-padding: 10px;
+@nav-item-background-color: darken(@nav-background-color, 10%);
+@nav-item-hover-background-color: lighten(@nav-background-color, 10%);
+
+@element-padding: 10px;
+
+@panel-border-color: darken(@primary-background-color, 5%);
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI","Arial",sans-serif;
+    background-color: @secondary-background-color;
+    top: @nav-height;
+    box-sizing: content-box;
+
+}
+
+h1, h2, h3, h4, h5, h6{
+    color: @secondary-foreground-color;
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    .full-width;
+    position: relative;
+    font-size: @nav-font-size;
+    line-height: 1em;
+    background-color:  @nav-background-color;
+    color: @nav-color;
+    min-height: (@nav-font-size + (2*@element-padding) + (2*@nav-padding));
+
+    ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li{
+            float: left;
+            padding: @element-padding + @nav-padding;
+        }
+
+        li:hover{
+            background-color: @nav-item-hover-background-color;
+            cursor: pointer;
+        }
+
+        li:first-child{
+            margin-right: 1px;
+        }
+
+        .nav-header
+        {
+            position: relative;
+            display: block;
+        }
+
+        .nav-menu-item
+        {
+            position: relative;
+            display: block;
+            background-color: @nav-item-background-color;
+            margin-right:1px;
+        }
+    }
+}
+
+.container{
+    top: @nav-height;
+    left: 0;
+    position: absolute;
+    padding: @element-padding;
+    box-sizing: border-box;
+    .full-width;
+}
+
+.fixed-top{
+    top:0;
+    left:0;
+    right: 0;
+    position: absolute;
+    height: @nav-height;
+}
+
+.full-width{
+    width: 100%;
+}
+
+.avatar-panel {
+    width: 100%;
+    height: 33%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid @panel-border-color;
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+    background-color: lighten(@primary-background-color, 35%);
+
+    .avatar{
+        display: inline-block;
+        max-width: 200px;
+        border: 5px solid @primary-foreground-color;
+        border-radius: 50%;
+    }
+}

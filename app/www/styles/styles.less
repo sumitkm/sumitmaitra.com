@@ -15,6 +15,20 @@
 
 @panel-border-color: darken(@primary-background-color, 5%);
 
+@xs-media-min-width: 360px;
+@xs-media-max-width: 479px;
+
+@sm-media-min-width: 480px;
+@sm-media-max-width: 767px;
+
+@md-media-min-width: 768px;
+@md-media-max-width: 1023px;
+
+@lg-media-min-width: 1024px;
+@lg-media-max-width: 1199px;
+
+@xl-media-min-width: 1200px;
+
 * {
     box-sizing: border-box;
 }
@@ -33,50 +47,221 @@ h1, h2, h3, h4, h5, h6{
     padding: 0;
 }
 
-nav {
-    .full-width;
-    position: relative;
-    font-size: @nav-font-size;
-    line-height: 1em;
-    background-color:  @nav-background-color;
-    color: @nav-color;
-    min-height: (@nav-font-size + (2*@element-padding) + (2*@nav-padding));
+button{
+    border: 0;
+    background-color: transparent;
+    color: @primary-foreground-color;
+}
 
-    ul{
-        list-style: none;
-        margin: 0;
-        padding: 0;
+// .generate-columns(12);
 
-        li{
+@media screen and (max-width: @xs-media-max-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+        .col-@{i} {
+            width: 100%;
             float: left;
-            padding: @element-padding + @nav-padding;
+            display: inline-block;
         }
-
-        li:hover{
-            background-color: @nav-item-hover-background-color;
-            cursor: pointer;
+        .col-xs-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
         }
+        .generate-columns(@n, (@i + 1));
+    }
 
-        li:first-child{
-            margin-right: 1px;
-        }
+    .nav-menu-button{
+        padding: (@element-padding + @nav-padding)*0.8;
+        display: inline-block;
+        cursor: pointer;
+    }
 
-        .nav-header
-        {
-            position: relative;
+    .nav-menu-button:hover{
+        background-color: @nav-item-hover-background-color;
+    }
+
+    .dropdown {
+        display: inline-block;
+        position: absolute;
+        left: @xs-media-max-width;
+        top: @nav-height*0.8;
+    }
+
+    .nav-menu-button:focus .dropdown{
+        left: 0 !important;
+    }
+
+    nav {
+        .full-width;
+        position: relative;
+        font-size: @nav-font-size;
+        line-height: 1em;
+        background-color:  @nav-background-color;
+        color: @nav-color;
+
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
             display: block;
-        }
+            left: (@xs-media-max-width/2);
+            width: 100%;
+            z-index: 1000;
 
-        .nav-menu-item
-        {
-            position: relative;
-            display: block;
-            background-color: @nav-item-background-color;
-            margin-right:1px;
+            li{
+                background-color:  @nav-background-color;
+
+                padding: @element-padding + @nav-padding;
+                border-bottom: solid 1px @nav-item-hover-background-color;
+            }
+            li:hover{
+                background-color: @nav-item-hover-background-color;
+                cursor: pointer;
+            }
+
+            li:first-child{
+                border-top: solid 1px @nav-item-hover-background-color;
+            }
+
+            .nav-menu-item > li:first-child:hover
+            {
+                position: relative;
+                background-color: @nav-item-background-color;
+                margin-right:1px;
+            }
+        }
+    }
+
+    .nav-header
+    {
+        position: relative;
+        display: block;
+        height: auto;
+        border-bottom: solid 1px @nav-item-hover-background-color;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+    }
+}
+
+@media screen and (min-width: @sm-media-min-width) and (max-width: @sm-media-max-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+
+        .col-@{i} {
+            width: 100%;
+            float: left;
+            display: inline-block;
+      }
+      .generate-columns(@n, (@i + 1));
+    }
+    .desktop
+    {
+        display: none;
+    }
+    .mobile
+    {
+        display: block;
+    }
+}
+
+@media screen and (min-width: @md-media-min-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+
+        .col-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
+      }
+      .generate-columns(@n, (@i + 1));
+    }
+
+    .desktop
+    {
+        display: block;
+    }
+    .mobile
+    {
+        display: none;
+    }
+
+    nav {
+        .full-width;
+        position: relative;
+        font-size: @nav-font-size;
+        line-height: 1em;
+        background-color:  @nav-background-color;
+        color: @nav-color;
+        min-height: (@nav-font-size + (2*@element-padding) + (2*@nav-padding));
+
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li{
+                float: left;
+                padding: @element-padding + @nav-padding;
+            }
+
+            li:hover{
+                background-color: @nav-item-hover-background-color;
+                cursor: pointer;
+            }
+
+            li:first-child{
+                margin-right: 1px;
+            }
+
+            .nav-header
+            {
+                position: relative;
+                display: block;
+            }
+
+            .nav-menu-item
+            {
+                position: relative;
+                display: block;
+                background-color: @nav-item-background-color;
+                margin-right:1px;
+            }
         }
     }
 }
 
+@media screen and (min-width: @lg-media-min-width)  {
+    .desktop
+    {
+        display: block;
+    }    .mobile
+    {
+        display: none;
+    }
+}
+
+@media screen and (min-width: @xl-media-min-width) {
+    .desktop
+    {
+        display: block;
+    }    .mobile
+    {
+        display: none;
+    }
+}
+
+.row{
+    width: 100%;
+    clear: both;
+}
 .container{
     top: @nav-height;
     left: 0;
@@ -109,7 +294,7 @@ nav {
     display: inline-block;
     background-color: lighten(@primary-background-color, 35%);
 
-    .avatar{
+    .avatar {
         display: inline-block;
         max-width: 200px;
         border: 5px solid @primary-foreground-color;

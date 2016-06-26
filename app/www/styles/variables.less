@@ -1,0 +1,41 @@
+@primary-background-color: #243B74;
+@primary-foreground-color: #F1F2F2;
+
+@secondary-background-color: #FEFEFE;
+@secondary-foreground-color: #27307A;
+
+@default-background-color: #E1E1E1;
+
+// Borders
+@border-primary: 1px solid @primary-background-color;
+@border-secondary: 1px solid @secondary-background-color;
+// -- Borders end
+
+@element-padding: 10px;
+@panel-border-color: darken(@primary-background-color, 5%);
+
+// Navigation
+@nav-background-color: lighten(@primary-background-color, 10%);
+@nav-color: @primary-foreground-color;
+@nav-height: (@nav-font-size + (2*@element-padding) + (2*@nav-padding));
+@nav-font-size: 16px;
+@nav-padding: 10px;
+@nav-item-background-color: darken(@nav-background-color, 10%);
+@nav-item-hover-background-color: lighten(@nav-background-color, 10%);
+// -- Navigation ends
+
+// Media sizes
+@xs-media-min-width: 360px;
+@xs-media-max-width: 479px;
+
+@sm-media-min-width: 480px;
+@sm-media-max-width: 767px;
+
+@md-media-min-width: 768px;
+@md-media-max-width: 1023px;
+
+@lg-media-min-width: 1024px;
+@lg-media-max-width: 1199px;
+
+@xl-media-min-width: 1200px;
+// -- Media sizes end

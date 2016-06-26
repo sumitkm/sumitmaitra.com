@@ -1,0 +1,106 @@
+@import "variables.less";
+
+@media screen and (max-width: @xs-media-max-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+        .col-xs-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
+        }
+        .col-offset-xs-@{i} {
+            margin-left: (@i * 100% / @n);
+            display: inline-block;
+        }
+        .col-sm-@{i}, .col-md-@{i}, .col-lg-@{i}, .col-xl-@{i}  {
+            width: 100%;
+            float: left;
+            display: inline-block;
+        }
+        .generate-columns(@n, (@i + 1));
+    }
+};
+
+@media screen and
+(min-width: @sm-media-min-width) and
+(max-width: @sm-media-max-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+
+        .col-xs-@{i}, .col-sm-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
+        }
+        .col-offset-xs-@{i}, .col-offset-sm-@{i} {
+            margin-left: (@i * 100% / @n);
+            display: inline-block;
+        }
+        .col-md-@{i}, .col-lg-@{i}, .col-xl-@{i} {
+            width: 100%;
+            float: left;
+            display: inline-block;
+        }
+      .generate-columns(@n, (@i + 1));
+    }
+};
+
+@media screen and (min-width: @md-media-min-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+
+        .col-xs-@{i}, .col-sm-@{i}, .col-md-@{i}, .col-lg-@{i}, .col-xl-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
+        }
+
+        .col-offset-xs-@{i}, .col-offset-sm-@{i}, .col-offset-md-@{i}, .col-offset-lg-@{i}, .col-offset-xl-@{i} {
+            margin-left: (@i * 100% / @n);
+            display: inline-block;
+        }
+        .generate-columns(@n, (@i + 1));
+    }
+};
+
+@media screen and (min-width: @lg-media-min-width)  {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+        .col-xs-@{i}, .col-sm-@{i}, .col-md-@{i}, .col-lg-@{i}, .col-xl-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
+        }
+
+        .col-offset-xs-@{i}, .col-offset-sm-@{i}, .col-offset-md-@{i}, .col-offset-lg-@{i}, .col-offset-xl-@{i} {
+            margin-left: (@i * 100% / @n);
+            display: inline-block;
+        }
+
+        .generate-columns(@n, (@i + 1));
+    }
+};
+
+@media screen and (min-width: @xl-media-min-width) {
+    .generate-columns(12);
+    .generate-columns(@n, @i: 1) when (@i =< @n) {
+
+    .col-md-@{i}, .col-lg-@{i}, .col-xl-@{i} {
+            width: (@i * 100% / @n);
+            float: left;
+            display: inline-block;
+      }
+
+      .col-offset-xs-@{i}, .col-offset-sm-@{i}, .col-offset-md-@{i}, .col-offset-lg-@{i}, .col-offset-xl-@{i} {
+          margin-left: (@i * 100% / @n);
+          display: inline-block;
+      }
+
+      .generate-columns(@n, (@i + 1));
+    }
+}
+
+.row{
+    width: 100%;
+    clear: both;
+}

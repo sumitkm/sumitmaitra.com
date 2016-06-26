@@ -1,13 +1,13 @@
 <!DOCUMENT>
 <head>
-    <link href="./styles/styles.css" rel="stylesheet" type="text/css" />
+    <link href="./styles/gnb.css" rel="stylesheet" type="text/css" />
     <link href="./styles/fa/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <title>The lazy blogger!</title>
 </head>
 <html>
     <body>
         <header class="fixed-top">
-            <nav class="desktop">
+            <nav class="desktop nav">
                 <ul>
                     <li class="nav-header">
                         <i class="fa fa-home" aria-hidden="true"></i>
@@ -20,12 +20,12 @@
                     </li>
                 </ul>
             </nav>
-            <nav class="mobile">
+            <nav class="mobile nav">
                 <div class="nav-header">
                     <a class="nav-menu-button">
                         <i class="fa fa-home" aria-hidden="true"></i>
                     </a>
-                    <button  class="nav-menu-button pull-right">
+                    <button class="nav-menu-button pull-right">
                         <i class="fa fa-bars" aria-hidden="true"></i>
                         <ul class="dropdown">
                             <li class="nav-menu-item">
@@ -39,17 +39,41 @@
                 </div>
             </nav>
         </header>
-        <div class="container">
+        <div class="container top">
             <div class="avatar-panel">
                 <img class="avatar" alt="Sumit" src="static/me.jpeg" />
                 <div class="row">
-                    <div class="col-4">
-                        Big long textBig long textBig long textBig long textBig long textBig long textBig long textBig long textBig long textBig long text
+                    <div class="col-offset-sm-4 col-sm-4">
+                        <div class="content-box">
+                            <h3>
+                                Hi, I am Sumit!
+                            </h3>
+                            <p>
+                                A software developer, tinkerer, learner
+                                and of course the "Lazy blogger"!
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    Projects
+                </div>
+                <div class="col-md-4">
+                    Blog
+                </div>
+                <div class="col-md-4">
+                    Social
+                </div>
+            </div>
+        </div>
     </body>
-    <footer>
+    <footer style="display: block">
+        <div class="container full-width nav">
+            <div class="nav-menu-item">Design by Sumit Maitra - MIT License</div>
+        </div>
     </footer>
 </html>

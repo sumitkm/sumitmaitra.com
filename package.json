@@ -1,6 +1,6 @@
 {
   "name": "sumitmaitra.com",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "sumitmaitra.com",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/sumitkm/sumitmaitra.com/issues"
   },
-  "homepage": "https://github.com/sumitkm/sumitmaitra.com#readme"
+  "homepage": "https://github.com/sumitkm/sumitmaitra.com#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-connect": "^4.1.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-watch": "^4.3.8"
+  }
 }

@@ -1,79 +1,135 @@
 <!DOCUMENT>
+
 <head>
-    <link href="./styles/gnb.css" rel="stylesheet" type="text/css" />
-    <link href="./styles/fa/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="./libs/gnb/dist/gnb.css" rel="stylesheet" type="text/css" />
+    <link href=" https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <title>The lazy blogger!</title>
 </head>
 <html>
-    <body>
-        <header class="fixed-top">
-            <nav class="desktop nav">
-                <ul>
-                    <li class="nav-header">
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                    </li>
-                    <li class="nav-menu-item">
-                        Projects
-                    </li>
-                    <li class="nav-menu-item">
-                        Blog
-                    </li>
-                </ul>
-            </nav>
-            <nav class="mobile nav">
-                <div class="nav-header">
-                    <a class="nav-menu-button">
-                        <i class="fa fa-home" aria-hidden="true"></i>
-                    </a>
-                    <button class="nav-menu-button pull-right">
-                        <i class="fa fa-bars" aria-hidden="true"></i>
-                        <ul class="dropdown">
-                            <li class="nav-menu-item">
-                                Projects
-                            </li>
-                            <li class="nav-menu-item">
-                                Blog
-                            </li>
-                        </ul>
-                    </button>
+
+<body>
+    <st-nav-menu></st-nav-menu>
+    <div class="container top">
+        <div class="avatar-panel">
+            <img class="avatar" alt="Sumit" src="static/me.jpeg" />
+            <div class="row">
+                <div class="col-offset-sm-4 col-sm-4">
+                    <div class="element-padding">
+                        <h3>
+                            Hi, I am Sumit!
+                        </h3>
+                        <p>
+                            Software developer, tinkerer, learner and the "Lazy blogger"!
+                        </p>
+                    </div>
                 </div>
-            </nav>
-        </header>
-        <div class="container top">
-            <div class="avatar-panel">
-                <img class="avatar" alt="Sumit" src="static/me.jpeg" />
-                <div class="row">
-                    <div class="col-offset-sm-4 col-sm-4">
-                        <div class="content-box">
-                            <h3>
-                                Hi, I am Sumit!
-                            </h3>
-                            <p>
-                                A software developer, tinkerer, learner
-                                and of course the "Lazy blogger"!
-                            </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row center">
+            <div class="col-md-4 panel ">
+                <div class="fill panel-header ">
+                    <h4>Projects</h4>
+                </div>
+                <div class="panel-body tabbed-list no-border" >
+                    <ul class="">
+                        <li>
+                            <h5>Here are some of my recent projects</h5></li>
+                        <li>GNB - A super lightweight CSS library</li>
+                        <li>Silkthread - Yet another SPA</li>
+                        <li>Electric-Edit - A Wordpress editor using Electron JS</li>
+                    </ul>
+                </div>
+                <div class="panel-footer no-border">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="https://github.com/sumitkm">All Projects (Github)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 panel">
+                <div class="fill panel-header">
+                    <h4>Blogs</h4>
+                </div>
+                <div class="no-border panel-body tabbed-list">
+                    <ul>
+                        <li>
+                            <h5>My Recent blog posts</h5>
+                        </li>
+                        <li><a href="https://sumitmaitra.wordpress.com/2016/05/22/how-to-format-a-disk-in-debian-jessie/">How to format a Disk in Debian Jessie</a></li>
+                        <li><a href="https://sumitmaitra.wordpress.com/2016/01/07/setting-up-a-makibes-waveshare-1024x768-touchscreen-with-your-raspberry-pi-2/">Setting up a Makibes (Waveshare) 1024×600 touchscreen with your Raspberry Pi Zero</a></li>
+                        <li><a href="https://sumitmaitra.wordpress.com/2016/01/02/getting-started-with-nodejs-part-1-fumbling-around/">Getting started with NodeJS - Fumbling around</a></li>
+                    </ul>
+                </div>
+                <div class="no-border panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="http://blog.sumitmaitra.com">The lazy blogger!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 panel">
+                <div class="fill panel-header">
+                    <h4>(Selectively) Social!</h4>
+                </div>
+                <div class="no-border panel-body tabbed-list">
+                    <ul>
+                        <li>
+                            <h5>Things I want to share online!</h5></li>
+                        <li><a title="My twitter feed" target="_blank" href="https://twitter.com/sumitkm">My Twitter feed</a></li>
+                        <li>Random pictures</li>
+                        <li>The serious stuff about me</li>
+                    </ul>
+                </div>
+                <div class="no-border panel-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="#modal-one">Show Modal</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    Projects
-                </div>
-                <div class="col-md-4">
-                    Blog
-                </div>
-                <div class="col-md-4">
-                    Social
+    </div>
+
+    <div class="tab-container">
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal" id="modal-one" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <h2>Modal in CSS?</h2>
+                    </div>
+                    <div class="col-xs-2 modal-close">
+                        <a href="#close" class="btn-close" aria-hidden="true">×</a>
+                    </div>
                 </div>
             </div>
+            <div class="modal-body">
+                <p>Modals actions (show/hide) are not supported in GNB because CSS Modals have too many limitations.</p>
+                <p>This sample is for showing the back-drop and dialog styles only. It uses an anchor target to show/hide the 'popup'.</p>
+                <p>Dialog should be shown and hidden using JavaScript.</p>
+                <p><a href="http://codepen.io/maccadb7/pen/nbHEg">Original source of this Modal CSS/LESS</a>
+            </div>
+            <div class="modal-footer">
+                <a href="#close" class="btn">Nice!</a>
+            </div>
         </div>
-    </body>
-    <footer style="display: block">
-        <div class="container full-width nav">
-            <div class="nav-menu-item">Design by Sumit Maitra - MIT License</div>
-        </div>
-    </footer>
+    </div>
+    <!-- /Modal -->
+</body>
+<footer style="display: block">
+    <div class="full-width">
+        <div class="center nav nav-item-container">Designed by Sumit Maitra, MIT License.</div>
+    </div>
+    <script data-main="scripts/st-boot/st-boot" src="libs/requirejs/require.js"></script>
+</footer>
+
 </html>

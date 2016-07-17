@@ -1,0 +1,13 @@
+{
+  "name": "www",
+  "dependencies": {},
+  "globalDependencies": {
+    "crossroads": "registry:dt/crossroads#0.0.0+20160317120654",
+    "eventemitter2": "registry:dt/eventemitter2#0.14.4+20160316155526",
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "js-signals": "registry:dt/js-signals#0.0.0+20160316155526",
+    "knockout": "registry:dt/knockout#0.0.0+20160512130947",
+    "quill": "registry:dt/quill#0.0.0+20160203193611",
+    "require": "registry:dt/require#2.1.20+20160316155526"
+  }
+}

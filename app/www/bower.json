@@ -23,6 +23,7 @@
     "js-signals": "^1.0.0",
     "crossroads": "^0.12.2",
     "requirejs": "^2.2.0",
-    "text": "^2.0.15"
+    "text": "^2.0.15",
+    "history.js": "history#^1.8.0"
   }
 }

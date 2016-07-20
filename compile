@@ -1,0 +1,8 @@
+echo "Compiling build scripts"
+tsc
+
+echo "Compiling UI"
+cd app/www
+tsc
+
+cd ../../

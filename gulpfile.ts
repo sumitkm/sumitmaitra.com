@@ -1,4 +1,4 @@
-// <reference path="./typings/index.d.ts" />
+/// <reference path="./typings/index.d.ts" />
 
 var gulp = require('gulp');
 var watch = require('gulp-watch');
@@ -15,7 +15,8 @@ var onError = (err) => {
 
 gulp.task('connect', () => {
     connect.server({
-        livereload: true
+        livereload: true,
+        root: ['./app/www']
     });
 });
 

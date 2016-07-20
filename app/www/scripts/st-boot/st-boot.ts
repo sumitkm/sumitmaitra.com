@@ -11,7 +11,8 @@ requirejs.config(
             "crossroads": "libs/crossroads/dist/crossroads",
             "js-signals": "libs/js-signals/dist/signals",
             "knockout": "libs/knockout/dist/knockout",
-            "text": "libs/text/text"
+            "text": "libs/text/text",
+            "historyjs": "libs/history.js/scripts/bundled/html4+html5/native.history.js"
         },
         shim:
         {
@@ -22,6 +23,12 @@ requirejs.config(
 
 // Start loading the main app file. Put all of
 // your application logic in there.
-requirejs(["jquery", "knockout", "text", "scripts/st-boot/st-config"], ($, ko, text, config) => {
-    var spaApp = new config.SilkthreadConfig();
+requirejs([
+    "jquery",
+    "knockout",
+    "text",
+    "scripts/st-boot/st-config",
+    "historyjs"
+], ($, ko, text, config, historyjs) => {
+    var spaApp = new config.config();
 });

@@ -13,12 +13,30 @@ class Router {
         this.activateCrossroads();
     }
 
-    private handleAnchorClick = (event) =>
-    {
+    public static newRouteFactory = (routeName: string, routePath: string,  router: Router, title?: string, roles? : Array<string>) => {
+        let newRoute = new Route(routeName, routePath, router, roles);
+        newRoute.router = router;
+        newRoute.title(title);
+        return newRoute;
+    }
+
+    public registerRoute = (newRoute: Route) => {
+        this.routes.push(newRoute);
+        crossroads.addRoute(newRoute.path(), () => {
+            var selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
+            if(selectedRoute!=null)
+            {
+                this.currentRoute(selectedRoute);
+                document.title = newRoute.title();
+            }
+        });
+    }
+
+    private handleAnchorClick = (event) => {
         console.log(JSON.stringify($(event.target).attr("href"), null, 2));
         try {
             let url = $(event.target).attr("href");
-            Historyjs.pushState({ }, url, url);
+            Historyjs.pushState({ url: url }, "", url);
         }
         catch(error) {
             //todo: log
@@ -26,30 +44,13 @@ class Router {
         return false;
     }
 
-    public registerRoute = (newRoute: Route) => {
-        this.routes.push(newRoute);
-        crossroads.addRoute(newRoute.path(), () => {
-            var selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
-            if(newRoute!=null)
-            {
-                this.currentRoute(newRoute);
-            }
-        });
-    }
-
-    public static newRouteFactory = (routeName: string, routePath: string, roles? : Array<string>) => {
-        let newRoute = new Route(routeName, routePath, roles);
-        return newRoute;
-    }
-
-    private activateCrossroads = () => {
-        Historyjs.Adapter.bind(window, "statechange", this.historyStateChanged);
-        //crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
-    }
-
-    public historyStateChanged = () => {
+    private historyStateChanged = () => {
         let state: HistoryState = Historyjs.getState();
-        if (state.hash.length > 1) {
+        if(state.data.url != '')
+        {
+            return crossroads.parse(state.data.url);
+        }
+        else if (state.hash.length > 1) {
             var fullHash = state.hash;
             return crossroads.parse(fullHash);
         }
@@ -57,6 +58,17 @@ class Router {
             return crossroads.parse('/');
         }
     }
+
+    private getRoute = (url: string) => {
+        var selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==url);
+        return selectedRoute;
+    }
+
+    private activateCrossroads = () => {
+        Historyjs.Adapter.bind(window, "statechange", this.historyStateChanged);
+        //crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
+    }
+
 }
 
 export { Router };

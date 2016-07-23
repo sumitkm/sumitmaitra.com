@@ -18,15 +18,18 @@ export class app {
       this.registerComponent("print-preview", "./ui/print-preview/print-preview");
       this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
       this.registerRoutes();
-
   }
 
   public registerRoutes = () => {
-      this.router.registerRoute({ path: ko.observable("/"), pageComponent: ko.observable("home-page")} );
-      this.router.registerRoute({ path: ko.observable("/projects/:routeParams*:"), pageComponent: ko.observable("projects")} );
-      this.router.currentRoute(this.router.routes()[0]);
+      this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:","projects",this.router, "Projects | The lazy blogger!") );
+      var homeRoute : Route = Router.newRouteFactory("/:routeParams*:","home-page",this.router, "Home | The lazy blogger!") ;
+      this.registerRoute(homeRoute);
+      this.router.currentRoute(homeRoute);
       ko.applyBindings(this.router.currentRoute);
+  }
 
+  public registerRoute = (newRoute: Route) =>{
+      this.router.registerRoute(newRoute);
   }
 
   public registerComponent = (name: string, location: string) => {

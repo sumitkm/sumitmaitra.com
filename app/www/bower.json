@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "jquery": "^3.1.0",
-    "gnb": "^0.1.1",
+    "gnb": "^0.1.2",
     "knockout": "^3.4.0",
     "js-signals": "^1.0.0",
     "crossroads": "^0.12.2",

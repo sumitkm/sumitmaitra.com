@@ -20,7 +20,7 @@ export class app {
       this.registerRoutes();
   }
 
-  public registerRoutes = () => {
+  private registerRoutes = () => {
       this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:","projects",this.router, "Projects | The lazy blogger!") );
       var homeRoute : Route = Router.newRouteFactory("/:routeParams*:","home-page",this.router, "Home | The lazy blogger!") ;
       this.registerRoute(homeRoute);

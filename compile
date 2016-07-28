@@ -6,3 +6,6 @@ cd app/www
 tsc
 
 cd ../../
+
+echo "Compiling Server"
+tsc

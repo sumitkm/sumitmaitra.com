@@ -54,7 +54,8 @@ class Router {
             var fullHash = state.hash;
             return crossroads.parse(fullHash);
         }
-        else {
+        else
+        {
             return crossroads.parse('/');
         }
     }

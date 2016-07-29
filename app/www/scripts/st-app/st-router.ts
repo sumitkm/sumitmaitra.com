@@ -1,8 +1,8 @@
-import * as crossroads from "crossroads";
 import * as ko from "knockout";
 import { Route } from "./st-route";
 
 var Historyjs : Historyjs = <any> History;
+var crossroads : CrossroadsJs.CrossRoadsStatic = require("crossroads");
 
 class Router {
     currentRoute: KnockoutObservable<Route> = ko.observable<Route>();
@@ -50,8 +50,8 @@ class Router {
         {
             return crossroads.parse(state.data.url);
         }
-        else if (state.hash.length > 1) {
-            var fullHash = state.hash;
+        else if (state.url.length > 1) {
+            var fullHash = state.url;
             return crossroads.parse(fullHash);
         }
         else
@@ -67,7 +67,7 @@ class Router {
 
     private activateCrossroads = () => {
         Historyjs.Adapter.bind(window, "statechange", this.historyStateChanged);
-        //crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
+        crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
     }
 
 }

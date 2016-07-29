@@ -6,8 +6,7 @@ import { CrossRoute } from "../services/routing/cross-route";
 export class Container {
     public static router: CrossRouter;
     public static inject = () => {
-        let homeController = new HomeController();
-        Container.injectController(homeController);
+        Container.injectController(new HomeController());
     }
 
     private static injectController = (controller: ApiController) => {

@@ -6,7 +6,7 @@ import { CrossRoute } from "./cross-route";
 import { EventEmitter } from "events";
 import { HomeController } from "../../api/home-controller";
 
-var crossroads = require("crossroads");
+var crossroads : CrossroadsJs.CrossRoadsStatic = require("crossroads");
 
 //import * as navigation from "./route-registry";
 export class CrossRouter extends EventEmitter {

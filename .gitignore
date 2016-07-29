@@ -3,3 +3,4 @@ libs/
 typings/
 
 *.js
+webconfig.json

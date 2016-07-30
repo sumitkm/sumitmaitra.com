@@ -4,11 +4,9 @@
 import * as express from "express";
 import { CrossRoute } from "./cross-route";
 import { EventEmitter } from "events";
-import { HomeController } from "../../api/home-controller";
 
 var crossroads : CrossroadsJs.CrossRoadsStatic = require("crossroads");
 
-//import * as navigation from "./route-registry";
 export class CrossRouter extends EventEmitter {
   private nxt: any;
   private services = [];
@@ -30,7 +28,7 @@ export class CrossRouter extends EventEmitter {
               console.log("params: " + JSON.stringify(params));
               console.log("currentRoute:"+  JSON.stringify(currentRoute));
               let controller = <any>currentRoute.controller;
-              controller[currentRoute.name].apply();
+              controller[currentRoute.name].apply([req, res, next]);
           } catch (error) {
               console.log("Routed blew up: " + error);
           }
@@ -49,7 +47,7 @@ export class CrossRouter extends EventEmitter {
         crossroads.parse(req.url, [req, res, next]);
     }
     catch (e) {
-        console.log("Parse blew up: " + JSON.stringify(e, null, 2));
+        console.error("Routing blew up: ", e);
     }
     next();
   }

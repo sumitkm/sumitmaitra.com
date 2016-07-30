@@ -1,8 +1,9 @@
 import * as ko from "knockout";
 import { Route } from "./st-route";
+import * as cr from "crossroads";
 
 var Historyjs : Historyjs = <any> History;
-var crossroads : CrossroadsJs.CrossRoadsStatic = require("crossroads");
+var crossroads = cr;
 
 class Router {
     currentRoute: KnockoutObservable<Route> = ko.observable<Route>();

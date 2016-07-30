@@ -4,6 +4,8 @@ import { baseViewModel } from "../base/base-model";
 export var template = require("text!./st-nav-menu.html");
 export class viewModel extends baseViewModel{
     constructor(params){
-        super();
+        super(params);
+        this.id(params.id || "st-nav-menu");
+
     }
 }

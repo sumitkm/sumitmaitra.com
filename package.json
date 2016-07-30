@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "connect-mongodb-session": "^1.1.1",
     "cookie-parser": "^1.4.3",
     "crossroads": "^0.12.2",
     "emailjs": "^1.0.5",

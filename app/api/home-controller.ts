@@ -1,7 +1,5 @@
 /// <amd-dependency path="./api-controller"/>
 
-import * as express from "express";
-
 export class HomeController implements ApiController
 {
     constructor() {

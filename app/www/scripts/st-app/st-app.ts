@@ -13,8 +13,9 @@ export class app {
   }
 
   public startUp = () => {
-      this.registerComponent("home-page", "./ui/pages/home-page/home-page")
+      this.registerComponent("home", "./ui/pages/home/home")
       this.registerComponent("projects", "./ui/pages/projects/projects")
+      this.registerComponent("login", "./ui/pages/login/login")
       this.registerComponent("print-preview", "./ui/print-preview/print-preview");
       this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
       this.registerRoutes();
@@ -22,7 +23,9 @@ export class app {
 
   private registerRoutes = () => {
       this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:","projects",this.router, "Projects | The lazy blogger!") );
-      var homeRoute : Route = Router.newRouteFactory("/:routeParams*:","home-page",this.router, "Home | The lazy blogger!") ;
+      this.registerRoute(Router.newRouteFactory("/login/:routeParams*:","login",this.router, "Login | The lazy blogger!") );
+
+      var homeRoute : Route = Router.newRouteFactory("/:routeParams*:","home",this.router, "Home | The lazy blogger!") ;
       this.registerRoute(homeRoute);
       this.router.currentRoute(homeRoute);
       ko.applyBindings(this.router.currentRoute);

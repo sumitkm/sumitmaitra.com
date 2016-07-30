@@ -37,7 +37,9 @@ configService.load((config: Configuration) => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
       },
-      store: store
+      store: store,
+      resave: true,
+      saveUninitialized: true
     }));
     app.use(flash());
 
@@ -52,8 +54,6 @@ configService.load((config: Configuration) => {
 
     app.use(bodyParser.json()); // for parsing application/json
     app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded());
 
     app.use(expressValidator({
      customSanitizers: {

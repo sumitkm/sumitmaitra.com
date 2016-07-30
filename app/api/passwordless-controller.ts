@@ -58,7 +58,9 @@ export class PasswordlessController implements ApiController
         			successFlash: 'You should have an email in your inbox in a couple of seconds...!'
                 }),
                 (req, res) => {
-        		        res.redirect('/');
+                    console.log("Redirecting to '/': ");
+
+        		    res.redirect('/');
                 };
         }
     //    next();

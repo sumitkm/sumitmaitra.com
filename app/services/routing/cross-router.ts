@@ -25,12 +25,11 @@ export class CrossRouter extends EventEmitter {
       crossroads.addRoute(currentRoute.route, (req, res, next, params) => {
           try
           {
-              console.log("params: " + JSON.stringify(params));
-              console.log("currentRoute:"+  JSON.stringify(currentRoute));
+              console.log('CrossRouter - Request (req):' + req);
               let controller = <any>currentRoute.controller;
-              controller[currentRoute.name].apply([req, res, next]);
+              controller[currentRoute.name].call(controller[currentRoute.name], req, res, next);
           } catch (error) {
-              console.log("Routed blew up: " + error);
+              console.log("registerRoute blew up: " + error);
           }
       });
   }
@@ -47,7 +46,7 @@ export class CrossRouter extends EventEmitter {
         crossroads.parse(req.url, [req, res, next]);
     }
     catch (e) {
-        console.error("Routing blew up: ", e);
+        console.error("route blew up: ", e);
     }
     next();
   }

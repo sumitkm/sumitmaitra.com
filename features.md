@@ -14,7 +14,7 @@
 - [x] Router with parameters  
 - [x] Controller end points and automatic route registration
 - [ ] Test routes using Mocha
-- [ ] Configuration using nConf  
+- [x] Configuration using nConf  
 - [ ] Implementing [passwordless.net](https://passwordless.net)  
 - [ ] Image resize middleware
 
@@ -30,7 +30,8 @@
 - [ ] Live feed of pinned projects from github
 
 ## Devops
-- [ ] Setting up Mailchimp free account
+- [x] Setting up Desktop Dev environment
+- [x] Setting up a free (low volume) mail sender account
 - [ ] Setting up new Debian VM in Azure
 - [ ] Setting up NGINX
 - [ ] Setting up Letsencrypt

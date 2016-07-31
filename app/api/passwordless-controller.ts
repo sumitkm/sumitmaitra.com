@@ -1,4 +1,5 @@
 /// <amd-dependency path="./api-controller"/>
+import { User } from "../services/data/user";
 var express = require('express');
 var router = express.Router();
 var passwordless = require('passwordless');
@@ -33,22 +34,22 @@ export class PasswordlessController implements ApiController
         	// Request token
         	passwordless.requestToken(
         		(email, delivery, callback) => {
-        			// Return user, if she exists, create new if she doesn't
-        			// Users.findUser(email, function(error, user) {
-        			// 	if(error) {
-        			// 		callback(error.toString());
-        			// 	} else if(user) {
-        			// 		callback(null, user.id);
-        			// 	} else {
-        			// 		User.createOrUpdateUser(email, '', '', function(error, user) {
-        			// 			if(error) {
-        			// 				callback(error.toString());
-        			// 			} else {
-        			// 				callback(null, user.id);
-        			// 			}
-        			// 		})
-        			// 	}
-        			// })
+        			//Return user, if she exists, create new if she doesn't
+        			User.findUser(email, function(error, user) {
+        				if(error) {
+        					callback(error.toString());
+        				} else if(user) {
+        					callback(null, user.id);
+        				} else {
+        					User.createOrUpdateUser(email, '', '', function(error, user) {
+        						if(error) {
+        							callback(error.toString());
+        						} else {
+        							callback(null, user.id);
+        						}
+        					})
+        				}
+        			})
                     console.log("RequestToken for: " + email);
                     callback(null, email);
         		},

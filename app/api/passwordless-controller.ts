@@ -9,10 +9,7 @@ export class PasswordlessController implements ApiController {
     constructor() {
         this["sendToken:path"] = "/login/sendToken";
     }
-
-    public sendToken = (req, res, next, callback) => {
-        console.log("inside PasswordlessController.sendToken");
-
+    private validate = (req, res, next) => {
         req.checkBody('user', 'Please provide a valid email address').isLength(1, 200).isEmail();
         req.sanitize('user').toLowerCase();
         req.sanitize('user').trim();
@@ -21,58 +18,54 @@ export class PasswordlessController implements ApiController {
             console.error("ValidationErrors");
             req.flash('validation', errors);
             res.redirect('/account/login');
-        } else {
-            let email = req.param('user');
-
-            console.log("NO ValidationErrors: " + email);
-            // Request token
-            try {
-                console.log(typeof (passwordless.requestToken));
-
-                console.log("RequestToken for: " + email);
-
-                //Return user, if she exists, create new if she doesn't
-                User.findUser(email, (error, user) => {
-                    console.log("User.findUser for: " + email);
-                    if (error) {
-                        console.log("ERROR User.findUser for: " + email);
-
-                        next(error.toString());
-                    } else if (user) {
-                        console.log("EXISTS User.findUser for: " + user.id);
-
-                        //callback(null, user.id);
-                        next(null, user.id);
-                    } else {
-                        console.log("CREATEORUPDATE User.findUser for: " + email);
-
-                        User.createOrUpdateUser(email, '', '', function(error, user) {
-                            if (error) {
-                                callback(error.toString());
-                            } else {
-                                console.log("CREATE SUCCESS User.findUser for: " + email);
-
-                                next(null, user.id);
-                            }
-                        })
-                    }
-                });
-                //callback(null, email);
-
-                // {
-                //     failureRedirect: '/',
-                // 	failureFlash: 'We had issues sending out this email... Could you try it at a later moment?',
-                // 	successFlash: 'You should have an email in your inbox in a couple of seconds...!'
-                // }),
-                (req, res) => {
-                    console.log("Redirecting to '/': ");
-
-                    res.redirect('/');
-                };
-            } catch (error) {
-                console.error(error);
-            }
         }
-        //    next();
+        else {
+            console.log("NO ValidationErrors: ");
+
+            next();
+        }
+    }
+    public sendToken = (req, res, next) => {
+        console.log("inside PasswordlessController.sendToken");
+        return this.validate(req, res, next),
+            // Request token
+            passwordless.requestToken(
+                function(email, delivery, callback) {
+                    console.log(email);
+                    // Return user, if she exists, create new if she doesn't
+                    User.findUser(email, (error, user) => {
+                        if (error) {
+                            console.log("ERROR RequestToken for: " + email);
+
+                            callback(error.toString());
+                        } else if (user) {
+                            console.log("USER EXISTS RequestToken for: " + email);
+
+                            callback(null, user.id);
+                        } else {
+                            User.createOrUpdateUser(email, '', '', (error, user) => {
+                                console.log("USER CREATE RequestToken for: " + email);
+
+                                if (error) {
+                                    console.log("USER CREATE FAILED RequestToken for: " + email);
+
+                                    callback(error.toString());
+                                } else {
+                                    console.log("USER CREATED RequestToken for: " + email);
+
+                                    callback(null, user.id);
+                                }
+                            })
+                        }
+                    })
+                },
+                {
+                    failureRedirect: '/',
+                    failureFlash: 'We had issues sending out this email... Could you try it at a later moment?',
+                    successFlash: 'You should have an email in your inbox in a couple of seconds...!'
+                }),
+            function(req, res) {
+                res.redirect('/');
+            };
     }
 }

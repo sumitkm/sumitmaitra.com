@@ -47,9 +47,7 @@ configService.load((config: Configuration) => {
     var bodyParser = require('body-parser');
     var multer = require('multer');
     var upload = multer(); // for parsing multipart/form-data
-
     var bodyParser = require('body-parser');
-
 
 
     app.use(bodyParser.json()); // for parsing application/json

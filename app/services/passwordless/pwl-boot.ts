@@ -1,6 +1,7 @@
-var passwordless = require('passwordless');
+import * as passwordless from 'passwordless';
 var MongoStore = require('passwordless-mongostore');
 import { Configuration } from "../settings/config-model";
+import { User } from "../data/user";
 
 export class PasswordlessBoot {
     constructor(app, configuration:Configuration){
@@ -8,8 +9,9 @@ export class PasswordlessBoot {
         				server: { auto_reconnect: true },
         			    mongostore: { collection: 'tokens' }}));
 
-        passwordless.addDelivery('email',
+        passwordless.addDelivery('SendGrid',
             (tokenToSend, uidToSend, recipient, callback) => {
+                console.log("addDelivery Invoked");
                 var host = 'localhost:3000';
 
                 var sg = require('sendgrid').SendGrid(configuration.sendgridApiKey);
@@ -54,14 +56,14 @@ export class PasswordlessBoot {
         ));
 
         app.use((req, res, next) => {
-            // if(req.user) {
-            //     User.findById(req.user, function(error, userdoc) {
-            //         res.locals.user = userdoc;
-            //         next();
-            //     });
-            // } else {
+            if(req.user) {
+                User.findById(req.user, (error, userdoc) => {
+                    res.locals.user = userdoc;
+                    next();
+                });
+            } else {
                 next();
-            // }
+            }
         });
 
     }

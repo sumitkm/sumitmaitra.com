@@ -1,6 +1,6 @@
 import * as express from "express";
 import { HomeController } from "../api/home-controller";
-import { PasswordlessController } from "../api/passwordless-controller";
+import { PassportLocalController } from "../api/passport-controller";
 import { CrossRouter } from "../services/routing/cross-router";
 import { CrossRoute } from "../services/routing/cross-route";
 
@@ -9,7 +9,7 @@ export class Container {
 
     public static inject = () => {
         Container.injectController(new HomeController());
-        Container.injectController(new PasswordlessController());
+        Container.injectController(new PassportLocalController());
     }
 
     private static injectController = (controller: ApiController) => {

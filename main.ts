@@ -6,9 +6,11 @@ import { CrossRouter } from "./app/services/routing/cross-router";
 import { Container } from "./app/di/container";
 import { Config } from "./app/services/settings/config";
 import { Configuration } from "./app/services/settings/config-model";
-import { PasswordlessBoot } from "./app/services/passwordless/pwl-boot";
+import { PassportLocalBoot } from "./app/services/passport-local/boot";
 
 var session = require('express-session');
+var mongoose = require('mongoose');
+
 var expressValidator = require('express-validator');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var email   = require("emailjs");
@@ -38,8 +40,8 @@ configService.load((config: Configuration) => {
         maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
       },
       store: store,
-      resave: true,
-      saveUninitialized: true
+      resave: false,
+      saveUninitialized: false
     }));
     app.use(flash());
 
@@ -66,8 +68,9 @@ configService.load((config: Configuration) => {
     Container.router = router;
     Container.inject();
 
-    let pwlessBoot = new PasswordlessBoot(app, config);
-
+    let passportLocalBootstrapper = new PassportLocalBoot(app, config);
+    passportLocalBootstrapper.init();
+    mongoose.connect(config.mongodbUri);
 
     app.use('/api', router.route);
 
@@ -77,4 +80,15 @@ configService.load((config: Configuration) => {
         var port = server.address().port;
         console.log('sumitmaitra.com running at http://%s:%s', host, port);
     });
+
+
+    if (app.get('env') === 'development') {
+    app.use((err, req, res, next:any) => {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
 });

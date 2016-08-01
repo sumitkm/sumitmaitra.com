@@ -18,6 +18,7 @@ export class CrossRouter extends EventEmitter {
 
       crossroads.bypassed.add((url) => {
           console.log("bypassed: " + url);
+          this.nxt();
       });
   }
 
@@ -28,8 +29,6 @@ export class CrossRouter extends EventEmitter {
               console.log('CrossRouter - Request (req):' + req);
               let controller = <any>currentRoute.controller;
               controller[currentRoute.name].call(controller[currentRoute.name], req, res, next);
-              next();
-              
           } catch (error) {
               console.log("registerRoute blew up: " + error);
           }
@@ -43,6 +42,7 @@ export class CrossRouter extends EventEmitter {
   //  var nav = new navigator.crossRouter();
   //  app.use('/api', nav.route);
   public route = (req: express.Request, res: express.Response, next: any) => {
+      this.nxt = next;
     console.log("crossRouter: Requested Url:" + req.url );
     try {
         crossroads.parse(req.url, [req, res, next]);
@@ -50,6 +50,6 @@ export class CrossRouter extends EventEmitter {
     catch (e) {
         console.error("route blew up: ", e);
     }
-    next();
+    //next();
   }
 }

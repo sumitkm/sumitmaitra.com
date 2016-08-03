@@ -6,36 +6,37 @@ import { Route } from "./st-route";
 
 export class app {
 
-  router : Router;
+    router: Router;
 
-  constructor() {
-      this.router = new Router();
-  }
+    constructor() {
+        this.router = new Router();
+    }
 
-  public startUp = () => {
-      this.registerComponent("home", "./ui/pages/home/home")
-      this.registerComponent("projects", "./ui/pages/projects/projects")
-      this.registerComponent("login", "./ui/pages/login/login")
-      this.registerComponent("print-preview", "./ui/print-preview/print-preview");
-      this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
-      this.registerRoutes();
-  }
+    public startUp = () => {
+        this.registerComponent("home", "./ui/pages/home/home");
+        this.registerComponent("projects", "./ui/pages/projects/projects");
+        this.registerComponent("login", "./ui/pages/login/login");
+        this.registerComponent("register", "./ui/pages/register/register");
+        this.registerComponent("print-preview", "./ui/print-preview/print-preview");
+        this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
+        this.registerRoutes();
+    }
 
-  private registerRoutes = () => {
-      this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:","projects",this.router, "Projects | The lazy blogger!") );
-      this.registerRoute(Router.newRouteFactory("/login/:routeParams*:","login",this.router, "Login | The lazy blogger!") );
+    private registerRoutes = () => {
+        this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:", "projects", this.router, "Projects | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/login/:routeParams*:", "login", this.router, "Login | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/register/:routeParams*:", "register", this.router, "Register | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/:routeParams*:", "home", this.router, "Home | The lazy blogger!"));
 
-      var homeRoute : Route = Router.newRouteFactory("/:routeParams*:","home",this.router, "Home | The lazy blogger!") ;
-      this.registerRoute(homeRoute);
-      this.router.currentRoute(homeRoute);
-      ko.applyBindings(this.router.currentRoute);
-  }
+        this.router.parseCurrentRoute();
+        ko.applyBindings(this.router.currentRoute);
+    }
 
-  public registerRoute = (newRoute: Route) =>{
-      this.router.registerRoute(newRoute);
-  }
+    public registerRoute = (newRoute: Route) => {
+        this.router.registerRoute(newRoute);
+    }
 
-  public registerComponent = (name: string, location: string) => {
-      ko.components.register(name, { require: location });
-  }
+    public registerComponent = (name: string, location: string) => {
+        ko.components.register(name, { require: location });
+    }
 }

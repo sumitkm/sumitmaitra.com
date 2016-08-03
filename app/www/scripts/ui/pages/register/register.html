@@ -2,21 +2,22 @@
     <div class="row">
         <div class="col-md-4 col-offset-md-4">
             <div class="tab horiz">
-                <div class="tab-nav selected">
+                <div class="tab-nav">
                     <div class="panel-header"><a href="/login">Login</a></div>
                 </div>
-                <div class="tab-nav" data-bind="css: { 'selected' : tab()=='register' } ">
+                <div class="tab-nav selected">
                     <div class="panel-header"><a href="/register">Register</a></div>
                 </div>
             </div>
+
             <div class="panel">
-                <div data-bind="visible: tab()=='login'">
-                    <form action="/api/accounts/login" method="POST">
+                <div data-bind="visible: tab()=='register'">
+                    <form action="/api/accounts/register" method="POST">
                         <div class="form">
                             <label class="input-label">Email</label>
                             <input class="input-text" name="username" type="text" />
                             <label class="input-label">Password</label>
-                            <input class="input-text" name="password" type="password" value="">
+                            <input class="input-text" name="password" type="password" />
                             <input class="btn-primary" type="submit" value="Login" />
                         </div>
                     </form>

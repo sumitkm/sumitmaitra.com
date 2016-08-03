@@ -9,8 +9,10 @@
 <html>
 <body>
     <st-nav-menu></st-nav-menu>
-    <div data-bind="component: {
-        name: pageComponent
+    <div data-bind="component:
+    {
+        name: pageComponent,
+        params: $data
     }">
     </div>
 </body>

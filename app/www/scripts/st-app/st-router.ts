@@ -14,8 +14,8 @@ class Router {
         this.activateCrossroads();
     }
 
-    public static newRouteFactory = (routeName: string, routePath: string,  router: Router, title?: string, roles? : Array<string>) => {
-        let newRoute = new Route(routeName, routePath, router, roles);
+    public static newRouteFactory = (routePath: string, pageComponent: string, router: Router, title?: string, roles? : Array<string>) => {
+        let newRoute = new Route(routePath, title, pageComponent, router, roles);
         newRoute.router = router;
         newRoute.title(title);
         return newRoute;
@@ -33,6 +33,10 @@ class Router {
         });
     }
 
+    public parseCurrentRoute = ()=>{
+        this.historyStateChanged();
+    }
+
     private handleAnchorClick = (event) => {
         console.log(JSON.stringify($(event.target).attr("href"), null, 2));
         try {
@@ -46,13 +50,13 @@ class Router {
     }
 
     private historyStateChanged = () => {
-        let state: HistoryState = Historyjs.getState();
-        if(state.data.url != '')
+        let state = <any>Historyjs.getState();
+        if(state.data && state.data.url != null)
         {
             return crossroads.parse(state.data.url);
         }
-        else if (state.url.length > 1) {
-            var fullHash = state.url;
+        else if (state.hash.length > 1) {
+            var fullHash = state.hash;
             return crossroads.parse(fullHash);
         }
         else

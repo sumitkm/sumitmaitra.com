@@ -15,9 +15,9 @@ export class Container {
     private static injectController = (controller: ApiController) => {
         let keys = Object.keys(controller);
         keys.forEach((key: string)=>{
-            if(typeof(controller[key]) == "function"){
-                console.log("Registered Path:" + controller[key + ":path"]);
-                Container.router.registerRoute(new CrossRoute(controller[key + ":path"], key, "", controller));
+            if(typeof(controller[key]) == "string"){
+                console.log("Registered Path:" + controller[key]);
+                Container.router.registerRoute(new CrossRoute(controller[key], key.replace(":path", ""), "", controller));
             }
         });
     }

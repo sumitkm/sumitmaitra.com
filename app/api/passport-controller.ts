@@ -9,11 +9,12 @@ var flash = require('connect-flash');
 
 export class PassportLocalController implements ApiController {
     constructor() {
-        this["register:path"] = "/accounts/register";
-        this["login:path"] = "/accounts/login";
+        this["Register:path"] = "/accounts/register";
+        this["Login:path"] = "/accounts/login";
+        this["Logout:path"] = "/accounts/logout";
     }
 
-    private register = (req, res, next) => {
+    public postRegister = (req, res, next) => {
         console.log("Going to register");
         Account.register(new Account({ username: req.body.username }), req.body.password,
             (err, account) => {
@@ -22,38 +23,44 @@ export class PassportLocalController implements ApiController {
                     return res.render('register', { error: err.message });
                 }
 
-                passport.authenticate('local')(req, res, () => {
-                    req.session.save((err) => {
-                        if (err) {
-                            return next(err);
-                        }
-                        res.redirect('/');
-                    });
+                passport.authenticate('local');
+
+                req.session.save((err) => {
+                    if (err) {
+                        console.log("Session save succeeded");
+
+                        return next(err);
+                    }
+                    res.redirect('/');
                 });
             });
     }
 
-    private login = (req, res, next) => {
+    public postLogin = (req, res, next) => {
         console.log("Going to sign in");
+        passport.authenticate('local', { failureRedirect: '/login', failureFlash: true });
+        console.log("Login done: " + JSON.stringify(req.user));
+        req.session.save((err) => {
+            console.log("Session saved");
+            if (err) {
+                console.log("Session login failed");
 
-        Account.findOne({ username: req.body.username }, function(err, user) {
-            if (err) { return next(err); }
-            if (!user) {
-                return next(null, false, { message: 'Incorrect username.' });
+                return next(err);
             }
-            if (!user.validPassword(req.body.password)) {
-                return next(null, false, { message: 'Incorrect password.' });
-            }
-            return next(null, user);
+            console.log("Session save succeeded");
+
+            res.redirect('/');
         });
+    }
 
-        passport.authenticate('local')(req, res, () => {
-            req.session.save((err) => {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
-            });
+    public postLogout = (req, res, next) => {
+        console.log("Going to sign out: " + JSON.stringify(req.user));
+        req.logout();
+        req.session.save((err) => {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/');
         });
     }
 }

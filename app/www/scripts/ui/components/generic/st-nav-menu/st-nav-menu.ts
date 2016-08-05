@@ -6,6 +6,5 @@ export class viewModel extends baseViewModel{
     constructor(params){
         super(params);
         this.id(params.id || "st-nav-menu");
-
     }
 }

@@ -28,7 +28,9 @@ export class CrossRouter extends EventEmitter {
           {
               console.log('CrossRouter - Request (req):' + req);
               let controller = <any>currentRoute.controller;
-              controller[currentRoute.name].call(controller[currentRoute.name], req, res, next);
+              let funcName = req.method.toLowerCase() + currentRoute.name;
+              console.log("Function Name: " + funcName);
+              controller[funcName].call(controller[funcName], req, res, next);
           } catch (error) {
               console.log("registerRoute blew up: " + error);
           }

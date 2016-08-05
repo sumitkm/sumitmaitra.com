@@ -5,10 +5,10 @@ import * as express from "express";
 export class HomeController implements ApiController
 {
     constructor() {
-        this["getAllProjects:path"] = "/home/getAllProjects/:name:";
+        this["getAllProjectsGet:path"] = "/home/getAllProjects/:name:";
     }
 
-    public getAllProjects = () => {
+    public allProjectsGet = () => {
         console.log("inside HomeController.getAllProjects");
     }
 }

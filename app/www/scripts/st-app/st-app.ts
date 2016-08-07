@@ -13,18 +13,24 @@ export class app {
     }
 
     public startUp = () => {
+        this.registerComponents();
+        this.registerRoutes();
+    }
+
+    private registerComponents = () => {
         this.registerComponent("home", "./ui/pages/home/home");
         this.registerComponent("projects", "./ui/pages/projects/projects");
         this.registerComponent("login", "./ui/pages/login/login");
+        this.registerComponent("profile", "./ui/pages/profile/profile");
         this.registerComponent("register", "./ui/pages/register/register");
         this.registerComponent("print-preview", "./ui/print-preview/print-preview");
         this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
-        this.registerRoutes();
     }
 
     private registerRoutes = () => {
         this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:", "projects", this.router, "Projects | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/login/:routeParams*:", "login", this.router, "Login | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/profile/:routeParams*:", "profile", this.router, "Profile | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/register/:routeParams*:", "register", this.router, "Register | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/:routeParams*:", "home", this.router, "Home | The lazy blogger!"));
 

@@ -53,9 +53,9 @@ export class PassportLocalController implements ApiController {
     }
 
     public getLogin = (req, res, next) => {
-        console.log("Getting Login: " + JSON.stringify({ user: req.user, some: 'dummy'}));
+        console.log("Getting Login: " + JSON.stringify({ user: req.user }));
 
-        res.send({ user: req.user, some: 'dummy'});
+        res.send({ user: req.user });
     }
 
     public postLogout = (req, res, next) => {

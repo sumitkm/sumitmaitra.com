@@ -15,7 +15,8 @@
 - [x] Controller end points and automatic route registration
 - [ ] Test routes using Mocha
 - [x] Configuration using nConf  
-- [ ] Implementing [passwordless.net](https://passwordless.net)  
+- [x] Implementing Authentication using [passportjs](http://passportjs.org) and mongodb
+- [ ] Implementing Email account verification
 - [ ] Image resize middleware
 
 ## Functionality

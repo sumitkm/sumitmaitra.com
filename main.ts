@@ -37,9 +37,6 @@ configService.load((config: Configuration) => {
         }
     });
 
-    // app.set('views', path.join(__dirname, 'app/views'));
-    // app.set('view engine', 'jade');
-
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -77,6 +74,7 @@ configService.load((config: Configuration) => {
     app.use('/projects', express.static(__dirname + '/app/www/'));
     app.use('/register', express.static(__dirname + '/app/www/'));
     app.use('/login', express.static(__dirname + '/app/www/'));
+    app.use('/profile', express.static(__dirname + '/app/www/'));
     app.use('/api', crossRouter.route);
 
     // catch 404 and forward to error handler

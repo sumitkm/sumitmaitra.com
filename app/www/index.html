@@ -8,7 +8,10 @@
 </head>
 <html>
 <body>
-    <st-nav-menu></st-nav-menu>
+    <div data-bind="component:{
+        name: 'st-nav-menu',
+        params: $data
+    }"></div>
     <div data-bind="component:
     {
         name: pageComponent,

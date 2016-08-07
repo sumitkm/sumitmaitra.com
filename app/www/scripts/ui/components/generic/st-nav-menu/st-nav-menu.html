@@ -2,7 +2,7 @@
     <nav class="desktop nav">
         <ul>
             <li class="nav-header nav-menu-item">
-                <a href="/"><i class="fa fa-home" aria-hidden="true"></i></a>
+                <a href="/" class="fa">&#xf015;</a>
             </li>
             <li class="nav-menu-item">
                 <a href="/projects?a=199">Projects</a>
@@ -11,7 +11,12 @@
                 Blogs
             </li>
             <li class="nav-menu-item">
+                <!-- ko if: loggedIn -->
+                <a href="/profile" data-bind="text:userName"></a>
+                <!-- /ko -->
+                <!-- ko ifnot: loggedIn -->
                 <a href="/login">Login</a>
+                <!-- /ko -->
             </li>
         </ul>
     </nav>

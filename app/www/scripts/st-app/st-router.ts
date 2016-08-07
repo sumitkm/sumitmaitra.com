@@ -23,13 +23,22 @@ class Router {
 
     public registerRoute = (newRoute: Route) => {
         this.routes.push(newRoute);
+
         crossroads.addRoute(newRoute.path(), () => {
-            var selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
-            if(selectedRoute!=null)
-            {
-                this.currentRoute(selectedRoute);
-                document.title = newRoute.title();
-            }
+            let selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
+            $.get( "/api/accounts/login", ( data ) => {
+                if(data.user!=null)
+                {
+                    selectedRoute.userName(data.user.username);
+                    selectedRoute.userId(data.user._id);
+                }
+                console.log( data );
+                if(selectedRoute!=null)
+                {
+                    this.currentRoute(selectedRoute);
+                    document.title = newRoute.title();
+                }
+            });
         });
     }
 

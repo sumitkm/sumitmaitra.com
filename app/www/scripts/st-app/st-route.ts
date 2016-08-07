@@ -7,6 +7,8 @@ class Route {
     pageComponent: KnockoutObservable<string> = ko.observable<string>();
     router: Router = null;
     roles : KnockoutObservableArray<string> = ko.observableArray<string>([]);
+    userName: KnockoutObservable<string> = ko.observable<string>();
+    userId: KnockoutObservable<string> = ko.observable<string>();
 
     constructor(newPath: string, newTitle: string, newPageComponent: string, router: Router, newRoles?: Array<string>) {
         this.path(newPath);
@@ -15,6 +17,7 @@ class Route {
         this.router = router;
         newRoles = newRoles || [];
         ko.utils.arrayPushAll<string>(this.roles, newRoles);
+
     }
 }
 

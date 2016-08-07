@@ -52,6 +52,5 @@ export class CrossRouter extends EventEmitter {
     catch (e) {
         console.error("route blew up: ", e);
     }
-    //next();
   }
 }

@@ -11,39 +11,49 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var session = require('cookie-session');
+var session = require('express-session');
 var bodyParser = require('body-parser');
-
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
-// const Promise = require( "bluebird" );
-// const fs      = Promise.promisifyAll( require( "fs" ) );
 
-// app.set( "view engine", "html" );
-// app.set('views', path.join(__dirname, 'app/www/'));
-//
-// app.engine( ".html", ( filename, request, done ) => {
-//     fs.readFileAsync( "index.html", "utf-8" )
-//         .then( html => done( null, html ) )
-//         .catch( done );
-// } );
+var serializeUser =(params)=>{
+    console.log("local serializeUser: " + JSON.stringify(params));
+}
+
+var deserializeUser =(params)=>{
+    console.log("local deserializeUser: " + JSON.stringify(params));
+}
 
 configService.load((config: Configuration) => {
 
     console.log("CONFIG:" + JSON.stringify(config, null, 2));
-    app.set('views', path.join(__dirname, 'app/views'));
-    app.set('view engine', 'jade');
-    //app.use(logger('dev'));
+    // Connect mongoose
+    mongoose.connect(config.mongodbUri, function(err) {
+        if (err) {
+            console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
+        }
+    });
+
+    // app.set('views', path.join(__dirname, 'app/views'));
+    // app.set('view engine', 'jade');
+
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
-    app.use(session({keys: ['secretkey1', 'secretkey2', '...']}));
 
+    var MongoStore = require('connect-mongo')(session);
 
+    app.use(session({
+        cookie: {
+            maxAge: 3600000
+        },
+        secret: config.sessionSecret,
+        saveUninitialized: true,
+        resave: true,
+        store: new MongoStore({ url: config.mongodbUri })
+    }));
 
     // Configure passport middleware
     app.use(passport.initialize());
@@ -56,25 +66,17 @@ configService.load((config: Configuration) => {
     passport.serializeUser(Account.serializeUser());
     passport.deserializeUser(Account.deserializeUser());
 
-    // Connect mongoose
-    mongoose.connect(config.mongodbUri, function(err) {
-        if (err) {
-            console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
-        }
-    });
+
     var crossRouter = new CrossRouter();
     Container.router = crossRouter;
     Container.inject();
 
     // Register routes
-    app.set("view options", {layout: false});
-    app.use('/', crossRouter.route);
+    app.set("view options", { layout: false });
     app.use('/', express.static(__dirname + '/app/www/'));
     app.use('/projects', express.static(__dirname + '/app/www/'));
     app.use('/register', express.static(__dirname + '/app/www/'));
     app.use('/login', express.static(__dirname + '/app/www/'));
-
-
     app.use('/api', crossRouter.route);
 
     // catch 404 and forward to error handler
@@ -110,6 +112,6 @@ configService.load((config: Configuration) => {
     app.set('port', process.env.PORT || 3001);
     var pkg = require('./package.json');
     var server = app.listen(app.get('port'), function() {
-      console.log(pkg.name, 'listening on port ', server.address().port);
+        console.log(pkg.name, 'listening on port ', server.address().port);
     });
 });

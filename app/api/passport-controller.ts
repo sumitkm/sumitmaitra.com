@@ -5,7 +5,6 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 
 export class PassportLocalController implements ApiController {
     constructor() {
@@ -36,14 +35,18 @@ export class PassportLocalController implements ApiController {
                 console.log("AuthResult  :" + authResult);
                 console.log("Message  :" + message);
                 if(authResult != false){
-                    req.user = authResult;
-                    res.redirect('/');
+                    req.login(authResult, function(err) {
+                        if (err) {
+                            res.redirect('/login');
+                        } else {
+                            res.redirect('/');
+                        }
+                    });
                 }
                 else{
                     res.redirect('/login');
                 }
-            });
-            func(req, res);
+            })(req, res, next);
         } catch(error){
             console.log(error);
         }

@@ -5,7 +5,6 @@ import { Config } from "./app/services/settings/config";
 import { Container } from "./app/di/container";
 import { CrossRouter } from "./app/services/routing/cross-router";
 import { Configuration } from "./app/services/settings/config-model";
-import { PassportLocalBoot } from "./app/services/passport-local/boot";
 
 var configService = new Config();
 var express = require('express');
@@ -42,7 +41,8 @@ configService.load((config: Configuration) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(session({ keys: [config.sessionSecret] }));
+    app.use(session({keys: ['secretkey1', 'secretkey2', '...']}));
+
 
 
     // Configure passport middleware
@@ -62,16 +62,18 @@ configService.load((config: Configuration) => {
             console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
         }
     });
+    var crossRouter = new CrossRouter();
+    Container.router = crossRouter;
+    Container.inject();
 
     // Register routes
     app.set("view options", {layout: false});
+    app.use('/', crossRouter.route);
     app.use('/', express.static(__dirname + '/app/www/'));
     app.use('/projects', express.static(__dirname + '/app/www/'));
     app.use('/register', express.static(__dirname + '/app/www/'));
     app.use('/login', express.static(__dirname + '/app/www/'));
-    var crossRouter = new CrossRouter();
-    Container.router = crossRouter;
-    Container.inject();
+
 
     app.use('/api', crossRouter.route);
 

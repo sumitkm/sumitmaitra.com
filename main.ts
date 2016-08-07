@@ -1,86 +1,92 @@
 /// <reference path="./typings/index.d.ts"/>
 
-import * as express from "express";
 import nconf = require('nconf');
 import { Config } from "./app/services/settings/config";
 import { Container } from "./app/di/container";
 import { CrossRouter } from "./app/services/routing/cross-router";
 import { Configuration } from "./app/services/settings/config-model";
 import { PassportLocalBoot } from "./app/services/passport-local/boot";
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session');
-var mongoose = require('mongoose');
-var expressValidator = require('express-validator');
-var MongoDBStore = require('connect-mongodb-session')(session);
-var email = require("emailjs");
-var flash = require('connect-flash');
+
 var configService = new Config();
+var express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var session = require('cookie-session');
 var bodyParser = require('body-parser');
-var multer = require('multer');
-var upload = multer(); // for parsing multipart/form-data
-var Account = require('./app/services/data/account');
+
+var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var app = express();
+// const Promise = require( "bluebird" );
+// const fs      = Promise.promisifyAll( require( "fs" ) );
+
+// app.set( "view engine", "html" );
+// app.set('views', path.join(__dirname, 'app/www/'));
+//
+// app.engine( ".html", ( filename, request, done ) => {
+//     fs.readFileAsync( "index.html", "utf-8" )
+//         .then( html => done( null, html ) )
+//         .catch( done );
+// } );
+
 configService.load((config: Configuration) => {
+
     console.log("CONFIG:" + JSON.stringify(config, null, 2));
-    let app = express();
-
-    let pathToMongoDb = config.mongodbUri;
-    let store = new MongoDBStore(
-        {
-            uri: pathToMongoDb,
-            collection: 'WebSessions'
-        });
-
-    // Catch errors
-    store.on('error', (error) => {
-        // assert.ifError(error);
-        // assert.ok(false);
-        console.error(error);
-    });
-    app.use(logger('dev'));
-    app.use(bodyParser.json()); // for parsing application/json
-    app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+    app.set('views', path.join(__dirname, 'app/views'));
+    app.set('view engine', 'jade');
+    //app.use(logger('dev'));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(require('express-session')({
-        secret: config.sessionSecret,
-        // cookie: {
-        //     maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-        // },
-        // store: store,
-        resave: false,
-        saveUninitialized: false
-    }));
+    app.use(session({ keys: [config.sessionSecret] }));
 
-    var router = new CrossRouter();
-    Container.router = router;
-    Container.inject();
 
-    app.use('/api', router.route);
-    app.use('/', express.static(__dirname + '/app/www/'));
-    app.use('/login', express.static(__dirname + '/app/www/'));
-    app.use('/projects', express.static(__dirname + '/app/www/'));
-    app.use('/register', express.static(__dirname + '/app/www/'));
+    // Configure passport middleware
     app.use(passport.initialize());
-    app.use(flash());
     app.use(passport.session());
-    passport.use(new LocalStrategy(Account.authenticate));
+
+    // Configure passport-local to use account model for authentication
+    var Account = require('./app/services/data/account');
+    passport.use(Account.createStrategy());
+
     passport.serializeUser(Account.serializeUser());
     passport.deserializeUser(Account.deserializeUser());
 
-    mongoose.connect(config.mongodbUri);
-
-    var server = app.listen(3001, () => {
-        var host = server.address().address;
-        var port = server.address().port;
-        console.log('sumitmaitra.com running at http://%s:%s', host, port);
+    // Connect mongoose
+    mongoose.connect(config.mongodbUri, function(err) {
+        if (err) {
+            console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
+        }
     });
 
+    // Register routes
+    app.set("view options", {layout: false});
+    app.use('/', express.static(__dirname + '/app/www/'));
+    app.use('/projects', express.static(__dirname + '/app/www/'));
+    app.use('/register', express.static(__dirname + '/app/www/'));
+    app.use('/login', express.static(__dirname + '/app/www/'));
+    var crossRouter = new CrossRouter();
+    Container.router = crossRouter;
+    Container.inject();
 
+    app.use('/api', crossRouter.route);
+
+    // catch 404 and forward to error handler
+    app.use(function(req, res, next) {
+        var err = new Error('Not Found');
+        err['status'] = 404;
+        next(err);
+    });
+
+    // error handlers
+    // development error handler
+    // will print stacktrace
     if (app.get('env') === 'development') {
-        app.use((err, req, res, next: any) => {
+        app.use(function(err, req, res, next) {
             res.status(err.status || 500);
             res.render('error', {
                 message: err.message,
@@ -88,4 +94,20 @@ configService.load((config: Configuration) => {
             });
         });
     }
+
+    // production error handler
+    // no stacktraces leaked to user
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: {}
+        });
+    });
+
+    app.set('port', process.env.PORT || 3001);
+    var pkg = require('./package.json');
+    var server = app.listen(app.get('port'), function() {
+      console.log(pkg.name, 'listening on port ', server.address().port);
+    });
 });

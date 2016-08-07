@@ -16,51 +16,48 @@ export class PassportLocalController implements ApiController {
 
     public postRegister = (req, res, next) => {
         console.log("Going to register");
-        Account.register(new Account({ username: req.body.username }), req.body.password,
-            (err, account) => {
-                if (err) {
-                    console.error(err);
-                    return res.render('register', { error: err.message });
-                }
+        Account.register(new Account({username: req.body.username}), req.body.password, (err) => {
+            if (err) {
+              console.log('error while user register!', err);
+              return next(err);
+            }
 
-                passport.authenticate('local');
-
-                req.session.save((err) => {
-                    if (err) {
-                        console.log("Session save succeeded");
-
-                        return next(err);
-                    }
-                    res.redirect('/');
-                });
-            });
+            console.log('user registered!');
+            res.redirect('/');
+          });
     }
 
     public postLogin = (req, res, next) => {
         console.log("Going to sign in");
-        passport.authenticate('local', { failureRedirect: '/login', failureFlash: true });
-        console.log("Login done: " + JSON.stringify(req.user));
-        req.session.save((err) => {
-            console.log("Session saved");
-            if (err) {
-                console.log("Session login failed");
+        try
+        {
+            var func = passport.authenticate('local', (err, authResult, message)=>{
+                console.log("Error: " + err);
+                console.log("AuthResult  :" + authResult);
+                console.log("Message  :" + message);
+                if(authResult != false){
+                    req.user = authResult;
+                    res.redirect('/');
+                }
+                else{
+                    res.redirect('/login');
+                }
+            });
+            func(req, res);
+        } catch(error){
+            console.log(error);
+        }
+    }
 
-                return next(err);
-            }
-            console.log("Session save succeeded");
+    public getLogin = (req, res, next) => {
+        console.log("Getting Login: " + JSON.stringify({ user: req.user, some: 'dummy'}));
 
-            res.redirect('/');
-        });
+        res.send({ user: req.user, some: 'dummy'});
     }
 
     public postLogout = (req, res, next) => {
         console.log("Going to sign out: " + JSON.stringify(req.user));
         req.logout();
-        req.session.save((err) => {
-            if (err) {
-                return next(err);
-            }
-            res.redirect('/');
-        });
+        res.redirect('/');
     }
 }

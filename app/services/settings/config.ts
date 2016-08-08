@@ -17,7 +17,8 @@ export class Config {
             nconf.file('./webconfig.json');
             nconf.load((data) =>
             {
-                this.currentSettings.sendgridApiKey = nconf.get('sendgridApiKey');
+                this.currentSettings.verifyFromEmail = nconf.get('verifyFromEmail');
+                this.currentSettings.sparkPostApiKey = nconf.get('sparkPostApiKey');
                 this.currentSettings.mongodbUri = nconf.get('mongodbUri');
                 this.currentSettings.sessionSecret = nconf.get('sessionSecret');
                 if(callback!=null)

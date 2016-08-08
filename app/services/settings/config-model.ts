@@ -1,6 +1,7 @@
 export class Configuration
 {
-    public sendgridApiKey: string;
+    public sparkPostApiKey: string;
     public mongodbUri: string;
-    public sessionSecret: string; 
+    public sessionSecret: string;
+    public verifyFromEmail: string; 
 }

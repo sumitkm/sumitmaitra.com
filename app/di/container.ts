@@ -1,15 +1,19 @@
 import * as express from "express";
+
+import { Configuration } from "../services/settings/config-model";
 import { HomeController } from "../api/home-controller";
 import { PassportLocalController } from "../api/passport-controller";
 import { CrossRouter } from "../services/routing/cross-router";
 import { CrossRoute } from "../services/routing/cross-route";
 
 export class Container {
+    private static config: Configuration;
     public static router: CrossRouter;
 
-    public static inject = () => {
+    public static inject = (configuration: Configuration) => {
+        Container.config = configuration;
         Container.injectController(new HomeController());
-        Container.injectController(new PassportLocalController());
+        Container.injectController(new PassportLocalController(Container.config));
     }
 
     private static injectController = (controller: ApiController) => {

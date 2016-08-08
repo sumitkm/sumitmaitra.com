@@ -1,13 +1,21 @@
 /// <amd-dependency path="./api-controller"/>
+import { Configuration } from "../services/settings/config-model";
+import * as VerificationMailer from "../services/mailing/verification-email";
 
 var Account = require("../services/data/account");
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose'); // TODO: Bad Sumit, no DB in controllers
+
 
 export class PassportLocalController implements ApiController {
-    constructor() {
+    config: Configuration;
+
+
+    constructor(configuration: Configuration) {
+        this.config = configuration;
         this["Register:path"] = "/accounts/register";
         this["Login:path"] = "/accounts/login";
         this["Logout:path"] = "/accounts/logout";
@@ -15,13 +23,21 @@ export class PassportLocalController implements ApiController {
 
     public postRegister = (req, res, next) => {
         console.log("Going to register");
-        Account.register(new Account({username: req.body.username}), req.body.password, (err) => {
+        let code = new mongoose.Types.ObjectId;
+        let acc = new Account({
+            username: req.body.username,
+            isVerified: false,
+            email: req.body.email,
+            verificationCode: code
+        });
+        Account.register(acc, req.body.password, (err) => {
             if (err) {
               console.log('error while user register!', err);
               return next(err);
             }
-
             console.log('user registered!');
+            VerificationMailer.sendMail(this.config, code.toString());
+                        
             res.redirect('/');
           });
     }
@@ -32,14 +48,20 @@ export class PassportLocalController implements ApiController {
         {
             var func = passport.authenticate('local', (err, authResult, message)=>{
                 console.log("Error: " + err);
-                console.log("AuthResult  :" + authResult);
+                console.log("AuthResult  :" + authResult.username);
                 console.log("Message  :" + message);
                 if(authResult != false){
-                    req.login(authResult, function(err) {
+                    req.login(authResult, (err) => {
                         if (err) {
                             res.redirect('/login');
                         } else {
-                            res.redirect('/');
+                            if(authResult.isVerified)
+                            {
+                                res.redirect('/');
+                            }
+                            else{
+                                res.redirect('/verify')
+                            }
                         }
                     });
                 }

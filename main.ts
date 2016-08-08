@@ -29,7 +29,7 @@ var deserializeUser =(params)=>{
 
 configService.load((config: Configuration) => {
 
-    console.log("CONFIG:" + JSON.stringify(config, null, 2));
+    console.log("Config Loaded:" + (config !== null));
     // Connect mongoose
     mongoose.connect(config.mongodbUri, function(err) {
         if (err) {
@@ -66,7 +66,7 @@ configService.load((config: Configuration) => {
 
     var crossRouter = new CrossRouter();
     Container.router = crossRouter;
-    Container.inject();
+    Container.inject(config);
 
     // Register routes
     app.set("view options", { layout: false });
@@ -75,6 +75,7 @@ configService.load((config: Configuration) => {
     app.use('/register', express.static(__dirname + '/app/www/'));
     app.use('/login', express.static(__dirname + '/app/www/'));
     app.use('/profile', express.static(__dirname + '/app/www/'));
+    app.use('/verify', express.static(__dirname + '/app/www/'));
     app.use('/api', crossRouter.route);
 
     // catch 404 and forward to error handler

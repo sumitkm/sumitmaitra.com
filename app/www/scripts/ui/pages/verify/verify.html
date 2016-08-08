@@ -1,0 +1,22 @@
+<div class="container top">
+    <div class="row">
+        <div class="col-md-4 col-offset-md-4">
+            <form action="/api/accounts/resend-verify" method="POST">
+                <div class="form element-padding">
+                    <label class="input-label">Hi, looks like your account is not verified yet. Please use the link in the welcome email to verify your account.</label>
+                </div>
+                <div class="element-padding">
+                    OR
+                </div>
+                <div class="form element-padding">
+                    <label class="input-label">Please provide the User Name you used to register and we'll resend the verification link.</label>
+                    <input class="input-text" data-bind="text: userName" placeholder="User Name (not email address)"></label>
+
+                </div>
+                <div class="element-padding">
+                    <input class="btn-primary" type="submit" value="Resend verification email" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

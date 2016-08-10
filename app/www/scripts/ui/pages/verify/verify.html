@@ -9,12 +9,10 @@
                     OR
                 </div>
                 <div class="form element-padding">
-                    <label class="input-label">Please provide the User Name you used to register and we'll resend the verification link.</label>
-                    <input class="input-text" data-bind="text: userName" placeholder="User Name (not email address)"></label>
-
+                    <label class="input-label">Click on the link below to resend the verification email.</label>
                 </div>
                 <div class="element-padding">
-                    <input class="btn-primary" type="submit" value="Resend verification email" />
+                    <input class="btn-primary" type="button" value="Resend verification email" data-bind="click: resendVerification" />
                 </div>
             </form>
         </div>

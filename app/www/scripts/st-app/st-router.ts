@@ -24,8 +24,9 @@ class Router {
     public registerRoute = (newRoute: Route) => {
         this.routes.push(newRoute);
 
-        crossroads.addRoute(newRoute.path(), () => {
+        crossroads.addRoute(newRoute.path(), (crRoute) => {
             let selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
+            selectedRoute.crRoute(crRoute);
             $.get( "/api/accounts/login", ( data ) => {
                 if(data.user!=null)
                 {

@@ -20,6 +20,42 @@ export class PassportLocalController implements ApiController {
         this["Register:path"] = "/accounts/register";
         this["Login:path"] = "/accounts/login";
         this["Logout:path"] = "/accounts/logout";
+        this["Verify:path"] = "/accounts/verify";
+        this["VerifyResend:path"] = "/accounts/verifyresend";
+    }
+
+    public getVerify = (req, res, next) => {
+        console.log("Going to GET verification user");
+        if ( (req.session.passport != null && req.session.passport.user != null)) {
+            res.send({ username: req.sessions.passport.user });
+        } else if (req.session.userId != null) {
+            res.send({ username: req.session.userId });
+        } else{
+            res.send( { username: 'unknown' } );
+        }
+    }
+
+    public postVerify = (req, res, next) => {
+        console.log("Going to POST verify");
+        Account.verifyAccount(req.body.verificationcode, (err, account)=>{
+            if(err){
+                res.redirect("/login");
+            }else{
+                res.redirect("/");
+            }
+        });
+    }
+
+    public postVerifyResend = (req, res, next) => {
+        console.log("Going to POST resend verification email");
+        if (req.body.username != null) {
+            Account.findByUsername(req.body.username, false, (user) => {
+                if (user != null && user.email != '') {
+                    console.log(JSON.stringify(user));
+                    this.mailer.sendEmail(user.verificationCode.toString(), req.body.email);
+                }
+            });
+        }
     }
 
     public postRegister = (req, res, next) => {
@@ -50,19 +86,22 @@ export class PassportLocalController implements ApiController {
                 console.log("Error: " + err);
                 console.log("AuthResult  :" + authResult.username);
                 console.log("Message  :" + message);
+
                 if (authResult != false) {
-                    req.login(authResult, (err) => {
-                        if (err) {
-                            res.redirect('/login');
-                        } else {
-                            if (authResult.isVerified) {
+                    if (authResult.isVerified) {
+                        req.login(authResult, (err) => {
+                            if (err) {
+                                res.redirect('/login');
+                            } else {
+
                                 res.redirect('/');
                             }
-                            else {
-                                res.redirect('/verify')
-                            }
-                        }
-                    });
+
+                        });
+                    } else {
+                        req.session.userId = authResult.username;
+                        res.redirect('/verify')
+                    };
                 }
                 else {
                     res.redirect('/login');

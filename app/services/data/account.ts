@@ -33,17 +33,21 @@ Account.statics.verifyAccount = function(verificationCode: string, cb) {
     	});
 }
 
-// Account.statics.findUserByVerficationCode = (verificationCode, cb) => {
-//     let query = Account.findOne({
-// 			'account.verificationCode': new Schema.Types.ObjectId(verificationCode)
-// 		}, 'username', (err, account) => {
-//         if (err) {
-// 			console.log("findUserByVerficationCode: " + err);
-// 			cb(err, null);
-// 		};
-// 		cb(null, account);
-//     });
-// }
+Account.statics.getAccountByName = function(username: string, cb) {
+    console.log("inside getAccountByName:" + username);
+	this.findOne({
+			'username': 'username'
+		},
+        'username, verificationCode, email',
+        (err, user) => {
+            console.log("User name: " + username);
+            if (err) {
+    			console.log("findUserByVerficationCode: " + err);
+    			cb(err, null);
+    		};
+    	    cb(null, user);
+    	});
+}
 
 Account.plugin(passportLocalMongoose);
 

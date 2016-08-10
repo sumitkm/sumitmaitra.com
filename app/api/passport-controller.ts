@@ -48,11 +48,14 @@ export class PassportLocalController implements ApiController {
 
     public postVerifyResend = (req, res, next) => {
         console.log("Going to POST resend verification email");
-        if (req.body.username != null) {
-            Account.findByUsername(req.body.username, false, (user) => {
+        if (req.session.username != null) {
+            console.log("Session UserId: " + req.session.username);
+            Account.findByUsername(req.session.username, false, (err, user) => {
+                console.log("Session Loaded User: " + user);
+
                 if (user != null && user.email != '') {
                     console.log(JSON.stringify(user));
-                    this.mailer.sendEmail(user.verificationCode.toString(), req.body.email);
+                    this.mailer.sendEmail(user.verificationCode.toString(), user.email);
                 }
             });
         }
@@ -89,17 +92,18 @@ export class PassportLocalController implements ApiController {
 
                 if (authResult != false) {
                     if (authResult.isVerified) {
+                        console.log("Account is verified");
+
                         req.login(authResult, (err) => {
                             if (err) {
                                 res.redirect('/login');
                             } else {
-
                                 res.redirect('/');
                             }
-
                         });
                     } else {
-                        req.session.userId = authResult.username;
+                        console.log("Account is not verified");
+                        req.session.username = authResult.username;
                         res.redirect('/verify')
                     };
                 }

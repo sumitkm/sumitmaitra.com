@@ -25,7 +25,7 @@ export class viewModel extends baseViewModel{
     }
 
     resendVerification = () => {
-        $.post("/api/accounts/verify", { username: this.userName }, (data)=>{
+        $.post("/api/accounts/verifyresend", (data)=>{
             if(data.username != ''){
                 this.userName(data.username);
             }

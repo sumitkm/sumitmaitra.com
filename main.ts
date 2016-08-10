@@ -75,6 +75,7 @@ configService.load((config: Configuration) => {
     app.use('/register', express.static(__dirname + '/app/www/'));
     app.use('/login', express.static(__dirname + '/app/www/'));
     app.use('/profile', express.static(__dirname + '/app/www/'));
+    app.use('/verify', express.static(__dirname + '/app/www/')); // Really express ????
     app.use('/verify/:verificationCode', express.static(__dirname + '/app/www/'));
     app.use('/api', crossRouter.route);
 

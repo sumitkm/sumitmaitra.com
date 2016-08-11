@@ -9,7 +9,7 @@ export class VerificationEmailer {
         this.client = new SparkPost(configuration.sparkPostApiKey);
     }
 
-    public sendEmail = (verificationCode: string, emailAddress: string) => {
+    public sendEmail = (verificationCode: string, emailAddress: string, cb) => {
         this.client.transmissions.send({
             transmissionBody: {
                 content: {
@@ -21,12 +21,18 @@ export class VerificationEmailer {
                     { address: emailAddress }
                 ]
             }
-        }, function(err, res) {
+        }, (err, res) => {
             if (err) {
                 console.log('Whoops! Something went wrong');
                 console.log(err);
+                if (cb != null) {
+                    cb(err, null);
+                }
             } else {
                 console.log('Verification email sent!');
+                if (cb != null) {
+                    cb(null, null);
+                }
             }
         });
     }

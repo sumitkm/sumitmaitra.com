@@ -1,20 +1,37 @@
 <div class="container top">
     <div class="row">
         <div class="col-md-4 col-offset-md-4">
-            <form action="/api/accounts/resend-verify" method="POST">
-                <div class="form element-padding">
-                    <label class="input-label">Hi, looks like your account is not verified yet. Please use the link in the welcome email to verify your account.</label>
-                </div>
-                <div class="element-padding">
-                    OR
-                </div>
-                <div class="form element-padding">
-                    <label class="input-label">Click on the link below to resend the verification email.</label>
-                </div>
-                <div class="element-padding">
-                    <input class="btn-primary" type="button" value="Resend verification email" data-bind="click: resendVerification" />
-                </div>
-            </form>
+            <!-- ko if: loading -->
+            Verifying...
+            <!-- /ko -->
+            <!-- ko ifnot: loading -->
+                <!-- ko if: verificationCode() == '' -->
+                    <!-- ko if: message() == '' -->
+                        <form action="/api/accounts/resend-verify" method="POST">
+                            <div class="form element-padding">
+                                <label class="input-label">Hi, looks like your account is not verified yet. Please use the link in the welcome email to verify your account.</label>
+                            </div>
+                            <div class="element-padding">
+                                OR
+                            </div>
+                            <div class="form element-padding">
+                                <label class="input-label">Click on the link below to resend the verification email.</label>
+                            </div>
+                            <div class="element-padding">
+                                <input class="btn-primary" type="button" value="Resend verification email" data-bind="click: resendVerification" />
+                            </div>
+                        </form>
+                    <!-- /ko -->
+                <!-- /ko -->
+                <!-- ko ifnot: message() == '' -->
+                    <div data-bind="css: { 'error': hasError()==true, 'success': hasError()==true  }">
+                        <div data-bind="html: message"></div>
+                        <!-- ko if: hasError() -->
+                        <div data-bind="html: error().message"></div>
+                        <!-- /ko -->
+                    </div>
+                <!-- /ko -->
+            <!-- /ko -->
         </div>
     </div>
 </div>

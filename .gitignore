@@ -4,3 +4,4 @@ typings/
 
 *.js
 webconfig.json
+.DS_Store

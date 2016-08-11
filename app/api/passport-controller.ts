@@ -2,7 +2,7 @@
 import { Configuration } from "../services/settings/config-model";
 import {VerificationEmailer} from "../services/mailing/verification-email";
 
-var Account = require("../services/data/account");
+var Account = require("../data/account");
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');

@@ -16,8 +16,14 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var fs = require('fs');
+
+
 
 var app = express();
+var http = require('http');
+var https = require('https');
+
 
 var serializeUser =(params)=>{
     console.log("local serializeUser: " + JSON.stringify(params));
@@ -28,6 +34,10 @@ var deserializeUser =(params)=>{
 }
 
 configService.load((config: Configuration) => {
+    var credentials = {
+        key: fs.readFileSync(__dirname + config.key, 'utf8'),
+        cert: fs.readFileSync(__dirname + config.cert, 'utf8')
+    };
 
     console.log("Config Loaded:" + (config !== null));
     // Connect mongoose
@@ -57,7 +67,7 @@ configService.load((config: Configuration) => {
     app.use(passport.session());
 
     // Configure passport-local to use account model for authentication
-    var Account = require('./app/services/data/account');
+    var Account = require('./app/data/account');
     passport.use(Account.createStrategy());
 
     passport.serializeUser(Account.serializeUser());
@@ -109,9 +119,13 @@ configService.load((config: Configuration) => {
         });
     });
 
-    app.set('port', process.env.PORT || 3001);
     var pkg = require('./package.json');
-    var server = app.listen(app.get('port'), function() {
-        console.log(pkg.name, 'listening on port ', server.address().port);
+    var httpServer = http.createServer(app);
+    var httpsServer = https.createServer(credentials, app);
+    httpServer.listen(3001, () => {
+        console.log(pkg.name, 'listening on port ', httpServer.address().port);
+    });
+    httpsServer.listen(3444,  () => {
+        console.log(pkg.name, 'listening on port ', httpsServer.address().port);
     });
 });

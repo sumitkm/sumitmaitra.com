@@ -21,6 +21,10 @@ export class Config {
                 this.currentSettings.sparkPostApiKey = nconf.get('sparkPostApiKey');
                 this.currentSettings.mongodbUri = nconf.get('mongodbUri');
                 this.currentSettings.sessionSecret = nconf.get('sessionSecret');
+                this.currentSettings.azureStorageConnectionString = nconf.get('azureStorageConnectionString');
+                this.currentSettings.containerName = nconf.get('containerName');
+                this.currentSettings.key = nconf.get('key');
+                this.currentSettings.cert = nconf.get('cert');
                 if(callback!=null)
                 {
                     callback(this.currentSettings);

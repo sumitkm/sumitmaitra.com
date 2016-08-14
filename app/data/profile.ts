@@ -8,7 +8,8 @@ var Profile = new Schema({
     logoUrl: String,
     logoId : Schema.Types.ObjectId,
     headerUrl: String,
-    headerId: Schema.Types.ObjectId
+    headerId: Schema.Types.ObjectId,
+    containerId: Schema.Types.ObjectId
 });
 
 module.exports = mongoose.model('profile', Profile);

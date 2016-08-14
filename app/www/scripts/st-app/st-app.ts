@@ -26,6 +26,8 @@ export class app {
         this.registerComponent("register", "./ui/pages/register/register");
         this.registerComponent("print-preview", "./ui/print-preview/print-preview");
         this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
+        this.registerComponent("st-image-uploader", "./ui/components/generic/st-image-uploader/st-image-uploader");
+
     }
 
     private registerRoutes = () => {

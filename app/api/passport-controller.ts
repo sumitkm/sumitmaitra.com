@@ -1,6 +1,6 @@
 /// <amd-dependency path="./api-controller"/>
 import { Configuration } from "../services/settings/config-model";
-import {VerificationEmailer} from "../services/mailing/verification-email";
+import { VerificationEmailer } from "../services/mailing/verification-email";
 
 var Account = require("../data/account");
 var express = require('express');

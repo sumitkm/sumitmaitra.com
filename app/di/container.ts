@@ -3,6 +3,7 @@ import * as express from "express";
 import { Configuration } from "../services/settings/config-model";
 import { HomeController } from "../api/home-controller";
 import { PassportLocalController } from "../api/passport-controller";
+import { UploadController } from "../api/upload-controller";
 import { CrossRouter } from "../services/routing/cross-router";
 import { CrossRoute } from "../services/routing/cross-route";
 
@@ -14,6 +15,7 @@ export class Container {
         Container.config = configuration;
         Container.injectController(new HomeController());
         Container.injectController(new PassportLocalController(Container.config));
+        Container.injectController(new UploadController(Container.config));
     }
 
     private static injectController = (controller: ApiController) => {

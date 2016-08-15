@@ -8,7 +8,8 @@ import { Configuration } from "./app/services/settings/config-model";
 
 var configService = new Config();
 var express = require('express');
-var path = require('path');
+
+var multer = require('multer');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var session = require('express-session');
@@ -19,17 +20,25 @@ var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
 
 
-
 var app = express();
 var http = require('http');
 var https = require('https');
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, __dirname + '/uploads/temp');
+  },
+  filename: (req, file, cb) => {
+      console.log(file);
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+})
+var upload = multer({ storage: storage });
 
-
-var serializeUser =(params)=>{
+var serializeUser = (params) => {
     console.log("local serializeUser: " + JSON.stringify(params));
 }
 
-var deserializeUser =(params)=>{
+var deserializeUser = (params) => {
     console.log("local deserializeUser: " + JSON.stringify(params));
 }
 
@@ -41,7 +50,7 @@ configService.load((config: Configuration) => {
 
     console.log("Config Loaded:" + (config !== null));
     // Connect mongoose
-    mongoose.connect(config.mongodbUri, function(err) {
+    mongoose.connect(config.mongodbUri, (err) => {
         if (err) {
             console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
         }
@@ -87,6 +96,7 @@ configService.load((config: Configuration) => {
     app.use('/profile', express.static(__dirname + '/app/www/'));
     app.use('/verify', express.static(__dirname + '/app/www/')); // Really express ????
     app.use('/verify/:verificationCode', express.static(__dirname + '/app/www/'));
+    app.post('/api/uploader/files', upload.any(), crossRouter.route);
     app.use('/api', crossRouter.route);
 
     // catch 404 and forward to error handler
@@ -125,7 +135,7 @@ configService.load((config: Configuration) => {
     httpServer.listen(3001, () => {
         console.log(pkg.name, 'listening on port ', httpServer.address().port);
     });
-    httpsServer.listen(3444,  () => {
+    httpsServer.listen(3444, () => {
         console.log(pkg.name, 'listening on port ', httpsServer.address().port);
     });
 });

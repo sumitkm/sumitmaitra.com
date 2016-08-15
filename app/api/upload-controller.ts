@@ -21,12 +21,13 @@ export class UploadController implements ApiController {
     postUpload = (req, res, net, params )=>{
         console.log("going to post Uploader/files")
         try{
-        console.log(req.body.filename);
-        console.log(req.body.data);
+            console.log(req.body);
+            console.log(req.file);
+            console.log(req.files);
         }
         catch(error){
             console.error("ERROR:" + error);
         }
-        res.send("{percent: 10%}");
+        res.send({ done: "10%" });
     }
 }

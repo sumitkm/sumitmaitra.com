@@ -2,6 +2,7 @@ node_modules/
 libs/
 typings/
 certs/
+uploads/
 
 *.js
 webconfig.json

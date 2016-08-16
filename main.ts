@@ -6,9 +6,7 @@ import { Container } from "./app/di/container";
 import { CrossRouter } from "./app/services/routing/cross-router";
 import { Configuration } from "./app/services/settings/config-model";
 
-var configService = new Config();
 var express = require('express');
-
 var multer = require('multer');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -18,29 +16,21 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var fs = require('fs');
-
-
 var app = express();
 var http = require('http');
 var https = require('https');
+var configService = new Config();
+
 var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, __dirname + '/uploads/temp');
-  },
-  filename: (req, file, cb) => {
-      console.log(file);
-    cb(null, Date.now() + '-' + file.originalname);
-  }
+    destination: (req, file, cb) => {
+        cb(null, __dirname + '/uploads/temp');
+    },
+    filename: (req, file, cb) => {
+        console.log(file);
+        cb(null, Date.now() + '-' + file.originalname);
+    }
 })
 var upload = multer({ storage: storage });
-
-var serializeUser = (params) => {
-    console.log("local serializeUser: " + JSON.stringify(params));
-}
-
-var deserializeUser = (params) => {
-    console.log("local deserializeUser: " + JSON.stringify(params));
-}
 
 configService.load((config: Configuration) => {
     var credentials = {
@@ -78,10 +68,8 @@ configService.load((config: Configuration) => {
     // Configure passport-local to use account model for authentication
     var Account = require('./app/data/account');
     passport.use(Account.createStrategy());
-
     passport.serializeUser(Account.serializeUser());
     passport.deserializeUser(Account.deserializeUser());
-
 
     var crossRouter = new CrossRouter();
     Container.router = crossRouter;
@@ -110,7 +98,7 @@ configService.load((config: Configuration) => {
     // development error handler
     // will print stacktrace
     if (app.get('env') === 'development') {
-        app.use(function(err, req, res, next) {
+        app.use((err, req, res, next) => {
             res.status(err.status || 500);
             res.render('error', {
                 message: err.message,
@@ -121,7 +109,7 @@ configService.load((config: Configuration) => {
 
     // production error handler
     // no stacktraces leaked to user
-    app.use(function(err, req, res, next) {
+    app.use((err, req, res, next) => {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,

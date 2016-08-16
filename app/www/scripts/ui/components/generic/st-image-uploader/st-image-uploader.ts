@@ -15,14 +15,10 @@ export class viewModel extends baseViewModel {
 
         this.form.onsubmit = (event) => {
             event.preventDefault();
-
-            // Update button text.
             this.uploadButton.innerHTML = 'Uploading...';
 
 
             let files = this.fileSelect.files;
-            // The rest of the code will go here...
-
             let formData = new FormData();
 
             // Loop through each of the selected files.

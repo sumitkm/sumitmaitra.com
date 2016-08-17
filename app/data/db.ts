@@ -1,12 +1,18 @@
 // var config = require('../settings/config');
-var mongoose = require('mongoose');
+import * as mongoose from "mongoose";
+import { Configuration } from "../services/settings/config-model";
 
-var connection;
+export class db {
+	_configuration : Configuration;
 
-module.exports = {
-	getConnection: function() {
+	constructor (configuration: Configuration){
+		this._configuration = configuration;
+	}
+
+	public getConnection = () => {
 		if (mongoose.connection.readyState === 0)
-			mongoose.connect("mongodb://devmongodb/sumitmaitra", { server: { auto_reconnect: true } });
+			mongoose.connect(this._configuration.mongodbUri, { server: { auto_reconnect: true } });
 		return mongoose.connection;
 	}
-};
+
+}

@@ -5,7 +5,7 @@ import { baseViewModel } from "../base/base-model";
 
 export var template = require("text!./st-image-uploader.html");
 export class viewModel extends baseViewModel {
-    private form = document.getElementById('file-form');
+    private form = document.getElementById('image-uploader');
     private fileSelect: any = document.getElementById('file-select');
     private uploadButton = document.getElementById('upload-button');
 
@@ -13,7 +13,7 @@ export class viewModel extends baseViewModel {
         super(params);
         this.id(params.id || "st-image-uploader");
 
-        this.form.onsubmit = (event) => {
+        $('input[type="file"]').bind('change', (event) => {
             event.preventDefault();
             this.uploadButton.innerHTML = 'Uploading...';
 
@@ -54,6 +54,6 @@ export class viewModel extends baseViewModel {
 
             // Send the Data.
             xhr.send(formData);
-        }
+        });
     }
 }

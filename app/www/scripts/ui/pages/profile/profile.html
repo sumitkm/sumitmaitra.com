@@ -1,6 +1,10 @@
 <div class="container top">
     <div class="row">
-        <div class="col-md-4 col-offset-md-4">
+        <div class="col-md-3 col-offset-md-3 center">
+            <st-image-uploader></st-image-uploader>
+            <label class="input-label">Profile picture</label>
+        </div>
+        <div class="col-md-3">
             <form action="/api/accounts/logout" method="POST">
                 <div class="form element-padding">
                     <label class="input-label">User Name</label>
@@ -11,11 +15,8 @@
                 </div>
             </form>
         </div>
-
     </div>
     <div class="row">
-        <div class="col-md-4 col-offset-md-4">
-            <st-image-uploader></st-image-uploader>
-        </div>
+
     </div>
 </div>

@@ -3,6 +3,7 @@
 import * as ko from "knockout";
 import { Router } from "./st-router";
 import { Route } from "./st-route";
+import { MenuItem } from "../ui/components/generic/st-nav-menu/st-menu-item";
 
 export class app {
 
@@ -13,8 +14,16 @@ export class app {
     }
 
     public startUp = () => {
+        this.registerMenuItems();
         this.registerComponents();
         this.registerRoutes();
+    }
+
+    private registerMenuItems = () => {
+        console.log("Registering menu items.");
+        this.router.leftMenuItems.push(MenuItem.factory('&#xf015;', '/', 'nav-header nav-menu-item', 'fa'));
+        this.router.leftMenuItems.push(MenuItem.factory('Projects', '/projects', 'nav-menu-item', ''));
+        this.router.leftMenuItems.push(MenuItem.factory('Blog', '', 'nav-menu-item', ''));
     }
 
     private registerComponents = () => {
@@ -40,6 +49,7 @@ export class app {
 
         this.router.parseCurrentRoute();
         ko.applyBindings(this.router.currentRoute);
+
     }
 
     public registerRoute = (newRoute: Route) => {

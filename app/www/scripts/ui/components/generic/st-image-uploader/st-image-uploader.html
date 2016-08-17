@@ -1,4 +1,22 @@
-<div>
-  <input type="file" id="file-select" name="photos" multiple="true" />
-  <button type="submit" id="upload-button">Upload</button>
+<div class="panel">
+    <form id="image-uploader">
+        <div style="position: relative;
+            top:0;
+            left: 50%;
+            margin-left: -62px;
+            height: 125px;
+            width: 125px">
+            <div id="upload-button"
+                style="width: 100%; position: inline-block; top: 0; left: 0; right: 0;
+                height: 125px" class="btn-primary">
+                <div style="position: relative; top: 50%">Upload</div>
+            </div>
+            <input type="file" id="file-select" name="photos" multiple="true"
+                style="opacity: 0; position: absolute; top: 0;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 125px;"/>
+        </div>
+    </form>
 </div>

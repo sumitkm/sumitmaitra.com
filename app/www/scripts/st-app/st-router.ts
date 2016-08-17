@@ -14,10 +14,9 @@ class Router {
 
     constructor() {
         $(document).on('click', 'a', this.handleAnchorClick);
+        console.log("activating router!");
         this.activateCrossroads();
-        this.leftMenuItems.push(MenuItem.factory('&#xf015;', '/', 'nav-header nav-menu-item', 'fa'));
-        this.leftMenuItems.push(MenuItem.factory('Projects', '/projects', 'nav-menu-item', ''));
-        this.leftMenuItems.push(MenuItem.factory('Blog', '', 'nav-menu-item', ''));
+
 
     }
 
@@ -39,7 +38,6 @@ class Router {
                 if(data.user!=null)
                 {
                     this.rightMenuItems.push(MenuItem.factory(data.user.username, '/profile', 'nav-menu-item', ''));
-
                     selectedRoute.userName(data.user.username);
                     selectedRoute.userId(data.user._id);
                 }
@@ -51,6 +49,8 @@ class Router {
                 console.log( data );
                 if(selectedRoute!=null)
                 {
+                    console.log("Assigning menu items to Route.");
+
                     selectedRoute.leftMenuItems = this.leftMenuItems;
                     selectedRoute.rightMenuItems = this.rightMenuItems;
                     this.currentRoute(selectedRoute);
@@ -78,6 +78,7 @@ class Router {
 
     private historyStateChanged = () => {
         let state = <any>Historyjs.getState();
+        console.log("historyStateChanged" + JSON.stringify(state));
         if(state.data && state.data.url != null)
         {
             return crossroads.parse(state.data.url);

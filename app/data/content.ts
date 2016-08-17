@@ -7,7 +7,10 @@ var Content = new Schema({
     url: String,
     filetype: String,
     assetId: String,
-    lastupdated: Date
+    lastupdated: Date,
+    originalname: String,
+    mimetype: String,
+    size: Number
 });
 
 module.exports = mongoose.model('profile', Profile);

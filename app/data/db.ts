@@ -2,9 +2,13 @@
 import * as mongoose from "mongoose";
 import { Configuration } from "../services/settings/config-model";
 
+
 export class db {
 	_configuration : Configuration;
-
+	public Account = require("../data/account");
+	public Profile = require("../data/profile");
+	public Content = require("../data/content");
+	
 	constructor (configuration: Configuration){
 		this._configuration = configuration;
 	}
@@ -14,5 +18,4 @@ export class db {
 			mongoose.connect(this._configuration.mongodbUri, { server: { auto_reconnect: true } });
 		return mongoose.connection;
 	}
-
 }

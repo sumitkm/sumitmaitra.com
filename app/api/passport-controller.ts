@@ -1,22 +1,20 @@
 /// <amd-dependency path="./api-controller"/>
 import { Configuration } from "../services/settings/config-model";
 import { VerificationEmailer } from "../services/mailing/verification-email";
+import { db } from "../data/db";
 
-var Account = require("../data/account");
-var express = require('express');
-var router = express.Router();
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongoose = require('mongoose'); // TODO: Bad Sumit, no DB in controllers
-
 
 export class PassportLocalController implements ApiController {
     config: Configuration;
     mailer: VerificationEmailer;
+    respository: db;
 
     constructor(configuration: Configuration) {
         this.config = configuration;
         this.mailer = new VerificationEmailer(configuration);
+        this.respository = new db(configuration);
+
         this["Register:path"] = "/accounts/register";
         this["Login:path"] = "/accounts/login";
         this["Logout:path"] = "/accounts/logout";
@@ -38,7 +36,7 @@ export class PassportLocalController implements ApiController {
     public postVerify = (req, res, next) => {
         console.log("Going to POST verify");
         if (req.body.verificationcode != '' && req.body.verificationcode != null) {
-            Account.verifyAccount(req.body.verificationcode, (err, account) => {
+            this.respository.Account.verifyAccount(req.body.verificationcode, (err, account) => {
                 if (err) {
                     res.send({ message: "Verification Failed", error: err });
                 } else {
@@ -55,7 +53,7 @@ export class PassportLocalController implements ApiController {
         console.log("Going to POST resend verification email");
         if (req.session.username != null) {
             console.log("Session UserId: " + req.session.username);
-            Account.findByUsername(req.session.username, false, (err, user) => {
+            this.respository.Account.findByUsername(req.session.username, false, (err, user) => {
                 console.log("Session Loaded User: " + user);
                 if (user != null && user.email != '') {
                     console.log(JSON.stringify(user));
@@ -81,7 +79,7 @@ export class PassportLocalController implements ApiController {
             email: req.body.email,
             verificationCode: code
         });
-        Account.register(acc, req.body.password, (err) => {
+        this.respository.Account.register(acc, req.body.password, (err) => {
             if (err) {
                 console.log('error while user register!', err);
                 return next(err);

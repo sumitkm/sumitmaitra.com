@@ -4,11 +4,11 @@ let azure = require("azure-storage");
 export class AzureUploader {
     private configuration : Configuration;
     constructor(configuration: Configuration) {
-
+        this.configuration = configuration;
     }
 
-    public saveToBlob(id: string, owner: string, content: any) {
-        console.log("Before Service Created" + id + "content: " + content);
+    public saveFileToBlob(id: string, owner: string, localFileName: string, callback)  {
+        console.log("Before Service Created" + id + "content: " + localFileName);
         try {
             var blobSvc = azure.createBlobService(this.configuration.azureStorageConnectionString);
             blobSvc.createContainerIfNotExists(this.configuration.containerName, null, (error, result, response) => {
@@ -16,10 +16,10 @@ export class AzureUploader {
                     // if result = true, container was created.
                     // if result = false, container already existed.
                     console.log("Container Result: " + result);
-                    blobSvc.createBlockBlobFromText(this.configuration.containerName, owner + '/' + id + '.html', content.post, null, (error, result, response) => {
+                    blobSvc.createBlockBlobFromLocalFile(this.configuration.containerName, owner + '/'+ id, localFileName, (error, result, response) => {
                         if (!error) {
-                            // file uploaded
                             console.log("File Result: " + JSON.stringify(result));
+                            callback(null, result);
                         }
                         else {
                             console.log("Failed to create blob " + JSON.stringify(error));

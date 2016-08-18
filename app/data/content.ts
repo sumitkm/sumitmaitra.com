@@ -6,11 +6,11 @@ var Content = new Schema({
     name: String,
     url: String,
     filetype: String,
-    assetId: String,
+    assetetag: String,
     lastupdated: Date,
     originalname: String,
     mimetype: String,
     size: Number
 });
 
-module.exports = mongoose.model('profile', Profile);
+module.exports = mongoose.model('content', Content);

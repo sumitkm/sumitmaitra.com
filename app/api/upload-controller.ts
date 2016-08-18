@@ -1,31 +1,61 @@
 /// <amd-dependency path="./api-controller"/>
 import { Configuration } from "../services/settings/config-model";
 import { VerificationEmailer } from "../services/mailing/verification-email";
+import { db } from "../data/db";
+import { AzureUploader } from "../services/azure-storage/uploader";
 
 var Account = require("../data/account");
-var express = require('express');
-var router = express.Router();
-var LocalStrategy = require('passport-local').Strategy;
-
 
 export class UploadController implements ApiController {
     config: Configuration;
     mailer: VerificationEmailer;
+    repository: db;
+    uploader: AzureUploader;
 
     constructor(configuration: Configuration) {
         this.config = configuration;
-        this["Upload:path"] = "/uploader/files";
+        this.repository = new db(this.config);
+        this.uploader = new AzureUploader(this.config);
 
+        this["Upload:path"] = "/uploader/files";
     }
 
-    postUpload = (req, res, net, params )=>{
+    postUpload = (req, res, net, params) => {
         console.log("going to post Uploader/files")
-        try{
+        try {
             console.log(req.files);
+            req.files.forEach((file) => {
+                console.log("Saving" + file);
+                let newContent = new this.repository.Content({
+                    ownerId: req.user.username,
+                    name: file.name,
+                    url: file.url,
+                    filetype: file.filetype,
+                    assetetag: "put azure id here",
+                    lastupdated: new Date(),
+                    originalname: file.originalname,
+                    mimetype: file.mimetype,
+                    size: file.size
+                });
+                this.repository.Content.create(newContent, (error) => {
+                    console.log(error);
+                    console.log(newContent._id);
+                });
+                this.uploader.saveFileToBlob(newContent._id, newContent.ownerId, file.path, (error, result) => {
+                    console.log(result.etag.toString());
+                    this.repository.Content
+                        .findOne({ _id: newContent._id })
+                        .populate({ assetetag: result.etag.toString() })
+                        .exec((err, story)  =>{
+                            //if (err) retndleError(err);
+                            console.log('The creator is %s', story._creator.name)
+                        })
+                });
+            });
+
         }
-        catch(error){
+        catch (error) {
             console.error("ERROR:" + error);
         }
-        res.send({ done: "10%" });
     }
 }

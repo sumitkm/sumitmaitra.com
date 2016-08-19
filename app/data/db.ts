@@ -8,7 +8,7 @@ export class db {
 	public Account = require("../data/account");
 	public Profile = require("../data/profile");
 	public Content = require("../data/content");
-	
+
 	constructor (configuration: Configuration){
 		this._configuration = configuration;
 	}
@@ -17,5 +17,9 @@ export class db {
 		if (mongoose.connection.readyState === 0)
 			mongoose.connect(this._configuration.mongodbUri, { server: { auto_reconnect: true } });
 		return mongoose.connection;
+	}
+
+	public getNewObjectId = () =>{
+		return new mongoose.Types.ObjectId;
 	}
 }

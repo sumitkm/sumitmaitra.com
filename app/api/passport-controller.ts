@@ -72,8 +72,8 @@ export class PassportLocalController implements ApiController {
 
     public postRegister = (req, res, next) => {
         console.log("Going to register");
-        let code = new mongoose.Types.ObjectId;
-        let acc = new Account({
+        let code = this.respository.getNewObjectId();
+        let acc = new this.respository.Account({
             username: req.body.username,
             isVerified: false,
             email: req.body.email,

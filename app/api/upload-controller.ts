@@ -43,13 +43,19 @@ export class UploadController implements ApiController {
                 });
                 this.uploader.saveFileToBlob(newContent._id, newContent.ownerId, file.path, (error, result) => {
                     console.log(result.etag.toString());
-                    this.repository.Content
-                        .findOne({ _id: newContent._id })
-                        .populate({ assetetag: result.etag.toString() })
-                        .exec((err, story)  =>{
-                            //if (err) retndleError(err);
-                            console.log('The creator is %s', story._creator.name)
-                        })
+
+                    this.repository.Content.findById(newContent._id, (err, content) => {
+                        if (err) {
+                            console.log("FAILED TO FIND: " + content._id);
+                        }
+
+                        content.assetetag = result.etag.toString();
+                        content.save(function(err) {
+                            if (err) {
+                            }
+                            res.send(content);
+                        });
+                    });
                 });
             });
 

@@ -1,10 +1,10 @@
 /// <amd-dependency path="text!./verify.html" />
 import * as ko from "knockout";
-import { baseViewModel } from "../../components/generic/base/base-model";
+import { BaseComponent } from "../../../st-ui/components/st-base-component/base-component";
 import { Route } from "../../../st-app/st-route";
 
 export var template = require("text!./verify.html");
-export class viewModel extends baseViewModel{
+export class viewModel extends BaseComponent{
     tab : KnockoutObservable<string> = ko.observable("");
     userName: KnockoutObservable<string> = ko.observable("");
     verificationCode: KnockoutObservable<string> = ko.observable("");
@@ -26,7 +26,7 @@ export class viewModel extends baseViewModel{
         $.post("/api/accounts/verifyresend", (data)=>{
             this.loading(false);
             this.message(data.message);
-            
+
 
             if(data.username != ''){
                 this.userName(data.username);

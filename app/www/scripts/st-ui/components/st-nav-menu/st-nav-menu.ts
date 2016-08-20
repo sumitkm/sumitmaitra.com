@@ -1,10 +1,10 @@
 /// <amd-dependency path="text!./st-nav-menu.html"/>
 import * as ko from "knockout";
-import { baseViewModel } from "../base/base-model";
-import { MenuItem } from "./st-menu-item";
+import { BaseComponent } from "../st-base-component/base-component";
+import { MenuItem } from "../../view-models/st-nav-menu/st-menu-item";
 
 export var template = require("text!./st-nav-menu.html");
-export class viewModel extends baseViewModel{
+export class viewModel extends BaseComponent{
 
     userName: KnockoutObservable<string> = ko.observable<string>("");
     loggedIn: KnockoutComputed<boolean> = ko.pureComputed<boolean>(() => {

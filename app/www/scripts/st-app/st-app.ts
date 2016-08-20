@@ -3,7 +3,7 @@
 import * as ko from "knockout";
 import { Router } from "./st-router";
 import { Route } from "./st-route";
-import { MenuItem } from "../ui/components/generic/st-nav-menu/st-menu-item";
+import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
 
 export class app {
 
@@ -34,8 +34,9 @@ export class app {
         this.registerComponent("verify", "./ui/pages/verify/verify");
         this.registerComponent("register", "./ui/pages/register/register");
         this.registerComponent("print-preview", "./ui/print-preview/print-preview");
-        this.registerComponent("st-nav-menu", "./ui/components/generic/st-nav-menu/st-nav-menu");
-        this.registerComponent("st-image-uploader", "./ui/components/generic/st-image-uploader/st-image-uploader");
+        this.registerComponent("st-nav-menu", "./st-ui/components/st-nav-menu/st-nav-menu");
+        this.registerComponent("st-nav-tab", "./st-ui/components/st-nav-tab/st-nav-tab");
+        this.registerComponent("st-image-uploader", "./st-ui/components/st-image-uploader/st-image-uploader");
 
     }
 

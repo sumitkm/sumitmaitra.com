@@ -25,13 +25,13 @@ export class UploadController implements ApiController {
         try {
             console.log(req.files);
             req.files.forEach((file) => {
-                console.log("Saving" + file);
+                console.log("Saving" + file + " for user: " + JSON.stringify(req.user));
                 let newContent = new this.repository.Content({
-                    ownerId: req.user.username,
+                    ownerId: req.user._id,
                     name: file.name,
                     url: file.url,
                     filetype: file.filetype,
-                    assetetag: "put azure id here",
+                    assetetag: "",
                     lastupdated: new Date(),
                     originalname: file.originalname,
                     mimetype: file.mimetype,

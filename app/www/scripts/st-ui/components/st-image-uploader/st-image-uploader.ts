@@ -1,10 +1,9 @@
 /// <amd-dependency path="text!./st-image-uploader.html"/>
 import * as ko from "knockout";
-
-import { baseViewModel } from "../base/base-model";
+import { BaseComponent } from "../st-base-component/base-component";
 
 export var template = require("text!./st-image-uploader.html");
-export class viewModel extends baseViewModel {
+export class viewModel extends BaseComponent {
     private form = document.getElementById('image-uploader');
     private fileSelect: any = document.getElementById('file-select');
     private uploadButton = document.getElementById('upload-button');
@@ -16,8 +15,7 @@ export class viewModel extends baseViewModel {
         $('input[type="file"]').bind('change', (event) => {
             event.preventDefault();
             this.uploadButton.innerHTML = 'Uploading...';
-
-
+            
             let files = this.fileSelect.files;
             let formData = new FormData();
 

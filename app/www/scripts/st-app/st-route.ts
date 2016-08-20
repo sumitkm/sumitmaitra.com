@@ -1,6 +1,6 @@
 import * as ko from "knockout";
 import {Router} from "./st-router";
-import { MenuItem } from "../ui/components/generic/st-nav-menu/st-menu-item";
+import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
 
 class Route {
     path : KnockoutObservable<string> = ko.observable<string>();

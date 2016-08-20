@@ -1,6 +1,6 @@
 import * as ko from "knockout";
 import { Route } from "./st-route";
-import { MenuItem } from "../ui/components/generic/st-nav-menu/st-menu-item";
+import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
 import * as cr from "crossroads";
 
 var Historyjs : Historyjs = <any> History;
@@ -16,8 +16,6 @@ class Router {
         $(document).on('click', 'a', this.handleAnchorClick);
         console.log("activating router!");
         this.activateCrossroads();
-
-
     }
 
     public static newRouteFactory = (routePath: string, pageComponent: string, router: Router, title?: string, roles? : Array<string>) => {

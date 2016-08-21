@@ -1,6 +1,6 @@
 # Generating self signed SSL certificates for dev work  
 
-## OSX (10.11.6 El Capitan)
+## OSX (10.11.6 El Capitan) and Debian Jessie
 
 ```sudo openssl genrsa -out server.key 2048```
 

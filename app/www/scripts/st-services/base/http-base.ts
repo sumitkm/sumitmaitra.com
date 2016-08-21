@@ -1,48 +1,73 @@
-var RSVP = require("RSVP");
 
 export class HttpBase {
-    private serviceName: string;
+    // private serviceName: string;
     private serviceType: string;
     private serviceUrl: string;
     private successCb;
     private failureCb;
     private client = new XMLHttpRequest();
+    private promise;
 
-    constructor() {
-
-    }
-
-    public init = (success, failure) => {
+    constructor(servicesUrl: string, serviceType: string, success, failure) {
+        // this.serviceUrl = serviceName;
+        this.serviceType = serviceType;
+        this.serviceUrl = servicesUrl;
         this.successCb = success;
         this.failureCb = failure;
-        let promise = new RSVP.Promise((resolve, reject) => {
-            this.client.open(this.serviceType, this.serviceUrl);
-            this.client.onreadystatechange = this.handler;
-            this.client.responseType = "json";
-            this.client.setRequestHeader("Accept", "application/json");
-            this.client.send();
-        });
+    }
 
+    public getPromise = (data: any) => {
+        let RSVP = require("RSVP");
+        let promise = new RSVP.Promise((resolve, reject) => {
+            let client = new XMLHttpRequest();
+            client.open(this.serviceType, this.serviceUrl);
+            client.onreadystatechange = handler;
+            client.responseType = "json";
+            client.setRequestHeader("Accept", "application/json");
+            client.send();
+
+            function handler() {
+                if (this.readyState === this.DONE) {
+                    if (this.status === 200) {
+                        resolve(this.response);
+                    }
+                    else {
+                        reject(this);
+                    }
+                }
+            };
+        });
         return promise;
     }
 
-    private handler = () => {
-        if (this.client.readyState === this.client.DONE) {
-            if (this.client.status === 200)
-            {
-                this.resolve(this.client.response);
-            }
-            else {
-                this.failure(this.client);
-            }
-        }
-    };
+    public execute = (data: any) => {
+        let RSVP = require("RSVP");
+        let promise = new RSVP.Promise((resolve, reject) => {
+            let client = new XMLHttpRequest();
+            client.open(this.serviceType, this.serviceUrl);
+            client.onreadystatechange = handler;
+            client.responseType = "json";
+            client.setRequestHeader("Accept", "application/json");
+            client.send();
 
-    private resolve = (response) => {
-        this.successCb(response);
-    }
+            function handler() {
+                if (this.readyState === this.DONE) {
+                    if (this.status === 200) {
+                        resolve(this.response);
+                    }
+                    else {
+                        reject(this);
+                    }
+                }
+            };
+        });
 
-    private failure = (error) => {
-        this.failureCb(error);
+        promise.then((json) => {
+            // continue
+            this.successCb(json);
+        }, (error) => {
+            // handle errors
+            this.failureCb(error);
+        });
     }
 }

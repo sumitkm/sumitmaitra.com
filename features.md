@@ -20,7 +20,7 @@
 - [ ] Image resize middleware
 
 ## Functionality
-- [ ] Authentication  
+- [x] Authentication  
 - [ ] Integrate with Kalliope Sync  
 - [ ] Image Geo-tag reading and indexing in DB  
 - [ ] Showing images in timeline view  

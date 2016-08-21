@@ -48,7 +48,6 @@ export class UploadController implements ApiController {
                         if (err) {
                             console.log("FAILED TO FIND: " + content._id);
                         }
-
                         content.assetetag = result.etag.toString();
                         content.save(function(err) {
                             if (err) {
@@ -56,9 +55,30 @@ export class UploadController implements ApiController {
                             res.send(content);
                         });
                     });
+
+                    this.repository.Profile.getProfileByUserId(req.user._id, (error, result) =>{
+                        if(error) {
+                            console.log("Profile is ERRORED");
+                        }
+                        else{
+                            if(result == null){
+                                console.log("Profile is NULL");
+                                this.repository.Profile.create(new this.repository.Profile({
+                                    userId: req.user._id,
+                                    nickname: "",
+                                    birthdate: null,
+                                    fullname: "",
+                                    logoUrl: "",
+                                    logoId: newContent._id
+                                }));
+                            }
+                            else {
+                                console.log("Profile to be updated");
+                            }
+                        }
+                    });
                 });
             });
-
         }
         catch (error) {
             console.error("ERROR:" + error);

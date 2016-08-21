@@ -15,4 +15,9 @@ export class ProfileController{
 
         this["Profile:path"] = "/profile/get/:username:";
     }
+
+
+    public getProfileByName = (name: string) => {
+        this.repository.Profile.get
+    }
 }

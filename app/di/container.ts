@@ -4,6 +4,7 @@ import { Configuration } from "../services/settings/config-model";
 import { HomeController } from "../api/home-controller";
 import { PassportLocalController } from "../api/passport-controller";
 import { UploadController } from "../api/upload-controller";
+import { ContentController } from "../api/content-controller";
 import { ProfileController } from "../api/profile-controller";
 import { CrossRouter } from "../services/routing/cross-router";
 import { CrossRoute } from "../services/routing/cross-route";
@@ -18,6 +19,7 @@ export class Container {
         Container.injectController(new PassportLocalController(Container.config));
         Container.injectController(new UploadController(Container.config));
         Container.injectController(new ProfileController(Container.config));
+        Container.injectController(new ContentController(Container.config));
     }
 
     private static injectController = (controller: ApiController) => {

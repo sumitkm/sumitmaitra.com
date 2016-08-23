@@ -1,9 +1,10 @@
 /// <amd-dependency path="./api-controller"/>
 import { Configuration } from "../services/settings/config-model";
 import { VerificationEmailer } from "../services/mailing/verification-email";
+import { AzureDownloader} from "../services/azure-storage/downloader";
 import { db } from "../data/db";
 
-export class ProfileController{
+export class ProfileController {
     config: Configuration;
     mailer: VerificationEmailer;
     repository: db;
@@ -17,7 +18,19 @@ export class ProfileController{
     }
 
 
-    public getProfileByName = (name: string) => {
-        this.repository.Profile.get
+    public getProfile = (req, res, next, params) => {
+        console.log("going to get profile");
+        this.repository = new db(this.config);
+        let id: string = "";
+        this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
+            if (profile.userId != null && profile.logoId != null) {
+                let downloader = new AzureDownloader(this.config);
+                downloader.getImageFromBlob(profile.logoId,profile.userId, (error, image)=>{
+                    console.log("Got image from Blob");
+                    res.send(image);
+                });
+
+            }
+        });
     }
 }

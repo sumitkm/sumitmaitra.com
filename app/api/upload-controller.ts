@@ -49,7 +49,7 @@ export class UploadController implements ApiController {
                             console.log("FAILED TO FIND: " + content._id);
                         }
                         content.assetetag = result.etag.toString();
-                        content.save(function(err) {
+                        content.save((err) => {
                             if (err) {
                             }
                             res.send(content);
@@ -74,6 +74,17 @@ export class UploadController implements ApiController {
                             }
                             else {
                                 console.log("Profile to be updated");
+                                this.repository.Profile.findById(result._id, (err, profile) => {
+                                    if (err) {
+                                        console.log("FAILED TO FIND: " + profile._id);
+                                    }
+                                    profile.logoId = newContent._id;
+                                    profile.save((err) => {
+                                        if (err) {
+                                        }
+                                        console.log("updated!");
+                                    });
+                                });
                             }
                         }
                     });

@@ -43,6 +43,7 @@ export class app {
     private registerRoutes = () => {
         this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:", "projects", this.router, "Projects | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/login/:routeParams*:", "login", this.router, "Login | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/profile/:tab:/:routeParams*:", "profile", this.router, "Profile | :tab: | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/profile/:routeParams*:", "profile", this.router, "Profile | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/verify/:verificationCode:/:routeParams*:", "verify", this.router, "Verify Account | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/register/:routeParams*:", "register", this.router, "Register | The lazy blogger!"));

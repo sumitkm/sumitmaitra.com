@@ -3,6 +3,7 @@ libs/
 typings/
 certs/
 uploads/
+cache/
 
 *.js
 webconfig.json

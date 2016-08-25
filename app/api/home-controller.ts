@@ -1,6 +1,6 @@
 /// <amd-dependency path="./api-controller"/>
 
-import * as express from "express";
+import * as Express from "express-serve-static-core";
 
 export class HomeController implements ApiController
 {

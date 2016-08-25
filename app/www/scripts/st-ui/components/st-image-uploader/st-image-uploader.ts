@@ -15,7 +15,7 @@ export class viewModel extends BaseComponent {
         $('input[type="file"]').bind('change', (event) => {
             event.preventDefault();
             this.uploadButton.innerHTML = 'Uploading...';
-            
+
             let files = this.fileSelect.files;
             let formData = new FormData();
 

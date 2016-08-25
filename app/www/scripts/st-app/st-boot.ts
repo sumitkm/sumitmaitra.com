@@ -10,7 +10,7 @@ requirejs.config(
         "knockout": "../libs/knockout/dist/knockout",
         "text": "../libs/text/text",
         "historyjs": "../libs/history.js/scripts/bundled/html4+html5/native.history",
-        "RSVP": "../libs/rsvp.js/rsvp.min.js"
+        "RSVP": "../libs/rsvp.js/rsvp.min"
 
     },
     shim:
@@ -19,7 +19,7 @@ requirejs.config(
     }
 });
 
-requirejs(["jquery", "knockout", "text", "historyjs", "st-app/st-app"], ($, ko, text, history, silkthread) => {
+requirejs(["jquery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app"], ($, ko, text, history, RSVP, silkthread) => {
     var spaApp = new silkthread.app();
     spaApp.startUp();
 });

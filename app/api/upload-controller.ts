@@ -1,4 +1,5 @@
 /// <amd-dependency path="./api-controller"/>
+import * as Express from "express-serve-static-core";
 import { Configuration } from "../services/settings/config-model";
 import { VerificationEmailer } from "../services/mailing/verification-email";
 import { db } from "../data/db";

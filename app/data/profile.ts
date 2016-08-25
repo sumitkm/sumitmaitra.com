@@ -14,19 +14,18 @@ var Profile = new Schema({
 });
 
 Profile.statics.getProfileByUserId = function(userId: string, cb) {
-    console.log("inside getProfileByName:" + userId);
+    console.log("inside getProfileByUserId:" + userId);
     this.findOne(
         {
             'userId': mongoose.Types.ObjectId(userId)
         },
-        '_id, userId',
-        (err, user) => {
-            console.log("User name: " + userId);
+        (err, profile) => {
+            console.log("User Id: " + userId);
             if (err) {
                 console.log("findProfileByUserId " + err);
                 cb(err, null);
             };
-            cb(null, user);
+            cb(null, profile);
         });
 }
 

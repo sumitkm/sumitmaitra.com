@@ -19,7 +19,7 @@ export class ContentController implements ApiController {
     }
 
     public getContent = (req, res, next, params) => {
-        console.log("going to get content:" + JSON.stringify(params));
+        //console.log("going to get content:" + JSON.stringify(params));
         let downloader = new AzureDownloader(this.config);
         downloader.getImageFromBlob(params.contentId, params.ownerId, (error, result) => {
             try {

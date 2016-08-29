@@ -9,7 +9,7 @@ var livereload = require('gulp-livereload');
 var connect = require('gulp-connect');
 
 var onError = (err) => {
-  console.log(err.toString());
+  //console.log(err.toString());
   this.emit('end');
 }
 

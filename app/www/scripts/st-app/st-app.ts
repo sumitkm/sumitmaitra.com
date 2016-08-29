@@ -20,7 +20,7 @@ export class app {
     }
 
     private registerMenuItems = () => {
-        console.log("Registering menu items.");
+        //console.log("Registering menu items.");
         this.router.leftMenuItems.push(MenuItem.factory('&#xf015;', '/', 'nav-header nav-menu-item', 'fa'));
         this.router.leftMenuItems.push(MenuItem.factory('Projects', '/projects', 'nav-menu-item', ''));
         this.router.leftMenuItems.push(MenuItem.factory('Blog', '', 'nav-menu-item', ''));

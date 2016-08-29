@@ -23,13 +23,13 @@ export class VerificationEmailer {
             }
         }, (err, res) => {
             if (err) {
-                console.log('Whoops! Something went wrong');
-                console.log(err);
+                //console.log('Whoops! Something went wrong');
+                //console.log(err);
                 if (cb != null) {
                     cb(err, null);
                 }
             } else {
-                console.log('Verification email sent!');
+                //console.log('Verification email sent!');
                 if (cb != null) {
                     cb(null, null);
                 }

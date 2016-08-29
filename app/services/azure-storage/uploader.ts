@@ -8,21 +8,21 @@ export class AzureUploader {
     }
 
     public saveFileToBlob(id: string, owner: string, localFileName: string, callback)  {
-        console.log("Before Service Created" + id + "content: " + localFileName);
+        //console.log("Before Service Created" + id + "content: " + localFileName);
         try {
             var blobSvc = azure.createBlobService(this.configuration.azureStorageConnectionString);
             blobSvc.createContainerIfNotExists(this.configuration.containerName, null, (error, result, response) => {
                 if (!error) {
                     // if result = true, container was created.
                     // if result = false, container already existed.
-                    console.log("Container Result: " + result);
+                    //console.log("Container Result: " + result);
                     blobSvc.createBlockBlobFromLocalFile(this.configuration.containerName, owner + '/'+ id, localFileName, (error, result, response) => {
                         if (!error) {
-                            console.log("File Result: " + JSON.stringify(result));
+                            //console.log("File Result: " + JSON.stringify(result));
                             callback(null, result);
                         }
                         else {
-                            console.log("Failed to create blob " + JSON.stringify(error));
+                            //console.log("Failed to create blob " + JSON.stringify(error));
                         }
                     });
                 }
@@ -32,7 +32,7 @@ export class AzureUploader {
             });
         }
         catch (err) {
-            console.log("Something blew up" + err);
+            //console.log("Something blew up" + err);
         }
     }
 }

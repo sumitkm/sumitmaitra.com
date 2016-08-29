@@ -19,9 +19,17 @@
             </form>
         </div>
     </div>
-    <div class="row">
-        <st-nav-tab params="tabStrip: tabStrip"></st-nav-tab>
-        <div class="col col-xs-12" style="min-height:400px">
+    <div class="row" data-bind="with: currentProfile" style="min-height:400px">
+        <st-nav-tab params="tabStrip: $component.tabStrip"></st-nav-tab>
+        <!-- ko if: $component.tabStrip().selectedTab().name() == 'home' -->
+        <div class="col col-xs-12">
+            <div class="row">
+                <div class="form">
+                    <label class="input-label">Nickname</label>
+                    <input class="input-text" name="nickname" type="text" data-bind="nickname" />
+                </div>
+            </div>
         </div>
+        <!-- /ko -->
     </div>
 </div>

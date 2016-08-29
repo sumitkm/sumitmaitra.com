@@ -5,7 +5,7 @@ import { Config } from "./app/services/settings/config";
 import { Container } from "./app/di/container";
 import { CrossRouter } from "./app/services/routing/cross-router";
 import { Configuration } from "./app/services/settings/config-model";
-
+import { SpaEngine } from "./spa-engine";
 var express = require('express');
 var multer = require('multer');
 var favicon = require('serve-favicon');
@@ -26,7 +26,7 @@ var storage = multer.diskStorage({
         cb(null, __dirname + '/uploads/temp');
     },
     filename: (req, file, cb) => {
-        console.log(file);
+        //console.log(file);
         cb(null, Date.now() + '-' + file.originalname);
     }
 })
@@ -38,11 +38,11 @@ configService.load((config: Configuration) => {
         cert: fs.readFileSync(__dirname + config.cert, 'utf8')
     };
 
-    console.log("Config Loaded:" + (config !== null));
+    //console.log("Config Loaded:" + (config !== null));
     // Connect mongoose
     mongoose.connect(config.mongodbUri, (err) => {
         if (err) {
-            console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
+            //console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
         }
     });
 
@@ -71,21 +71,27 @@ configService.load((config: Configuration) => {
     passport.serializeUser(Account.serializeUser());
     passport.deserializeUser(Account.deserializeUser());
 
-    var crossRouter = new CrossRouter();
-    Container.router = crossRouter;
+    Container.apiRouter = new CrossRouter("/api");
+    Container.webRouter = new CrossRouter();
     Container.inject(config);
 
     // Register routes
+    // app.use('/', Container.apiRouter.route);
+
+
+    app.use(express.static(__dirname + '/app/www/'));
+    // app.use('/', express.static(__dirname + '/app/www/'));
+
+    // SpaEngine
+    var spaEngine = new SpaEngine(config);
+    app.set('views', __dirname + '/app/www');
     app.set("view options", { layout: false });
-    app.use('/', express.static(__dirname + '/app/www/'));
-    app.use('/projects', express.static(__dirname + '/app/www/'));
-    app.use('/register', express.static(__dirname + '/app/www/'));
-    app.use('/login', express.static(__dirname + '/app/www/'));
-    app.use('/profile', express.static(__dirname + '/app/www/'));
-    app.use('/verify', express.static(__dirname + '/app/www/')); // Really express ????
-    app.use('/verify/:verificationCode', express.static(__dirname + '/app/www/'));
-    app.post('/api/uploader/files', upload.any(), crossRouter.route);
-    app.use('/api', crossRouter.route);
+    app.engine('html', spaEngine.renderer);
+    app.set('view engine', 'html');
+
+    app.post('/api/uploader/files', upload.any(), Container.apiRouter.route);
+    app.use('/api', Container.apiRouter.route);
+    app.use('/', Container.webRouter.route);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

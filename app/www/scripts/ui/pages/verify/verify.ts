@@ -37,7 +37,7 @@ export class viewModel extends BaseComponent{
     verifyAccount = () => {
         $.post("/api/accounts/verify", { username: this.userName, verificationcode: this.verificationCode() }, (data)=>{
             this.loading(false);
-            console.log(JSON.stringify(data));
+            //console.log(JSON.stringify(data));
             if(data.error == null){
                 this.hasError(false);
                 this.message(data.message);

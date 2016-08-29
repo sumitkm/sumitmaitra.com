@@ -19,7 +19,7 @@ export class ProfileController {
 
 
     public getProfile = (req: Express.Request, res: Express.Response, next, params) => {
-        console.log("going to get profile:" + JSON.stringify(params));
+        //console.log("going to get profile:" + JSON.stringify(params));
         this.repository = new db(this.config);
         let id: string = "";
         this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
@@ -27,7 +27,7 @@ export class ProfileController {
                 res.sendStatus(500);
             }
             else{
-                console.log(profile);
+                //console.log(profile);
                 res.send(profile);
             }
         });

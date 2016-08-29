@@ -22,11 +22,9 @@ export class UploadController implements ApiController {
     }
 
     postUpload = (req, res, net, params) => {
-        console.log("going to post Uploader/files")
         try {
-            console.log(req.files);
             req.files.forEach((file) => {
-                console.log("Saving" + file + " for user: " + JSON.stringify(req.user));
+                //console.log("Saving" + file + " for user: " + JSON.stringify(req.user));
                 let newContent = new this.repository.Content({
                     ownerId: req.user._id,
                     name: file.name,
@@ -39,15 +37,15 @@ export class UploadController implements ApiController {
                     size: file.size
                 });
                 this.repository.Content.create(newContent, (error) => {
-                    console.log(error);
-                    console.log(newContent._id);
+                    //console.log(error);
+                    //console.log(newContent._id);
                 });
                 this.uploader.saveFileToBlob(newContent._id, newContent.ownerId, file.path, (error, result) => {
-                    console.log(result.etag.toString());
+                    //console.log(result.etag.toString());
 
                     this.repository.Content.findById(newContent._id, (err, content) => {
                         if (err) {
-                            console.log("FAILED TO FIND: " + content._id);
+                            //console.log("FAILED TO FIND: " + content._id);
                         }
                         content.assetetag = result.etag.toString();
                         content.save((err) => {
@@ -57,13 +55,13 @@ export class UploadController implements ApiController {
                         });
                     });
 
-                    this.repository.Profile.getProfileByUserId(req.user._id, (error, result) =>{
-                        if(error) {
-                            console.log("Profile is ERRORED");
+                    this.repository.Profile.getProfileByUserId(req.user._id, (error, result) => {
+                        if (error) {
+                            //console.log("Profile is ERRORED");
                         }
-                        else{
-                            if(result == null){
-                                console.log("Profile is NULL");
+                        else {
+                            if (result == null) {
+                                //console.log("Profile is NULL");
                                 this.repository.Profile.create(new this.repository.Profile({
                                     userId: req.user._id,
                                     nickname: "",
@@ -74,16 +72,16 @@ export class UploadController implements ApiController {
                                 }));
                             }
                             else {
-                                console.log("Profile to be updated");
+                                //console.log("Profile to be updated");
                                 this.repository.Profile.findById(result._id, (err, profile) => {
                                     if (err) {
-                                        console.log("FAILED TO FIND: " + profile._id);
+                                        //console.log("FAILED TO FIND: " + profile._id);
                                     }
                                     profile.logoId = newContent._id;
                                     profile.save((err) => {
                                         if (err) {
                                         }
-                                        console.log("updated!");
+                                        //console.log("updated!");
                                     });
                                 });
                             }

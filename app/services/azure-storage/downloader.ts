@@ -9,7 +9,7 @@ export class AzureDownloader {
     }
 
     public getImageFromBlob = (contentId: string, ownerId: string, callback) => {
-        console.log("Before Service Created" + contentId + "by: " + ownerId);
+        //console.log("Before Service Created" + contentId + "by: " + ownerId);
         try {
 
             let blobSvc = azure.createBlobService(this.configuration.azureStorageConnectionString);
@@ -19,10 +19,10 @@ export class AzureDownloader {
 
             let cacheFile = path.resolve('.') + '/cache/' + ownerId + '/' + contentId;
             fs.stat(cacheFile, (err, stats) => {
-                console.log("cacheStat:" + JSON.stringify(stats));
+                //console.log("cacheStat:" + JSON.stringify(stats));
                 if (stats == null) {
                     fs.mkdir(cacheFolder, (error, result) => {
-                        console.log("Cache File: " + cacheFile);
+                        //console.log("Cache File: " + cacheFile);
                         try {
                             let stream = fs.createWriteStream(cacheFile);
                             blobSvc.getBlobToStream(this.configuration.containerName, ownerId + "/" + contentId, stream,
@@ -37,11 +37,11 @@ export class AzureDownloader {
                                             lwip.open(buffer, 'jpg', function(err, image) {
                                                 // check 'err'. use 'image'.
                                                 if (err) {
-                                                    console.log(err);
+                                                    //console.log(err);
 
                                                 }
                                                 else {
-                                                    console.log("Returning scaled image");
+                                                    //console.log("Returning scaled image");
                                                     image.scale(0.5, callback);
                                                 }
                                             });
@@ -51,22 +51,22 @@ export class AzureDownloader {
                                     }
                                 });
                         } catch (err) {
-                            console.log(err);
+                            //console.log(err);
                         }
                     });
                 }
                 else {
-                    console.log("trying to load from cache: " + cacheFile);
+                    //console.log("trying to load from cache: " + cacheFile);
                     //fs.readFile(cacheFile, (err, buffer) => {
                         // check err
                         lwip.open(cacheFile, 'jpg', function(err, image) {
                             // check 'err'. use 'image'.
                             if (err) {
-                                console.log(err);
+                                //console.log(err);
 
                             }
                             else {
-                                console.log("Returning scaled image");
+                                //console.log("Returning scaled image");
                                 image.scale(0.5, (err, result)=>{
                                     image.toBuffer('jpg', callback);
                                 });
@@ -77,7 +77,7 @@ export class AzureDownloader {
             });
         }
         catch (err) {
-            console.log("Something blew up" + err);
+            //console.log("Something blew up" + err);
         }
     }
 }

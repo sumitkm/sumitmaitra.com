@@ -24,7 +24,7 @@ export class PassportLocalController implements ApiController {
     }
 
     public getVerify = (req, res, next, params) => {
-        console.log("Going to GET verification user" + JSON.parse(params));
+        //console.log("Going to GET verification user" + JSON.parse(params));
         if ((req.session.passport != null && req.session.passport.user != null)) {
             res.send({ username: req.sessions.passport.user });
         } else if (req.session.userId != null) {
@@ -35,7 +35,7 @@ export class PassportLocalController implements ApiController {
     }
 
     public postVerify = (req, res, next) => {
-        console.log("Going to POST verify");
+        //console.log("Going to POST verify");
         if (req.body.verificationcode != '' && req.body.verificationcode != null) {
             this.respository.Account.verifyAccount(req.body.verificationcode, (err, account) => {
                 if (err) {
@@ -51,13 +51,13 @@ export class PassportLocalController implements ApiController {
     }
 
     public postVerifyResend = (req, res, next) => {
-        console.log("Going to POST resend verification email");
+        //console.log("Going to POST resend verification email");
         if (req.session.username != null) {
-            console.log("Session UserId: " + req.session.username);
+            //console.log("Session UserId: " + req.session.username);
             this.respository.Account.findByUsername(req.session.username, false, (err, user) => {
-                console.log("Session Loaded User: " + user);
+                //console.log("Session Loaded User: " + user);
                 if (user != null && user.email != '') {
-                    console.log(JSON.stringify(user));
+                    //console.log(JSON.stringify(user));
                     this.mailer.sendEmail(user.verificationCode.toString(), user.email, (error, result) => {
                         if (error) {
                             res.send({ message: "Error sending verification email", error: error });
@@ -69,10 +69,13 @@ export class PassportLocalController implements ApiController {
                 }
             });
         }
+        else{
+            
+        }
     }
 
     public postRegister = (req, res, next) => {
-        console.log("Going to register");
+        //console.log("Going to register");
         let code = this.respository.getNewObjectId();
         let acc = new this.respository.Account({
             username: req.body.username,
@@ -82,10 +85,10 @@ export class PassportLocalController implements ApiController {
         });
         this.respository.Account.register(acc, req.body.password, (err) => {
             if (err) {
-                console.log('error while user register!', err);
+                //console.log('error while user register!', err);
                 return next(err);
             }
-            console.log('user registered!');
+            //console.log('user registered!');
             this.mailer.sendEmail(code.toString(), req.body.email, (error, data) => {
                 res.redirect('/');
             });
@@ -93,16 +96,16 @@ export class PassportLocalController implements ApiController {
     }
 
     public postLogin = (req, res, next) => {
-        console.log("Going to sign in");
+        //console.log("Going to sign in");
         try {
             var func = passport.authenticate('local', (err, authResult, message) => {
-                console.log("Error: " + err);
-                console.log("AuthResult  :" + authResult.username);
-                console.log("Message  :" + message);
+                //console.log("Error: " + err);
+                //console.log("AuthResult  :" + authResult.username);
+                //console.log("Message  :" + message);
 
                 if (authResult != false) {
                     if (authResult.isVerified) {
-                        console.log("Account is verified");
+                        //console.log("Account is verified");
 
                         req.login(authResult, (err) => {
                             if (err) {
@@ -112,7 +115,7 @@ export class PassportLocalController implements ApiController {
                             }
                         });
                     } else {
-                        console.log("Account is not verified");
+                        //console.log("Account is not verified");
                         req.session.username = authResult.username;
                         res.redirect('/verify')
                     };
@@ -122,18 +125,18 @@ export class PassportLocalController implements ApiController {
                 }
             })(req, res, next);
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     }
 
     public getLogin = (req, res, next) => {
-        console.log("Getting Login: " + JSON.stringify({ user: req.user }));
+        //console.log("Getting Login: " + JSON.stringify({ user: req.user }));
 
         res.send({ user: req.user });
     }
 
     public postLogout = (req, res, next) => {
-        console.log("Going to sign out: " + JSON.stringify(req.user));
+        //console.log("Going to sign out: " + JSON.stringify(req.user));
         req.logout();
         res.redirect('/');
     }

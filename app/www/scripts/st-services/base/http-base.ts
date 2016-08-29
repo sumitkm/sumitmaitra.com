@@ -45,7 +45,7 @@ export class HttpBase {
         let RSVP = require("RSVP");
         let promise = new RSVP.Promise((resolve, reject) => {
             let client = new XMLHttpRequest();
-            console.log("Service Type:" + this.serviceType + "; Service URL:" + this.serviceUrl)
+            //console.log("Service Type:" + this.serviceType + "; Service URL:" + this.serviceUrl)
             client.open(this.serviceType, this.serviceUrl);
             client.onload = handler;
             client.responseType = "json";
@@ -67,11 +67,11 @@ export class HttpBase {
 
         promise.then((json) => {
             // continue
-            console.log("HTTPBASE THEN:"+ JSON.stringify(json));
+            //console.log("HTTPBASE THEN:"+ JSON.stringify(json));
             this.successCb(json);
         }, (error) => {
             // handle errors
-            console.log("HTTPBASE ERROR:"+ JSON.stringify(error));
+            //console.log("HTTPBASE ERROR:"+ JSON.stringify(error));
             this.failureCb(error);
         });
     }

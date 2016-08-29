@@ -29,7 +29,7 @@ export class viewModel extends BaseComponent {
                 // }
 
                 // Add the file to the request.
-                console.log("File:" + file.name)
+                //console.log("File:" + file.name)
                 formData.append('photos[]', file, file.name);
 
             }

@@ -18,13 +18,14 @@ export class viewModel extends BaseComponent {
     profileLogoUrl = ko.pureComputed(()=>{
         if(this.currentProfile()!=null)
         {
-            return "";
+            return "/api/content/" + this.currentProfile().userId() + "/" + this.currentProfile().logoId();
         }
         return "";
     });
 
     constructor(params: Route) {
         super(params);
+        //console.log("profile Constructor");
         this.id((params && params.pageComponent()) || "profile");
         if (params.userName() != null && params.userName() != '') {
             this.userName(params.userName());
@@ -45,10 +46,11 @@ export class viewModel extends BaseComponent {
     }
 
     profilesLoaded = (data) => {
-        console.log("Profile Loaded" + JSON.stringify(data));
+        //console.log("Profile Loaded" + JSON.stringify(data));
+        this.currentProfile(Profile.fromJS(data));
     }
 
     profilesNotLoaded = (error) => {
-        console.log("Profile Not Loaded" + JSON.stringify(error));
+        //console.log("Profile Not Loaded" + JSON.stringify(error));
     }
 }

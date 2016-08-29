@@ -1,7 +1,8 @@
 /// <reference path="../../typings/index.d.ts"/>
+//console.log("Loaded st-boot");
 requirejs.config(
 {
-    baseUrl: './scripts/',
+    baseUrl: '/scripts/',
     paths:
     {
         "jquery": "../libs/jquery/dist/jquery.min",

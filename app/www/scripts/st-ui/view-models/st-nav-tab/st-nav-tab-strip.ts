@@ -8,7 +8,13 @@ export class TabStrip{
     }
 
     selectTabByName = (tabName : string) => {
-        let selectedTab = ko.utils.arrayFirst<TabItem>(this.tabItems(), t => t.text() == tabName);
+        let oldSelectedTab = ko.utils.arrayFirst<TabItem>(this.tabItems(), t => t.active() == true);
+        let selectedTab = ko.utils.arrayFirst<TabItem>(this.tabItems(), t => t.name().toLowerCase() == tabName.toLowerCase());
+        if(oldSelectedTab!=null && oldSelectedTab.name() != selectedTab.name())
+        {
+            oldSelectedTab.active(false);
+        }
+        selectedTab.active(true);
         if(selectedTab !=null){
             this.selectedTabItem(selectedTab);
         }

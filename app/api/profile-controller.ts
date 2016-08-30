@@ -31,4 +31,8 @@ export class ProfileController extends BaseController {
             }
         });
     }
+
+    public putProfile = (req: Express.Request, res: Express.Response, next, params) => {
+
+    }
 }

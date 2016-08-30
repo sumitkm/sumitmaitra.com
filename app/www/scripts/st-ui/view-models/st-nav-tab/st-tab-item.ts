@@ -11,13 +11,12 @@ export class TabItem{
     active: KnockoutObservable<boolean> = ko.observable<boolean>(false);
     hrefCss: KnockoutObservable<string> = ko.observable<string>("");
 
-    public static factory = (text: string, name: string, isActive: boolean = false, href?: string, css?: string, hrefCss: string = "") : TabItem =>{
+    public static factory = (text: string, name: string, href?: string, css?: string, hrefCss: string = "") : TabItem =>{
         let newMenuItem = new TabItem();
         newMenuItem.text(text);
         newMenuItem.href(href);
         newMenuItem.css(css);
         newMenuItem.hrefCss(hrefCss);
-        newMenuItem.active(isActive);
         newMenuItem.name(name);
         return newMenuItem;
     }

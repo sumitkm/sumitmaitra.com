@@ -4,6 +4,7 @@ import { BaseComponent } from "../st-base-component/base-component";
 
 export var template = require("text!./st-image-uploader.html");
 export class viewModel extends BaseComponent {
+
     private form = document.getElementById('image-uploader');
     private fileSelect: any = document.getElementById('file-select');
     private uploadButton = document.getElementById('upload-button');

@@ -11,7 +11,7 @@ export var template = require("text!./profile.html");
 export class viewModel extends BaseComponent {
     userName: KnockoutObservable<string> = ko.observable("");
     tabStrip: KnockoutObservable<TabStrip> = ko.observable<TabStrip>(new TabStrip());
-    selectedTab: KnockoutObservable<string> = ko.observable<string>("");
+    selectedTab: KnockoutObservable<string> = ko.observable<string>("home");
     currentProfile: KnockoutObservable<Profile> = ko.observable<Profile>();
     getProfileService: HttpBase;
 
@@ -33,9 +33,12 @@ export class viewModel extends BaseComponent {
         if (params.crRoute().tab != null) {
             this.selectedTab(params.crRoute().tab);
         }
-        this.tabStrip().tabItems().push(TabItem.factory("Profile", "home", this.selectedTab().toLowerCase() == '', "/profile", "tab-nav", ""));
-        this.tabStrip().tabItems().push(TabItem.factory("Pictures", "pictures", this.selectedTab().toLowerCase() == 'pictures', "/profile/pictures", "tab-nav", ""));
-        this.tabStrip().tabItems().push(TabItem.factory("Feed", "feed", this.selectedTab().toLowerCase() == 'feed', "/profile/feed", "tab-nav"));
+        this.tabStrip().tabItems().push(TabItem.factory("Profile", "home", "/profile", "tab-nav", ""));
+        this.tabStrip().tabItems().push(TabItem.factory("Pictures", "pictures", "/profile/pictures", "tab-nav", ""));
+        this.tabStrip().tabItems().push(TabItem.factory("Feed", "feed", "/profile/feed", "tab-nav"));
+        if(this.selectedTab!=null){
+            this.tabStrip().selectTabByName(this.selectedTab());
+        }
         this.initServices();
         this.getProfileService.execute();
 

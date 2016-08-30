@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3 col-offset-md-3 center">
             <div class="form element-padding">
-                <st-image-uploader></st-image-uploader>
+                <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
                 <label class="input-label">Profile picture</label>
                 <img src="" data-bind="attr : { src: profileLogoUrl }" />
             </div>
@@ -21,15 +21,33 @@
     </div>
     <div class="row" data-bind="with: currentProfile" style="min-height:400px">
         <st-nav-tab params="tabStrip: $component.tabStrip"></st-nav-tab>
-        <!-- ko if: $component.tabStrip().selectedTab().name() == 'home' -->
-        <div class="col col-xs-12">
-            <div class="row">
-                <div class="form">
-                    <label class="input-label">Nickname</label>
-                    <input class="input-text" name="nickname" type="text" data-bind="nickname" />
-                </div>
+        <!-- ko if: $component.tabStrip().selectedTabItem !=null && $component.tabStrip().selectedTabItem() != null -->
+        <!-- ko if: $component.tabStrip().selectedTabItem().name() == 'home' -->
+        <div class="col col-offset-md-3 col-md-6">
+            <div class="form">
+                <label class="input-label">Name</label>
+                <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
+            </div>
+            <div class="form">
+                <label class="input-label">Nickname</label>
+                <input class="input-text" name="nickname" type="text" data-bind="textInput: nickname" />
+            </div>
+            <div class="form">
+                <label class="input-label">Birthdate</label>
+                <input class="input-text" name="birthdate" type="text" data-bind="textInput: birthdate" />
+            </div>
+            <div class="form">
+                <label class="input-label">Header Image</label>
+                <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
+            </div>
+            <div class="form">
+                <st-image-uploader params="id: 'profile-header-uploader'"></st-image-uploader>
+                <label class="input-label">Profile picture</label>
+                <img src="" data-bind="attr : { src: headerUrl }" />
             </div>
         </div>
         <!-- /ko -->
+        <!-- /ko -->
+
     </div>
 </div>

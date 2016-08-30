@@ -2,10 +2,12 @@
 
 import nconf = require('nconf');
 import { Config } from "./app/services/settings/config";
+import { SpaEngine } from "./spa-engine";
 import { Container } from "./app/di/container";
 import { CrossRouter } from "./app/services/routing/cross-router";
 import { Configuration } from "./app/services/settings/config-model";
-import { SpaEngine } from "./spa-engine";
+import { PassportLocalAuthenticator } from "./app/services/passport-local/passport-local-authenticator";
+
 var express = require('express');
 var multer = require('multer');
 var favicon = require('serve-favicon');
@@ -26,19 +28,19 @@ var storage = multer.diskStorage({
         cb(null, __dirname + '/uploads/temp');
     },
     filename: (req, file, cb) => {
-        //console.log(file);
         cb(null, Date.now() + '-' + file.originalname);
     }
 })
 var upload = multer({ storage: storage });
 
+try
+{
 configService.load((config: Configuration) => {
     var credentials = {
         key: fs.readFileSync(__dirname + config.key, 'utf8'),
         cert: fs.readFileSync(__dirname + config.cert, 'utf8')
     };
 
-    //console.log("Config Loaded:" + (config !== null));
     // Connect mongoose
     mongoose.connect(config.mongodbUri, (err) => {
         if (err) {
@@ -62,6 +64,8 @@ configService.load((config: Configuration) => {
     }));
 
     // Configure passport middleware
+    // let bootPassport = new PassportLocalAuthenticator(app, passport, config);
+    // bootPassport.init();
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -73,24 +77,22 @@ configService.load((config: Configuration) => {
 
     Container.apiRouter = new CrossRouter("/api");
     Container.webRouter = new CrossRouter();
-    Container.inject(config);
+    Container.inject(config, null);
 
     // Register routes
-    // app.use('/', Container.apiRouter.route);
-
-
-    app.use(express.static(__dirname + '/app/www/'));
-    // app.use('/', express.static(__dirname + '/app/www/'));
-
-    // SpaEngine
+    app.use(express.static(__dirname + '/app/www/')); // All static stuff from /app/wwww
+    // SpaEngine - Handle server side requests by rendering the same index.html pages
+    // for all routes
     var spaEngine = new SpaEngine(config);
     app.set('views', __dirname + '/app/www');
     app.set("view options", { layout: false });
     app.engine('html', spaEngine.renderer);
     app.set('view engine', 'html');
-
+    // Special route for File upload handling
     app.post('/api/uploader/files', upload.any(), Container.apiRouter.route);
+    // All HTTP API requests
     app.use('/api', Container.apiRouter.route);
+    // All content requests that are not in static
     app.use('/', Container.webRouter.route);
 
     // catch 404 and forward to error handler
@@ -133,3 +135,8 @@ configService.load((config: Configuration) => {
         console.log(pkg.name, 'listening on port ', httpsServer.address().port);
     });
 });
+}
+catch(err){
+    console.error(err);
+
+}

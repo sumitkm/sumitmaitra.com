@@ -12,7 +12,6 @@ requirejs.config(
         "text": "../libs/text/text",
         "historyjs": "../libs/history.js/scripts/bundled/html4+html5/native.history",
         "RSVP": "../libs/rsvp.js/rsvp.min"
-
     },
     shim:
     {

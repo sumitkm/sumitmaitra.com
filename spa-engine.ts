@@ -10,9 +10,12 @@ export class SpaEngine {
         console.log("In renderer!!!! looking for " + filename + " at " + __dirname + "/app/www/index.html");
         let fs = require('fs');
         fs.readFile(__dirname + "/app/www/index.html", 'UTF8', (err, data) => {
-            //console.log("Calling back");
-            //console.log(err);
-            callback(null, data);
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                callback(null, data);
+            }
         });
     }
 }

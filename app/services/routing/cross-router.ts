@@ -11,7 +11,7 @@ export class CrossRouter extends EventEmitter {
     private nxt: any;
     private services = [];
     private router = crossroads.create();
-    public rootPath: string = "";
+    private rootPath: string = "";
 
     constructor(rootPath: string = "") {
         super();
@@ -42,7 +42,7 @@ export class CrossRouter extends EventEmitter {
         });
     }
 
-    // All routes that start with /api are sent to this function.
+    // All routes are sent to this function.
     // This is as per the middleware configuration in app.ts
     // e.g.
     //  var navigator = require("./navigation/cross-router");

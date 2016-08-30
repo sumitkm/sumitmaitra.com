@@ -1,19 +1,21 @@
-/// <amd-dependency path="./api-controller"/>
 import * as Express from "express-serve-static-core";
 import { Configuration } from "../services/settings/config-model";
+import { BaseController } from "./base-controller";
 import { VerificationEmailer } from "../services/mailing/verification-email";
+import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 import { db } from "../data/db";
 import { AzureUploader } from "../services/azure-storage/uploader";
 
 var Account = require("../data/account");
 
-export class UploadController implements ApiController {
+export class UploadController extends BaseController {
     config: Configuration;
     mailer: VerificationEmailer;
     repository: db;
     uploader: AzureUploader;
 
-    constructor(configuration: Configuration) {
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
+        super(auther);
         this.config = configuration;
         this.repository = new db(this.config);
         this.uploader = new AzureUploader(this.config);

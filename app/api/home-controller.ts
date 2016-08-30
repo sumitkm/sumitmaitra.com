@@ -1,9 +1,11 @@
-/// <amd-dependency path="./api-controller"/>
-
 import * as Express from "express-serve-static-core";
+import { BaseController } from "./base-controller";
+import { Configuration } from "../services/settings/config-model";
+import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 
-export class HomeController implements ApiController {
-    constructor() {
+export class HomeController extends BaseController {
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
+        super(auther);
         this["Home:path"] = "/:route*:";
     }
 

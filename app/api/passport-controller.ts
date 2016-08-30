@@ -1,17 +1,19 @@
-/// <amd-dependency path="./api-controller"/>
 import * as Express from "express-serve-static-core";
 import { Configuration } from "../services/settings/config-model";
+import { BaseController } from "./base-controller";
 import { VerificationEmailer } from "../services/mailing/verification-email";
+import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 import { db } from "../data/db";
 
 var passport = require('passport');
 
-export class PassportLocalController implements ApiController {
+export class PassportLocalController extends BaseController {
     config: Configuration;
     mailer: VerificationEmailer;
     respository: db;
 
-    constructor(configuration: Configuration) {
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
+        super(auther);
         this.config = configuration;
         this.mailer = new VerificationEmailer(configuration);
         this.respository = new db(configuration);
@@ -70,7 +72,7 @@ export class PassportLocalController implements ApiController {
             });
         }
         else{
-            
+
         }
     }
 
@@ -98,14 +100,14 @@ export class PassportLocalController implements ApiController {
     public postLogin = (req, res, next) => {
         //console.log("Going to sign in");
         try {
-            var func = passport.authenticate('local', (err, authResult, message) => {
-                //console.log("Error: " + err);
+            passport.authenticate('local', (err, authResult, message) => {
+                console.log("Error: " + err);
                 //console.log("AuthResult  :" + authResult.username);
                 //console.log("Message  :" + message);
 
                 if (authResult != false) {
                     if (authResult.isVerified) {
-                        //console.log("Account is verified");
+                        console.log("Account is verified");
 
                         req.login(authResult, (err) => {
                             if (err) {
@@ -115,7 +117,7 @@ export class PassportLocalController implements ApiController {
                             }
                         });
                     } else {
-                        //console.log("Account is not verified");
+                        console.log("Account is not verified");
                         req.session.username = authResult.username;
                         res.redirect('/verify')
                     };
@@ -125,7 +127,7 @@ export class PassportLocalController implements ApiController {
                 }
             })(req, res, next);
         } catch (error) {
-            //console.log(error);
+            console.log(error);
         }
     }
 

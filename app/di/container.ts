@@ -1,6 +1,9 @@
 import * as express from "express";
 
 import { Configuration } from "../services/settings/config-model";
+import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
+import { BaseController } from "../api/base-controller";
+
 import { HomeController } from "../api/home-controller";
 import { PassportLocalController } from "../api/passport-controller";
 import { UploadController } from "../api/upload-controller";
@@ -14,16 +17,16 @@ export class Container {
     public static apiRouter: CrossRouter;
     public static webRouter: CrossRouter;
 
-    public static inject = (configuration: Configuration) => {
+    public static inject = (configuration: Configuration, authenticator: PassportLocalAuthenticator) => {
         Container.config = configuration;
-        Container.injectWebController(new HomeController());
-        Container.injectController(new PassportLocalController(Container.config));
-        Container.injectController(new UploadController(Container.config));
-        Container.injectController(new ProfileController(Container.config));
-        Container.injectController(new ContentController(Container.config));
+        Container.injectWebController(new HomeController(Container.config, authenticator));
+        Container.injectController(new PassportLocalController(Container.config, authenticator));
+        Container.injectController(new UploadController(Container.config, authenticator));
+        Container.injectController(new ProfileController(Container.config, authenticator));
+        Container.injectController(new ContentController(Container.config, authenticator));
     }
 
-    private static injectController = (controller: ApiController) => {
+    private static injectController = (controller: BaseController) => {
         let keys = Object.keys(controller);
         keys.forEach((key: string)=>{
             if(typeof(controller[key]) == "string"){
@@ -32,11 +35,10 @@ export class Container {
         });
     }
 
-    private static injectWebController = (controller: ApiController) => {
+    private static injectWebController = (controller: BaseController) => {
         let keys = Object.keys(controller);
         keys.forEach((key: string)=>{
             if(typeof(controller[key]) == "string"){
-                //console.log("Registered WWW Path:" + controller[key]);
                 Container.webRouter.registerRoute(new CrossRoute(controller[key], key.replace(":path", ""), "", controller));
             }
         });

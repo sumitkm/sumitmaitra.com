@@ -1,4 +1,5 @@
+import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 
-interface ApiController{
-
+export interface ApiController{
+    authenticator : PassportLocalAuthenticator;
 }

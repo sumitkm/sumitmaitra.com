@@ -1,29 +1,24 @@
 <div class="container top">
-    <div class="row">
-        <div class="col-md-3 col-offset-md-3 center">
-            <div class="form element-padding">
-                <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
-                <label class="input-label">Profile picture</label>
-                <img src="" data-bind="attr : { src: profileLogoUrl }" />
-            </div>
-        </div>
-        <div class="col-md-3">
-            <form action="/api/accounts/logout" method="POST">
-                <div class="form element-padding">
-                    <label class="input-label">User Name</label>
-                    <label class="input-text" data-bind="text: userName"></label>
-                </div>
-                <div class="form element-padding">
-                    <input class="btn-primary" type="submit" value="Logout" />
-                </div>
-            </form>
-        </div>
-    </div>
+    <st-nav-tab params="tabStrip: $component.tabStrip"></st-nav-tab>
+    <!-- ko if: $component.tabStrip().selectedTabItem !=null && $component.tabStrip().selectedTabItem() != null -->
+    <!-- ko if: $component.tabStrip().selectedTabItem().name() == 'home' -->
     <div class="row" data-bind="with: currentProfile" style="min-height:400px">
-        <st-nav-tab params="tabStrip: $component.tabStrip"></st-nav-tab>
-        <!-- ko if: $component.tabStrip().selectedTabItem !=null && $component.tabStrip().selectedTabItem() != null -->
-        <!-- ko if: $component.tabStrip().selectedTabItem().name() == 'home' -->
         <div class="col col-offset-md-3 col-md-6">
+            <div class="row">
+                <div class="col-md-6 center">
+                    <div class="form element-padding">
+                        <label class="input-label">Profile picture</label>
+                        <img src="" data-bind="attr : { src: $component.profileLogoUrl }" />
+                        <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form">
+                <label class="input-label">User Name</label>
+                <label class="input-text" data-bind="text: $component.userName"></label>
+            </div>
+
             <div class="form">
                 <label class="input-label">Name</label>
                 <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
@@ -41,13 +36,23 @@
                 <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
             </div>
             <div class="form">
-                <st-image-uploader params="id: 'profile-header-uploader'"></st-image-uploader>
-                <label class="input-label">Profile picture</label>
+                <label class="input-label">Header image</label>
                 <img src="" data-bind="attr : { src: headerUrl }" />
+                <st-image-uploader params="id: 'profile-header-uploader'"></st-image-uploader>
             </div>
         </div>
-        <!-- /ko -->
-        <!-- /ko -->
-
     </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3 col-offset-md-3">
+            <form class="form" action="/api/accounts/logout" method="POST">
+                <input class="btn-primary" type="submit" value="Logout" />
+            </form>
+        </div>
+        <div class="col-md-3">
+            <button class="btn-primary pull-right" data-bind="click: saveProfile">Save Profile</button>
+        </div>
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
 </div>

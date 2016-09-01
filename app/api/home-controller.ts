@@ -20,6 +20,7 @@ export class HomeController extends BaseController {
         res.status(200);
         if (req.url.lastIndexOf("www") > 0 ||
         req.url.lastIndexOf("libs") > 0 ||
+        req.url.lastIndexOf("spec") > 0 ||
             req.url.lastIndexOf("api") > 0 ||
             req.url.lastIndexOf("scripts") > 0 ||
             req.url.lastIndexOf("static") > 0 ||

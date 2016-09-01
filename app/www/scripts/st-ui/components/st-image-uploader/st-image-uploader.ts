@@ -4,10 +4,21 @@ import { BaseComponent } from "../st-base-component/base-component";
 
 export var template = require("text!./st-image-uploader.html");
 export class viewModel extends BaseComponent {
-
+    width: KnockoutObservable<string> = ko.observable<string>("125px");
+    height: KnockoutObservable<string> = ko.observable<string>("38px");
+    containerStyle: KnockoutObservable<string> = ko.pureComputed<string>(()=>{
+        return "position: relative;top:0;left: 50%;margin-left: -62px;" + this.height() + ";width: " + this.width();
+    });
+    uploadButtonStyle: KnockoutObservable<string> = ko.pureComputed<string>(() => {
+        return "width: 100%; position: inline-block; top: 0; left: 0; right: 0; padding: 10px"
+    });
+    fileInputStyle: KnockoutObservable<string> = ko.pureComputed<string>(()=>{
+        return "opacity: 0; position: absolute; top: 0;left: 0;bottom: 0; width: 100%; height: " + this.height() + ";";
+    });
     private form = document.getElementById('image-uploader');
     private fileSelect: any = document.getElementById('file-select');
     private uploadButton = document.getElementById('upload-button');
+
 
     constructor(params) {
         super(params);

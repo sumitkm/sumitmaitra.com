@@ -56,4 +56,8 @@ export class viewModel extends BaseComponent {
     profilesNotLoaded = (error) => {
         //console.log("Profile Not Loaded" + JSON.stringify(error));
     }
+
+    saveProfile = () =>{
+        
+    }
 }

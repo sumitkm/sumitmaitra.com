@@ -83,6 +83,7 @@ configService.load((config: Configuration) => {
     app.use(express.static(__dirname + '/app/www/')); // All static stuff from /app/wwww
     // SpaEngine - Handle server side requests by rendering the same index.html pages
     // for all routes
+
     var spaEngine = new SpaEngine(config);
     app.set('views', __dirname + '/app/www');
     app.set("view options", { layout: false });

@@ -42,6 +42,7 @@ export class AzureDownloader {
                                                 }
                                                 else {
                                                     //console.log("Returning scaled image");
+                                                    console.log(image);
                                                     image.scale(0.5, callback);
                                                 }
                                             });
@@ -67,6 +68,8 @@ export class AzureDownloader {
                             }
                             else {
                                 //console.log("Returning scaled image");
+                                console.log(image);
+                                
                                 image.scale(0.5, (err, result)=>{
                                     image.toBuffer('jpg', callback);
                                 });

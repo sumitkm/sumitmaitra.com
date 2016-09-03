@@ -1,10 +1,9 @@
 import * as ko from "knockout";
 import { Route } from "./st-route";
 import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
-import * as cr from "crossroads";
+import * as crossroads from "crossroads";
 
 var Historyjs : Historyjs = <any> History;
-var crossroads = cr;
 
 class Router {
     currentRoute: KnockoutObservable<Route> = ko.observable<Route>();
@@ -14,7 +13,6 @@ class Router {
 
     constructor() {
         $(document).on('click', 'a', this.handleAnchorClick);
-        //console.log("activating router!");
         this.activateCrossroads();
     }
 
@@ -42,13 +40,9 @@ class Router {
                 else
                 {
                     this.rightMenuItems.push(MenuItem.factory('Login', '/login', 'nav-menu-item', ''));
-
                 }
-                //console.log( data );
                 if(selectedRoute!=null)
                 {
-                    //console.log("Assigning menu items to Route.");
-
                     selectedRoute.leftMenuItems = this.leftMenuItems;
                     selectedRoute.rightMenuItems = this.rightMenuItems;
                     this.currentRoute(selectedRoute);
@@ -63,7 +57,6 @@ class Router {
     }
 
     private handleAnchorClick = (event) => {
-        //console.log(JSON.stringify($(event.target).attr("href"), null, 2));
         try {
             let url = $(event.target).attr("href");
             Historyjs.pushState({ url: url }, "", url);
@@ -98,7 +91,7 @@ class Router {
 
     private activateCrossroads = () => {
         Historyjs.Adapter.bind(window, "statechange", this.historyStateChanged);
-        crossroads.normalizeFn = crossroads.NORM_AS_OBJECT;
+        (<any>crossroads).normalizeFn = crossroads.NORM_AS_OBJECT;
     }
 
 }

@@ -4,21 +4,15 @@
     <!-- ko if: $component.tabStrip().selectedTabItem().name() == 'home' -->
     <div class="row" data-bind="with: currentProfile" style="min-height:400px">
         <div class="col col-offset-md-3 col-md-6">
-            <div class="row">
-                <div class="col-md-6 center">
-                    <div class="form element-padding">
-                        <label class="input-label">Profile picture</label>
-                        <img src="" data-bind="attr : { src: $component.profileLogoUrl }" />
-                        <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
-                    </div>
-                </div>
+            <div class="form">
+                <label class="input-label">Profile picture</label>
+                <img style="width:100%" src="" data-bind="attr : { src: $component.profileLogoUrl }" />
+                <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
             </div>
-
             <div class="form">
                 <label class="input-label">User Name</label>
                 <label class="input-text" data-bind="text: $component.userName"></label>
             </div>
-
             <div class="form">
                 <label class="input-label">Name</label>
                 <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />

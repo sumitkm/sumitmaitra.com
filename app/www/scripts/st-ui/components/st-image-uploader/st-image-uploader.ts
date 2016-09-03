@@ -6,6 +6,7 @@ export var template = require("text!./st-image-uploader.html");
 export class viewModel extends BaseComponent {
     width: KnockoutObservable<string> = ko.observable<string>("125px");
     height: KnockoutObservable<string> = ko.observable<string>("38px");
+    label: KnockoutObservable<string>  = ko.observable<string>("Upload");
     containerStyle: KnockoutObservable<string> = ko.pureComputed<string>(()=>{
         return "position: relative;top:0;left: 50%;margin-left: -62px;" + this.height() + ";width: " + this.width();
     });

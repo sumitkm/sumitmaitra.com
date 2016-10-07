@@ -54,5 +54,20 @@ describe("Expect", () => {
                 done();
             });
         });
+
+        it("can parse /profile/feed", (done) => {
+            testRequire(["st-app/st-router"], (router) => {
+                var spaRouter = new router.Router();
+                let newRoute = router.Router.newRouteFactory("/profile/:tab:/:routeParams*:", "profile", null, "Home Page");
+                spaRouter.registerRoute(newRoute);
+                spaRouter.parse("https://localhost:3844/profile");
+                setTimeout(()=>{
+                    var ko = require("knockout");
+                    console.log(JSON.stringify(ko.toJS(spaRouter.currentRoute()) ));
+                    expect(spaRouter.currentRoute()).not.toBeUndefined();
+                    done();
+                }, 1000);
+            });
+        });
     });
 });

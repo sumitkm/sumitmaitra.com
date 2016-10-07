@@ -4,7 +4,8 @@ typings/
 certs/
 uploads/
 cache/
-
+scripts-built/
 *.js
 webconfig.json
 .DS_Store
+webpack*

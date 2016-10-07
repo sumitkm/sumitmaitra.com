@@ -27,8 +27,11 @@ class Router {
         this.routes.push(newRoute);
 
         crossroads.addRoute(newRoute.path(), (crRoute) => {
+            console.log(newRoute.path());
             let selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
             selectedRoute.crRoute(crRoute);
+            this.currentRoute(selectedRoute);
+
             $.get( "/api/accounts/login", ( data ) => {
                 this.rightMenuItems.removeAll();
                 if(data.user!=null)
@@ -54,6 +57,10 @@ class Router {
 
     public parseCurrentRoute = ()=>{
         this.historyStateChanged();
+    }
+
+    public parse = (route: string) => {
+        crossroads.parse(route);
     }
 
     private handleAnchorClick = (event) => {

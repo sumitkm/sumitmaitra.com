@@ -14,10 +14,10 @@ export class viewModel extends BaseComponent {
     selectedTab: KnockoutObservable<string> = ko.observable<string>("home");
     currentProfile: KnockoutObservable<Profile> = ko.observable<Profile>();
     getProfileService: HttpBase;
+    saveProfileService: HttpBase;
 
-    profileLogoUrl = ko.pureComputed(()=>{
-        if(this.currentProfile()!=null)
-        {
+    profileLogoUrl = ko.pureComputed(() => {
+        if (this.currentProfile() != null) {
             return "/api/content/" + this.currentProfile().userId() + "/" + this.currentProfile().logoId();
         }
         return "";
@@ -25,7 +25,6 @@ export class viewModel extends BaseComponent {
 
     constructor(params: Route) {
         super(params);
-        //console.log("profile Constructor");
         this.id((params && params.pageComponent()) || "profile");
         if (params.userName() != null && params.userName() != '') {
             this.userName(params.userName());
@@ -36,7 +35,8 @@ export class viewModel extends BaseComponent {
         this.tabStrip().tabItems().push(TabItem.factory("Profile", "home", "/profile", "tab-nav", ""));
         this.tabStrip().tabItems().push(TabItem.factory("Pictures", "pictures", "/profile/pictures", "tab-nav", ""));
         this.tabStrip().tabItems().push(TabItem.factory("Feed", "feed", "/profile/feed", "tab-nav"));
-        if(this.selectedTab!=null){
+
+        if (this.selectedTab != null) {
             this.tabStrip().selectTabByName(this.selectedTab());
         }
         this.initServices();
@@ -46,6 +46,7 @@ export class viewModel extends BaseComponent {
 
     initServices = () => {
         this.getProfileService = new HttpBase("GET", "/api/profile", this.profilesLoaded, this.profilesNotLoaded);
+        this.saveProfileService = new HttpBase("PUT", "/api/profile", this.profileSaved, this.profileNotSaved);
     }
 
     profilesLoaded = (data) => {
@@ -57,7 +58,15 @@ export class viewModel extends BaseComponent {
         //console.log("Profile Not Loaded" + JSON.stringify(error));
     }
 
-    saveProfile = () =>{
-        
+    saveProfile = () => {
+        this.saveProfileService.execute(ko.toJS(this.currentProfile()));
+    }
+
+    profileSaved = () =>{
+        console.log("profile saved");
+    }
+
+    profileNotSaved = () =>{
+        console.log("profile not saved");
     }
 }

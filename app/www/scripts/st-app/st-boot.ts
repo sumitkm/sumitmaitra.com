@@ -1,8 +1,7 @@
 /// <reference path="../../typings/index.d.ts"/>
-//console.log("Loaded st-boot");
 requirejs.config(
 {
-    baseUrl: '/scripts/',
+    baseUrl: '/scripts-built/',
     paths:
     {
         "jquery": "../libs/jquery/dist/jquery.min",
@@ -19,7 +18,7 @@ requirejs.config(
     }
 });
 
-requirejs(["jquery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app"], ($, ko, text, history, RSVP, silkthread) => {
+require(["jquery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app"], ($, ko, text, history, RSVP, silkthread) => {
     var spaApp = new silkthread.app();
     spaApp.startUp();
 });

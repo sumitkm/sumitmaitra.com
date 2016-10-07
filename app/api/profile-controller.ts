@@ -20,7 +20,6 @@ export class ProfileController extends BaseController {
     }
 
     public getProfile = (req: Express.Request, res: Express.Response, next, params) => {
-        this.repository = new db(this.config);
         let id: string = "";
         this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
             if(error){
@@ -33,6 +32,13 @@ export class ProfileController extends BaseController {
     }
 
     public putProfile = (req: Express.Request, res: Express.Response, next, params) => {
-
+        this.repository.Profile.saveProfile(req.user, (error, profile) => {
+            if(error){
+                res.sendStatus(500);
+            }
+            else{
+                res.send(profile);
+            }
+        });
     }
 }

@@ -32,7 +32,9 @@ export class ProfileController extends BaseController {
     }
 
     public putProfile = (req: Express.Request, res: Express.Response, next, params) => {
-        this.repository.Profile.saveProfile(req.user, (error, profile) => {
+      console.log(req.user);
+      console.log(req.body);
+        this.repository.Profile.update(req.body, (error, profile) => {
             if(error){
                 res.sendStatus(500);
             }

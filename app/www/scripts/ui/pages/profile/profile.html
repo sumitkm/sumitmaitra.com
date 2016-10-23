@@ -22,12 +22,22 @@
                 <input class="input-text" name="nickname" type="text" data-bind="textInput: nickname" />
             </div>
             <div class="form">
-                <label class="input-label">Birthdate</label>
-                <input class="input-text" name="birthdate" type="text" data-bind="textInput: birthdate" />
+                <label class="input-label">Birthday</label>
+                <div class="row">
+                  <div class="col-sm-4">
+                    <select class="input-text" data-bind="value: birthYear, options: $component.years, optionsValue: 'value', optionsText: 'text'"></select>
+                  </div>
+                  <div class="col-sm-4">
+                    <select class="input-text" data-bind="value: birthMonth, options: $component.months, optionsValue: 'value', optionsText: 'text'"></select>
+                  </div>
+                  <div class="col-sm-4">
+                    <input class="input-text" name="birthDay" type="text" data-bind="textInput: birthDay" />
+                  </div>
+                </div>
             </div>
             <div class="form">
                 <label class="input-label">Header Image</label>
-                <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
+                <input class="input-text" name="fullname" type="text" />
             </div>
             <div class="form">
                 <label class="input-label">Header image</label>

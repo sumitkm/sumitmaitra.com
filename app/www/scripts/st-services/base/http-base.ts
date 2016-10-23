@@ -50,6 +50,7 @@ export class HttpBase {
             client.onload = handler;
             client.responseType = "json";
             client.setRequestHeader("Accept", "application/json");
+            client.setRequestHeader("Content-Type", "application/json");
 
             function handler() {
                 if (this.readyState === this.DONE) {
@@ -61,7 +62,7 @@ export class HttpBase {
                     }
                 }
             };
-            client.send(data);
+            client.send(JSON.stringify(data));
 
         });
 

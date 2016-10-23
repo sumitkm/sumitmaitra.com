@@ -23,121 +23,120 @@ var http = require('http');
 var https = require('https');
 var configService = new Config();
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, __dirname + '/uploads/temp');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-})
-var upload = multer({ storage: storage });
-
-try
-{
-configService.load((config: Configuration) => {
-    var credentials = {
-        key: fs.readFileSync(__dirname + config.key, 'utf8'),
-        cert: fs.readFileSync(__dirname + config.cert, 'utf8')
-    };
-
-    // Connect mongoose
-    mongoose.connect(config.mongodbUri, (err) => {
-        if (err) {
-            //console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
-        }
-    });
-
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
-
-    var MongoStore = require('connect-mongo')(session);
-
-    app.use(session({
-        cookie: {
-            maxAge: 3600000
+try {
+    var storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, __dirname + '/uploads/temp');
         },
-        secret: config.sessionSecret,
-        saveUninitialized: true,
-        resave: true,
-        store: new MongoStore({ url: config.mongodbUri })
-    }));
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + '-' + file.originalname);
+        }
+    })
+    var upload = multer({ storage: storage });
 
-    // Configure passport middleware
-    // let bootPassport = new PassportLocalAuthenticator(app, passport, config);
-    // bootPassport.init();
-    app.use(passport.initialize());
-    app.use(passport.session());
 
-    // Configure passport-local to use account model for authentication
-    var Account = require('./app/data/account');
-    passport.use(Account.createStrategy());
-    passport.serializeUser(Account.serializeUser());
-    passport.deserializeUser(Account.deserializeUser());
+    configService.load((config: Configuration) => {
+        var credentials = {
+            key: fs.readFileSync(__dirname + config.key, 'utf8'),
+            cert: fs.readFileSync(__dirname + config.cert, 'utf8')
+        };
 
-    Container.apiRouter = new CrossRouter("/api");
-    Container.webRouter = new CrossRouter();
-    Container.inject(config, null);
+        // Connect mongoose
+        mongoose.connect(config.mongodbUri, (err) => {
+            if (err) {
+                //console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
+            }
+        });
 
-    // Register routes
-    app.use(express.static(__dirname + '/app/www/')); // All static stuff from /app/wwww
-    // SpaEngine - Handle server side requests by rendering the same index.html pages
-    // for all routes
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: false }));
 
-    var spaEngine = new SpaEngine(config);
-    app.set('views', __dirname + '/app/www');
-    app.set("view options", { layout: false });
-    app.engine('html', spaEngine.renderer);
-    app.set('view engine', 'html');
-    // Special route for File upload handling
-    app.post('/api/uploader/files', upload.any(), Container.apiRouter.route);
-    // All HTTP API requests
-    app.use('/api', Container.apiRouter.route);
-    // All content requests that are not in static
-    app.use('/', Container.webRouter.route);
+        var MongoStore = require('connect-mongo')(session);
 
-    // catch 404 and forward to error handler
-    app.use(function(req, res, next) {
-        var err = new Error('Not Found');
-        err['status'] = 404;
-        next(err);
-    });
+        app.use(session({
+            cookie: {
+                maxAge: 3600000
+            },
+            secret: config.sessionSecret,
+            saveUninitialized: true,
+            resave: true,
+            store: new MongoStore({ url: config.mongodbUri })
+        }));
 
-    // error handlers
-    // development error handler
-    // will print stacktrace
-    if (app.get('env') === 'development') {
+        // Configure passport middleware
+        // let bootPassport = new PassportLocalAuthenticator(app, passport, config);
+        // bootPassport.init();
+        app.use(passport.initialize());
+        app.use(passport.session());
+
+        // Configure passport-local to use account model for authentication
+        var Account = require('./app/data/account');
+        passport.use(Account.createStrategy());
+        passport.serializeUser(Account.serializeUser());
+        passport.deserializeUser(Account.deserializeUser());
+
+        Container.apiRouter = new CrossRouter("/api");
+        Container.webRouter = new CrossRouter();
+        Container.inject(config, null);
+
+        // Register routes
+        app.use(express.static(__dirname + '/app/www/')); // All static stuff from /app/wwww
+        // SpaEngine - Handle server side requests by rendering the same index.html pages
+        // for all routes
+
+        var spaEngine = new SpaEngine(config);
+        app.set('views', __dirname + '/app/www');
+        app.set("view options", { layout: false });
+        app.engine('html', spaEngine.renderer);
+        app.set('view engine', 'html');
+        // Special route for File upload handling
+        app.post('/api/uploader/files', upload.any(), Container.apiRouter.route);
+        // All HTTP API requests
+        app.use('/api', Container.apiRouter.route);
+        // All content requests that are not in static
+        app.use('/', Container.webRouter.route);
+
+        // catch 404 and forward to error handler
+        app.use(function(req, res, next) {
+            var err = new Error('Not Found');
+            err['status'] = 404;
+            next(err);
+        });
+
+        // error handlers
+        // development error handler
+        // will print stacktrace
+        if (app.get('env') === 'development') {
+            app.use((err, req, res, next) => {
+                res.status(err.status || 500);
+                res.render('error', {
+                    message: err.message,
+                    error: err
+                });
+            });
+        }
+
+        // production error handler
+        // no stacktraces leaked to user
         app.use((err, req, res, next) => {
             res.status(err.status || 500);
             res.render('error', {
                 message: err.message,
-                error: err
+                error: {}
             });
         });
-    }
 
-    // production error handler
-    // no stacktraces leaked to user
-    app.use((err, req, res, next) => {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: {}
+        var pkg = require('./package.json');
+        var httpServer = http.createServer(app);
+        var httpsServer = https.createServer(credentials, app);
+        httpServer.listen(3001, () => {
+            console.log(pkg.name, 'listening on port ', httpServer.address().port);
+        });
+        httpsServer.listen(3444, () => {
+            console.log(pkg.name, 'listening on port ', httpsServer.address().port);
         });
     });
-
-    var pkg = require('./package.json');
-    var httpServer = http.createServer(app);
-    var httpsServer = https.createServer(credentials, app);
-    httpServer.listen(3001, () => {
-        console.log(pkg.name, 'listening on port ', httpServer.address().port);
-    });
-    httpsServer.listen(3444, () => {
-        console.log(pkg.name, 'listening on port ', httpsServer.address().port);
-    });
-});
 }
-catch(err){
+catch (err) {
     console.error(err);
-
 }

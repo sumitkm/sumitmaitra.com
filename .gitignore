@@ -5,7 +5,13 @@ certs/
 uploads/
 cache/
 scripts-built/
-*.js
-webconfig.json
 .DS_Store
+
+
+*.js
+!r.js
+
+webconfig.json
 webpack*
+
+npm-debug.log

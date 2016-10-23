@@ -5,6 +5,9 @@ export class Profile {
     userId: KnockoutObservable<string> = ko.observable<string>();
     nickname: KnockoutObservable<string> = ko.observable<string>();
     birthdate: KnockoutObservable<Date> = ko.observable<Date>();
+    birthYear: KnockoutObservable<string> = ko.observable<string>();
+    birthMonth: KnockoutObservable<string> = ko.observable<string>();
+    birthday: KnockoutObservable<string> = ko.observable<string>();
     fullname: KnockoutObservable<string> = ko.observable<string>();
     logoUrl: KnockoutObservable<string> = ko.observable<string>();
     logoId: KnockoutObservable<string> = ko.observable<string>();

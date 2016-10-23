@@ -5,7 +5,7 @@ import { TabItem } from "../../../st-ui/view-models/st-nav-tab/st-tab-item";
 import { TabStrip } from "../../../st-ui/view-models/st-nav-tab/st-nav-tab-strip";
 import { Route } from "../../../st-app/st-route";
 import { HttpBase } from "../../../st-services/base/http-base";
-import { Profile } from "../../view-models/profile-vm";
+import { Profile } from "./profile-vm";
 
 export var template = require("text!./profile.html");
 export class viewModel extends BaseComponent {
@@ -15,7 +15,8 @@ export class viewModel extends BaseComponent {
     currentProfile: KnockoutObservable<Profile> = ko.observable<Profile>();
     getProfileService: HttpBase;
     saveProfileService: HttpBase;
-
+    years: KnockoutObservableArray<any> = ko.observableArray<any>([]);
+    months: KnockoutObservableArray<any> = ko.observableArray<any>([]);
     profileLogoUrl = ko.pureComputed(() => {
         if (this.currentProfile() != null) {
             return "/api/content/" + this.currentProfile().userId() + "/" + this.currentProfile().logoId();
@@ -25,6 +26,7 @@ export class viewModel extends BaseComponent {
 
     constructor(params: Route) {
         super(params);
+        this.initBirthdaySelector();
         this.id((params && params.pageComponent()) || "profile");
         if (params.userName() != null && params.userName() != '') {
             this.userName(params.userName());
@@ -44,6 +46,20 @@ export class viewModel extends BaseComponent {
 
     }
 
+    initBirthdaySelector = () => {
+      let currentYear = new Date().getFullYear();
+      this.years.push({ value: "0", text: "YEAR" });
+      for(let i=0; i < 110; i++) {
+        this.years.push({ value: currentYear.toString(), text: currentYear.toString() });
+        currentYear--;
+      }
+
+      this.months.push( { value: "0", text: "MONTH" });
+      for(let m=0; m < 12; m++) {
+        this.months.push({ value: (m+1).toString(), text: (m+1).toString() });
+      }
+    }
+
     initServices = () => {
         this.getProfileService = new HttpBase("GET", "/api/profile", this.profilesLoaded, this.profilesNotLoaded);
         this.saveProfileService = new HttpBase("PUT", "/api/profile", this.profileSaved, this.profileNotSaved);
@@ -59,6 +75,7 @@ export class viewModel extends BaseComponent {
     }
 
     saveProfile = () => {
+      console.log(ko.toJS("Current Profile"+ this.currentProfile()));
         this.saveProfileService.execute(ko.toJS(this.currentProfile()));
     }
 

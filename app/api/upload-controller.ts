@@ -14,11 +14,12 @@ export class UploadController extends BaseController {
     repository: db;
     uploader: AzureUploader;
 
-    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
-        super(auther);
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator, logger: any) {
+        super(auther, logger);
         this.config = configuration;
         this.repository = new db(this.config);
-        this.uploader = new AzureUploader(this.config);
+        console.log("Constructor of Upload Controller: " + (logger == null));
+        this.uploader = new AzureUploader(this.config, logger);
 
         this["Upload:path"] = "/uploader/files";
     }
@@ -93,7 +94,7 @@ export class UploadController extends BaseController {
             });
         }
         catch (error) {
-            console.error("ERROR:" + error);
+            req.logger({ error: error }, "upload-controller: Unhandled error in upload-controller");
         }
     }
 }

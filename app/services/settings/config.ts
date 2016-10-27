@@ -5,9 +5,11 @@ import fs = require('fs');
 export class Config {
 
     public currentSettings = new Configuration();
+    private logger: any;
 
-    constructor()
+    constructor(logger: any)
     {
+        this.logger = logger;
     }
 
     public load(callback: (currentSettings: Configuration) => void = null)
@@ -34,6 +36,8 @@ export class Config {
         catch(error)
         {
             //console.log(error);
+            this.logger.error({ error: error, message: "Account is verified" });
+
         }
     }
 

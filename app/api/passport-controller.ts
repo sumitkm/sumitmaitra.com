@@ -12,8 +12,8 @@ export class PassportLocalController extends BaseController {
     mailer: VerificationEmailer;
     respository: db;
 
-    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
-        super(auther);
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator, logger: any) {
+        super(auther, logger);
         this.config = configuration;
         this.mailer = new VerificationEmailer(configuration);
         this.respository = new db(configuration);
@@ -25,7 +25,9 @@ export class PassportLocalController extends BaseController {
         this["VerifyResend:path"] = "/accounts/verifyresend";
     }
 
+
     public getVerify = (req, res, next, params) => {
+        req.logger.info({});
         //console.log("Going to GET verification user" + JSON.parse(params));
         if ((req.session.passport != null && req.session.passport.user != null)) {
             res.send({ username: req.sessions.passport.user });
@@ -101,13 +103,14 @@ export class PassportLocalController extends BaseController {
         //console.log("Going to sign in");
         try {
             passport.authenticate('local', (err, authResult, message) => {
-                console.log("Error: " + err);
+                this.logger.error({ err: err}, "POST LOGIN: Error");
                 //console.log("AuthResult  :" + authResult.username);
                 //console.log("Message  :" + message);
 
                 if (authResult != false) {
                     if (authResult.isVerified) {
-                        console.log("Account is verified");
+                        req.logger.info({ message: "Account is verified" });
+                        //console.log();
 
                         req.login(authResult, (err) => {
                             if (err) {
@@ -117,7 +120,8 @@ export class PassportLocalController extends BaseController {
                             }
                         });
                     } else {
-                        console.log("Account is not verified");
+                        //console.log("Account is not verified");
+                        req.logger.log({ message: "Account is not verified" }, "Account is not verified");
                         req.session.username = authResult.username;
                         res.redirect('/verify')
                     };
@@ -127,7 +131,9 @@ export class PassportLocalController extends BaseController {
                 }
             })(req, res, next);
         } catch (error) {
-            console.log(error);
+            //console.log(error);
+            req.logger.error({ error: error, message: "Account is verified" });
+
         }
     }
 

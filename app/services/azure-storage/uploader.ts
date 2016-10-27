@@ -3,19 +3,19 @@ let azure = require("azure-storage");
 
 export class AzureUploader {
     private configuration : Configuration;
-    constructor(configuration: Configuration) {
+    logger : any;
+
+    constructor(configuration: Configuration, logr: any) {
         this.configuration = configuration;
+        this.logger = logr;
     }
 
-    public saveFileToBlob(id: string, owner: string, localFileName: string, callback)  {
+    public saveFileToBlob = (id: string, owner: string, localFileName: string, callback) => {
         //console.log("Before Service Created" + id + "content: " + localFileName);
         try {
             var blobSvc = azure.createBlobService(this.configuration.azureStorageConnectionString);
             blobSvc.createContainerIfNotExists(this.configuration.containerName, null, (error, result, response) => {
                 if (!error) {
-                    // if result = true, container was created.
-                    // if result = false, container already existed.
-                    //console.log("Container Result: " + result);
                     blobSvc.createBlockBlobFromLocalFile(this.configuration.containerName, owner + '/'+ id, localFileName, (error, result, response) => {
                         if (!error) {
                             //console.log("File Result: " + JSON.stringify(result));
@@ -27,12 +27,12 @@ export class AzureUploader {
                     });
                 }
                 else {
-                    console.error("Failed to create container: " + error);
+                    this.logger.log( { error: error }, "Failed to create container: ");
                 }
             });
         }
-        catch (err) {
-            //console.log("Something blew up" + err);
+        catch(err) {
+            this.logger.log( { error: err }, "Unhandled error in saveFileToBlob!");
         }
     }
 }

@@ -7,7 +7,7 @@ export class Profile {
     birthdate: KnockoutObservable<Date> = ko.observable<Date>();
     birthYear: KnockoutObservable<string> = ko.observable<string>();
     birthMonth: KnockoutObservable<string> = ko.observable<string>();
-    birthday: KnockoutObservable<string> = ko.observable<string>();
+    birthDay: KnockoutObservable<string> = ko.observable<string>();
     fullname: KnockoutObservable<string> = ko.observable<string>();
     logoUrl: KnockoutObservable<string> = ko.observable<string>();
     logoId: KnockoutObservable<string> = ko.observable<string>();
@@ -28,6 +28,9 @@ export class Profile {
             newProfile.headerUrl(inData.headerUrl);
             newProfile.headerId(inData.headerId);
             newProfile.containerId(inData.containerId);
+            newProfile.birthDay(inData.birthDay);
+            newProfile.birthYear(inData.birthYear);
+            newProfile.birthMonth(inData.birthMonth);
         }
         return newProfile;
     }

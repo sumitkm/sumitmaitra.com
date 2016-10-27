@@ -5,6 +5,7 @@ certs/
 uploads/
 cache/
 scripts-built/
+logs/
 .DS_Store
 
 
@@ -15,3 +16,4 @@ webconfig.json
 webpack*
 
 npm-debug.log
+*.log

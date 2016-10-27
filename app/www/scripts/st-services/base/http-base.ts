@@ -9,7 +9,6 @@ export class HttpBase {
     private promise;
 
     constructor(serviceType: string, servicesUrl: string, success, failure) {
-        // this.serviceUrl = serviceName;
         this.serviceType = serviceType;
         this.serviceUrl = servicesUrl;
         this.successCb = success;

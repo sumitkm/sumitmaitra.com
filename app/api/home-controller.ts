@@ -4,8 +4,8 @@ import { Configuration } from "../services/settings/config-model";
 import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 
 export class HomeController extends BaseController {
-    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
-        super(auther);
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator, logger: any) {
+        super(auther, logger);
         this["Home:path"] = "/:route*:";
     }
 

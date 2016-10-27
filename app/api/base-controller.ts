@@ -4,8 +4,9 @@ import { ApiController } from "./api-controller";
 
 export class BaseController implements ApiController{
     authenticator: PassportLocalAuthenticator;
-
-    constructor(auther: PassportLocalAuthenticator){
+    logger: any;
+    constructor(auther: PassportLocalAuthenticator, logger: any){
         this.authenticator = auther;
+        this.logger = logger;
     }
 }

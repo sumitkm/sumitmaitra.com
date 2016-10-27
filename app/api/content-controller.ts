@@ -13,8 +13,8 @@ export class ContentController extends BaseController {
     config: Configuration;
     repository: db;
 
-    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
-        super(auther);
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator, logger: any) {
+        super(auther, logger);
         this.config = configuration;
         this.repository = new db(this.config);
 
@@ -23,13 +23,20 @@ export class ContentController extends BaseController {
 
     public getContent = (req, res, next, params) => {
         //console.log("going to get content:" + JSON.stringify(params));
-        let downloader = new AzureDownloader(this.config);
+        let downloader = new AzureDownloader(this.config, this.logger);
         downloader.getImageFromBlob(params.contentId, params.ownerId, (error, result) => {
             try {
+              if(error)
+              {
+                //console.error("ERROR: Getting content:", error);
+                this.logger.error(error, "ERROR: Getting content");
+              }
+              else{
                 res.send(result);
+              }
 
             } catch (err) {
-
+                this.logger.error(err, "getContent failed");
             }
         });
         //res.send("Came here");

@@ -4,8 +4,11 @@ let lwip = require('lwip');
 
 export class AzureDownloader {
     private configuration: Configuration;
-    constructor(configuration: Configuration) {
+    private logger: any;
+
+    constructor(configuration: Configuration, logger: any) {
         this.configuration = configuration;
+        this.logger = logger;
     }
 
     public getImageFromBlob = (contentId: string, ownerId: string, callback) => {
@@ -22,7 +25,6 @@ export class AzureDownloader {
                 //console.log("cacheStat:" + JSON.stringify(stats));
                 if (stats == null) {
                     fs.mkdir(cacheFolder, (error, result) => {
-                        //console.log("Cache File: " + cacheFile);
                         try {
                             let stream = fs.createWriteStream(cacheFile);
                             blobSvc.getBlobToStream(this.configuration.containerName, ownerId + "/" + contentId, stream,
@@ -34,7 +36,7 @@ export class AzureDownloader {
 
                                         fs.readFile(cacheFile, (err, buffer) => {
                                             // check err
-                                            lwip.open(buffer, 'jpg', function(err, image) {
+                                            lwip.open(buffer, 'jpg', (err, image) => {
                                                 // check 'err'. use 'image'.
                                                 if (err) {
                                                     //console.log(err);
@@ -42,7 +44,8 @@ export class AzureDownloader {
                                                 }
                                                 else {
                                                     //console.log("Returning scaled image");
-                                                    console.log(image);
+                                                    //console.log(image);
+                                                    this.logger.log(image, "Scaled Image");
                                                     image.scale(0.5, callback);
                                                 }
                                             });
@@ -52,6 +55,8 @@ export class AzureDownloader {
                                     }
                                 });
                         } catch (err) {
+                            this.logger.error({ error: err }, "Caching errored out.");
+
                             //console.log(err);
                         }
                     });
@@ -60,16 +65,15 @@ export class AzureDownloader {
                     //console.log("trying to load from cache: " + cacheFile);
                     //fs.readFile(cacheFile, (err, buffer) => {
                         // check err
-                        lwip.open(cacheFile, 'jpg', function(err, image) {
+                        lwip.open(cacheFile, 'jpg', (err, image) => {
                             // check 'err'. use 'image'.
                             if (err) {
                                 //console.log(err);
-
+                                this.logger.error({ error: err }, "Retrieving from cache errored out.");
                             }
                             else {
                                 //console.log("Returning scaled image");
-                                console.log(image);
-                                
+                                this.logger.info("Returning scaled image");
                                 image.scale(0.5, (err, result)=>{
                                     image.toBuffer('jpg', callback);
                                 });
@@ -81,6 +85,8 @@ export class AzureDownloader {
         }
         catch (err) {
             //console.log("Something blew up" + err);
+            this.logger.error({ error: err }, "Unhandled error in downloader");
+
         }
     }
 }

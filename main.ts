@@ -21,9 +21,24 @@ var fs = require('fs');
 var app = express();
 var http = require('http');
 var https = require('https');
-var configService = new Config();
+var bunyan = require('bunyan');
+var logger = bunyan.createLogger({
+    name: 'sumitmaitra.com',
+    serializers: {
+        req: bunyan.stdSerializers.req,     // standard bunyan req serializer
+        err: bunyan.stdSerializers.err      // standard bunyan error serializer
+    },
+    streams: [
+        {
+            level: 'info',                  // loging level
+            path: __dirname + '/logs/foo.log'
+        }
+    ]
+});
+var configService = new Config(logger);
 
 try {
+    logger.info("Start");
     var storage = multer.diskStorage({
         destination: (req, file, cb) => {
             cb(null, __dirname + '/uploads/temp');
@@ -36,6 +51,13 @@ try {
 
 
     configService.load((config: Configuration) => {
+        console.log("Configuration Loaded");
+
+        Container.apiRouter = new CrossRouter("/api");
+        Container.webRouter = new CrossRouter();
+        Container.inject(config, null, logger);
+        console.log("Container injected");
+
         var credentials = {
             key: fs.readFileSync(__dirname + config.key, 'utf8'),
             cert: fs.readFileSync(__dirname + config.cert, 'utf8')
@@ -45,14 +67,13 @@ try {
         mongoose.connect(config.mongodbUri, (err) => {
             if (err) {
                 //console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
+                logger.info({ error: err }, 'Connect error');
             }
         });
 
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: false }));
-
         var MongoStore = require('connect-mongo')(session);
-
         app.use(session({
             cookie: {
                 maxAge: 3600000
@@ -75,10 +96,11 @@ try {
         passport.serializeUser(Account.serializeUser());
         passport.deserializeUser(Account.deserializeUser());
 
-        Container.apiRouter = new CrossRouter("/api");
-        Container.webRouter = new CrossRouter();
-        Container.inject(config, null);
 
+        app.use('/', function(req, res, next) {
+            req.logger = logger;
+            next();
+        });
         // Register routes
         app.use(express.static(__dirname + '/app/www/')); // All static stuff from /app/wwww
         // SpaEngine - Handle server side requests by rendering the same index.html pages
@@ -119,6 +141,8 @@ try {
         // production error handler
         // no stacktraces leaked to user
         app.use((err, req, res, next) => {
+            logger.info({ error: err }, 'Internal server error');
+
             res.status(err.status || 500);
             res.render('error', {
                 message: err.message,
@@ -138,5 +162,7 @@ try {
     });
 }
 catch (err) {
-    console.error(err);
+    // console.error(err);
+    logger.info({ error: err }, 'Unhandled error');
+
 }

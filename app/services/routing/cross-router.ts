@@ -37,7 +37,8 @@ export class CrossRouter extends EventEmitter {
 
                 controller[funcName].call(controller[funcName], req, res, next, params);
             } catch (error) {
-                console.error("registerRoute blew up: ", error);
+                req.logger.error({ error: error }, "router Navigation blew up for " + req.url);
+                console.error("router Navigation blew up: ");
             }
         });
     }
@@ -48,14 +49,15 @@ export class CrossRouter extends EventEmitter {
     //  var navigator = require("./navigation/cross-router");
     //  var nav = new navigator.crossRouter();
     //  app.use('/api', nav.route);
-    public route = (req: express.Request, res: express.Response, next: any) => {
+    public route = (req: any, res: express.Response, next: any) => {
         this.nxt = next;
         //console.log("crossRouter: Requested Url:" + req.url);
         try {
             this.router.parse(req.url, [req, res, next]);
         }
-        catch (e) {
-            console.error("ERROR: Route " + req.url + " blew up: " , e);
+        catch (error) {
+            req.logger.error({ error: error }, "router Navigation blew up for " + req.url);
+            console.error("ERROR: Route " + req.url + " blew up!");
         }
     }
 }

@@ -17,13 +17,13 @@ export class Container {
     public static apiRouter: CrossRouter;
     public static webRouter: CrossRouter;
 
-    public static inject = (configuration: Configuration, authenticator: PassportLocalAuthenticator) => {
+    public static inject = (configuration: Configuration, authenticator: PassportLocalAuthenticator, logger: any) => {
         Container.config = configuration;
-        Container.injectWebController(new HomeController(Container.config, authenticator));
-        Container.injectController(new PassportLocalController(Container.config, authenticator));
-        Container.injectController(new UploadController(Container.config, authenticator));
-        Container.injectController(new ProfileController(Container.config, authenticator));
-        Container.injectController(new ContentController(Container.config, authenticator));
+        Container.injectWebController(new HomeController(Container.config, authenticator, logger));
+        Container.injectController(new PassportLocalController(Container.config, authenticator, logger));
+        Container.injectController(new UploadController(Container.config, authenticator, logger));
+        Container.injectController(new ProfileController(Container.config, authenticator, logger));
+        Container.injectController(new ContentController(Container.config, authenticator, logger));
     }
 
     private static injectController = (controller: BaseController) => {

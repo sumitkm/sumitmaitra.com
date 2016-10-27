@@ -11,8 +11,8 @@ export class ProfileController extends BaseController {
     mailer: VerificationEmailer;
     repository: db;
 
-    constructor(configuration: Configuration, auther: PassportLocalAuthenticator) {
-        super(auther);
+    constructor(configuration: Configuration, auther: PassportLocalAuthenticator, logger: any) {
+        super(auther, logger);
         this.config = configuration;
         this.repository = new db(this.config);
 
@@ -31,9 +31,8 @@ export class ProfileController extends BaseController {
         });
     }
 
-    public putProfile = (req: Express.Request, res: Express.Response, next, params) => {
-      console.log(req.user);
-      console.log(req.body);
+    public putProfile = (req: any, res: Express.Response, next, params) => {
+        req.logger.info({ req: req }, "putProfile");
         this.repository.Profile.update(req.body, (error, profile) => {
             if(error){
                 res.sendStatus(500);

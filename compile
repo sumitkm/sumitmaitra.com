@@ -6,7 +6,8 @@ cd app/www
 tsc
 
 echo "Uglifying with r.js"
-node r.js -o build.js
+
+node libs/r.js/dist/r.js -o ./build.js
 
 cd ../../
 

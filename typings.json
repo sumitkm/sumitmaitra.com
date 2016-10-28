@@ -6,17 +6,15 @@
     "js-signals": "registry:dt/js-signals#0.0.0+20160316155526",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
-    "mongoose": "registry:dt/mongoose#4.5.4+20160721201159",
-    "mongoose-promise": "registry:dt/mongoose-promise#4.5.4+20160720003345",
-    "mpromise": "registry:dt/mpromise#0.5.4+20160316155526",
     "nconf": "registry:dt/nconf#0.0.0+20160724073144",
-    "node": "registry:dt/node#6.0.0+20160709114037",
+    "node": "registry:dt/node#6.0.0+20161019125345",
     "passport": "registry:dt/passport#0.2.0+20160720063208",
     "passport-local": "registry:dt/passport-local#0.0.0+20160316155526",
     "serve-static": "registry:dt/serve-static#0.0.0+20160606155157"
   },
   "dependencies": {
     "es6-promise": "registry:npm/es6-promise#3.0.0+20160723033700",
-    "mongodb": "registry:npm/mongodb#2.1.0+20160721204323"
+    "mongodb": "registry:npm/mongodb#2.1.0+20160721204323",
+    "mongoose": "registry:npm/mongoose#4.3.5+20160628072220"
   }
 }

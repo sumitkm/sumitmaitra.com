@@ -10,7 +10,6 @@ logs/
 
 
 *.js
-!r.js
 
 webconfig.json
 webpack*

@@ -25,6 +25,7 @@
     "text": "^2.0.15",
     "history.js": "history#^1.8.0",
     "gnb": "^0.1.4",
-    "rsvp.js": "rsvp#^3.2.1"
+    "rsvp.js": "rsvp#^3.2.1",
+    "r.js": "^2.3.2"
   }
 }

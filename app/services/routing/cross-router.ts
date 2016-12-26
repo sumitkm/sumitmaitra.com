@@ -37,7 +37,7 @@ export class CrossRouter extends EventEmitter {
 
                 controller[funcName].call(controller[funcName], req, res, next, params);
             } catch (error) {
-                req.logger.error({ error: error }, "router Navigation blew up for " + req.url);
+                req.logger.error(error, "router Navigation blew up for " + req.url);
                 console.error("router Navigation blew up: ");
             }
         });

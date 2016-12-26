@@ -9,4 +9,8 @@ export class BaseController implements ApiController{
         this.authenticator = auther;
         this.logger = logger;
     }
+
+    public getLogger() {
+        return this.logger;
+    }
 }

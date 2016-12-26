@@ -1,7 +1,7 @@
 # Feature list  
 ## Platform
 ### UI
-- [ ] Router  
+- [x] Router  
 - [ ] a. Top level routes  
 - [ ] b. 'n' level routes  
 - [ ] c. Test routes using Jasmine/Mocha
@@ -9,6 +9,7 @@
 - [ ] Responsive Tab component  
 - [ ] Full screen modal component     
 - [ ] Timeline view component  
+- [ ] Use r.js in build process to create combined deployment modules
 
 ### Server  
 - [x] Router with parameters  
@@ -16,25 +17,28 @@
 - [ ] Test routes using Mocha
 - [x] Configuration using nConf  
 - [x] Implementing Authentication using [passportjs](http://passportjs.org) and mongodb
-- [ ] Implementing Email account verification
+- [x] Implementing Email account verification (using Sparkpost)
+- [ ] Image upload middleware  
+- [ ] Image download middleware  
 - [ ] Image resize middleware
+- [x] Implement a standard logger (node-bunyan)  
 
 ## Functionality
 - [x] Authentication  
-- [ ] Integrate with Kalliope Sync  
 - [ ] Image Geo-tag reading and indexing in DB  
 - [ ] Showing images in timeline view  
-- [ ] Azure search Indexing
 - [ ] Image searching
 - [ ] Online Resume
 - [ ] Live feed of posts from wordpress
 - [ ] Live feed of pinned projects from github
+- [ ] Integrate with Kalliope Sync  
+- [ ] Azure search Indexing
 
 ## Devops
 - [x] Setting up Desktop Dev environment
 - [x] Setting up a free (low volume) mail sender account
-- [ ] Setting up new Debian VM in Azure
-- [ ] Setting up NGINX
+- [x] Setting up new Debian VM in Azure
+- [x] Setting up NGINX
 - [ ] Setting up Letsencrypt
 - [ ] Deploying manually
 - [ ] Setting up Jenkins and setting up CI process

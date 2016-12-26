@@ -23,7 +23,7 @@ export class ContentController extends BaseController {
 
     public getContent = (req, res, next, params) => {
         //console.log("going to get content:" + JSON.stringify(params));
-        let downloader = new AzureDownloader(this.config, this.logger);
+        let downloader = new AzureDownloader(this.config, super.getLogger());
         downloader.getImageFromBlob(params.contentId, params.ownerId, (error, result) => {
             try {
               if(error)

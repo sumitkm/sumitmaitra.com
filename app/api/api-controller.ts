@@ -2,4 +2,5 @@ import { PassportLocalAuthenticator } from "../services/passport-local/passport-
 
 export interface ApiController{
     authenticator : PassportLocalAuthenticator;
+    getLogger(): any;
 }

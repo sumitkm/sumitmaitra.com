@@ -16,9 +16,8 @@ class Router {
         this.activateCrossroads();
     }
 
-    public static newRouteFactory = (routePath: string, pageComponent: string, router: Router, title?: string, roles? : Array<string>) => {
-        let newRoute = new Route(routePath, title, pageComponent, router, roles);
-        newRoute.router = router;
+    public static newRouteFactory = (routePath: string, pageComponent: string, title?: string, roles? : Array<string>) => {
+        let newRoute = new Route(routePath, title, pageComponent, roles);
         newRoute.title(title);
         return newRoute;
     }
@@ -36,18 +35,33 @@ class Router {
                 this.rightMenuItems.removeAll();
                 if(data.user!=null)
                 {
-                    this.rightMenuItems.push(MenuItem.factory(data.user.username, '/profile', 'nav-menu-item', ''));
+                    this.rightMenuItems.push(MenuItem.factory(data.user.username, '/profile', 'nav-menu-item', '', true, ['owner']));
                     selectedRoute.userName(data.user.username);
                     selectedRoute.userId(data.user._id);
                 }
                 else
                 {
-                    this.rightMenuItems.push(MenuItem.factory('Login', '/login', 'nav-menu-item', ''));
+                    this.rightMenuItems.push(MenuItem.factory('Login', '/login', 'nav-menu-item', '', false, []));
                 }
                 if(selectedRoute!=null)
                 {
                     selectedRoute.leftMenuItems = this.leftMenuItems;
+                    selectedRoute.leftMenuItems().forEach((menuItem) => {
+                        if(menuItem.needsAuthentication()==true){
+                            menuItem.isVisible (data.user != null);
+                        }else{
+                            menuItem.isVisible(true);
+                        }
+                    });
                     selectedRoute.rightMenuItems = this.rightMenuItems;
+                    selectedRoute.rightMenuItems().forEach((menuItem) => {
+                        if(menuItem.needsAuthentication()==true){
+                            menuItem.isVisible (data.user != null);
+                        }
+                        else {
+                            menuItem.isVisible(true);
+                        }
+                    });
                     this.currentRoute(selectedRoute);
                     document.title = newRoute.title();
                 }

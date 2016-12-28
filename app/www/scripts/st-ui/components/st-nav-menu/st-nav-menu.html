@@ -3,7 +3,7 @@
         <ul data-bind="foreach: leftMenuItems">
             <li data-bind="css: css">
                 <!-- ko if: href()!=='' -->
-                <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }">Projects</a>
+                <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }"></a>
                 <!-- /ko -->
                 <!-- ko ifnot: href()!=='' -->
                 <span data-bind="{ html: text, css: hrefCss }"></span>
@@ -13,7 +13,7 @@
         <ul data-bind="foreach: rightMenuItems" class="nav-header" style="float: right">
             <li data-bind="css: css">
                 <!-- ko if: href()!=='' -->
-                <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }">Projects</a>
+                <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }"></a>
                 <!-- /ko -->
                 <!-- ko ifnot: href()!=='' -->
                 <span data-bind="{ html: text, css: hrefCss }"></span>
@@ -32,7 +32,7 @@
                     <!-- ko foreach: leftMenuItems -->
                     <li data-bind="css: css">
                         <!-- ko if: href()!=='' -->
-                        <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }">Projects</a>
+                        <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }"></a>
                         <!-- /ko -->
                         <!-- ko ifnot: href()!=='' -->
                         <span data-bind="{ html: text, css: hrefCss }"></span>
@@ -42,7 +42,7 @@
                     <!-- ko foreach: rightMenuItems -->
                     <li data-bind="css: css">
                         <!-- ko if: href()!=='' -->
-                        <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }">Projects</a>
+                        <a data-bind="{ attr: { href: href }, html: text, css: hrefCss }"></a>
                         <!-- /ko -->
                         <!-- ko ifnot: href()!=='' -->
                         <span data-bind="{ html: text, css: hrefCss }"></span>

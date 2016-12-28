@@ -9,7 +9,7 @@
 - [ ] Responsive Tab component  
 - [ ] Full screen modal component     
 - [ ] Timeline view component  
-- [ ] Use r.js in build process to create combined deployment modules
+- [-] Use r.js in build process to create combined deployment modules
 
 ### Server  
 - [x] Router with parameters  

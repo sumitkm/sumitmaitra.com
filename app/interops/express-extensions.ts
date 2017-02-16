@@ -1,5 +1,5 @@
 
-import * as bunyan from "bunyan";
+import * as bunyan  from "bunyan";
 import * as bodyParser from "body-parser";
 //import * as passport from "passport-local";
 

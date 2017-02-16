@@ -13,7 +13,7 @@ export class AzureDownloader {
     private ownerId = "";
     private contentId = "";
     private callback: any;
-    
+
     constructor(configuration: Configuration, logger: any) {
         this.configuration = configuration;
         this.logger = logger;
@@ -69,7 +69,7 @@ export class AzureDownloader {
                                 else {
                                     //console.log("Returning scaled image");
                                     //console.log(image);
-                                    this.logger.log(image, "Scaled Image");
+                                    this.logger.debug(image, "Scaled Image");
                                     if (this.callback != null) {
                                         image.scale(0.5, this.callback);
                                     }
@@ -82,7 +82,7 @@ export class AzureDownloader {
                     }
                 });
         } catch (err) {
-            this.logger.error({ error: err }, "Caching errored out.");
+            this.logger.error(err, "Caching errored out.");
         }
     }
 }

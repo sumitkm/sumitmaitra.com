@@ -27,12 +27,12 @@ export class AzureUploader {
                     });
                 }
                 else {
-                    this.logger.log( { error: error }, "Failed to create container: ");
+                    this.logger.debug( { error: error }, "Failed to create container: ");
                 }
             });
         }
         catch(err) {
-            this.logger.log( { error: err }, "Unhandled error in saveFileToBlob!");
+            this.logger.debug( { error: err }, "Unhandled error in saveFileToBlob!");
         }
     }
 }

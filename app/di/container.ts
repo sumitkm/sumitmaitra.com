@@ -9,6 +9,7 @@ import { PassportLocalController } from "../api/passport-controller";
 import { UploadController } from "../api/upload-controller";
 import { ContentController } from "../api/content-controller";
 import { ProfileController } from "../api/profile-controller";
+import { FeedController } from "../api/feed-controller";
 import { CrossRouter } from "../services/routing/cross-router";
 import { CrossRoute } from "../services/routing/cross-route";
 
@@ -24,6 +25,7 @@ export class Container {
         Container.injectController(new UploadController(Container.config, authenticator, logger));
         Container.injectController(new ProfileController(Container.config, authenticator, logger));
         Container.injectController(new ContentController(Container.config, authenticator, logger));
+        Container.injectController(new FeedController(Container.config, authenticator, logger));
     }
 
     private static injectController = (controller: BaseController) => {

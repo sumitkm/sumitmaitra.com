@@ -35,10 +35,13 @@ export class app {
         this.registerComponent("profile", "./ui/pages/profile/profile");
         this.registerComponent("verify", "./ui/pages/verify/verify");
         this.registerComponent("register", "./ui/pages/register/register");
+        this.registerComponent("reflections", "./ui/pages/reflections/reflections");
+
         this.registerComponent("print-preview", "./ui/print-preview/print-preview");
         this.registerComponent("st-nav-menu", "./st-ui/components/st-nav-menu/st-nav-menu");
         this.registerComponent("st-nav-tab", "./st-ui/components/st-nav-tab/st-nav-tab");
         this.registerComponent("st-image-uploader", "./st-ui/components/st-image-uploader/st-image-uploader");
+        this.registerComponent("st-feed-list", "./st-ui/components/st-feed-list/st-feed-list");
     }
 
     private registerRoutes = () => {
@@ -48,6 +51,7 @@ export class app {
         this.registerRoute(Router.newRouteFactory("/profile/:routeParams*:", "profile",  "Profile | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/verify/:verificationCode:/:routeParams*:", "verify",  "Verify Account | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/register/:routeParams*:", "register",  "Register | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/feed/:routeParams*:", "reflections",  "My Reflections"));
         this.registerRoute(Router.newRouteFactory("/:routeParams*:", "home",  "Home | The lazy blogger!"));
 
         this.router.parseCurrentRoute();

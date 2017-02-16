@@ -9,7 +9,7 @@
 - [ ] Responsive Tab component  
 - [ ] Full screen modal component     
 - [ ] Timeline view component  
-- [-] Use r.js in build process to create combined deployment modules
+- [x] (Ongoing) Use r.js in build process to create combined deployment modules
 
 ### Server  
 - [x] Router with parameters  
@@ -25,12 +25,13 @@
 
 ## Functionality
 - [x] Authentication  
+- [ ] Feed CRUD stack. A feed is a stream of thoughts and reflections, not necessarily restricted to 140 characters. Could have image or video attachments that are uploaded to, or pulled from) Kalliope Sync Blob Storage.
+- [ ] Live feed of posts from wordpress
+- [ ] Live feed of pinned projects from github
 - [ ] Image Geo-tag reading and indexing in DB  
 - [ ] Showing images in timeline view  
 - [ ] Image searching
 - [ ] Online Resume
-- [ ] Live feed of posts from wordpress
-- [ ] Live feed of pinned projects from github
 - [ ] Integrate with Kalliope Sync  
 - [ ] Azure search Indexing
 

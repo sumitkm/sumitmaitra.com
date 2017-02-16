@@ -1,0 +1,19 @@
+<!-- Reflections -->
+<div class="container" style="margin-top: 90px">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="form">
+                <label class="input-label">Title</label>
+                <input class="input-text" name="title" type="text" placeholder="(optional)" data-bind="textInput: title" />
+            </div>
+            <div class="form">
+                <label class="input-label">Post</label>
+                <textarea rows="5" class="input-text" name="body" type="text" placeholder="Post" data-bind="textInput: body"></textarea>
+            </div>
+            <div class="form">
+                <button class="btn btn-primary" data-bind="click: saveFeedItem">Save</button>
+            </div>
+        </div>
+    </div>
+    <st-feed-list params="feedItems: feedItems"></st-feed-list>
+</div>

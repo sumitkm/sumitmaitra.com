@@ -1,17 +1,29 @@
-var mongoose = require('mongoose');
+import * as mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
 var FeedItem = new Schema({
     userId: Schema.Types.ObjectId,
-    nickname: String,
-    birthdate: Date,
-    birthYear: String,
-    birthMonth: String,
-    birthDay: String,
-    fullname: String,
-    logoUrl: String,
-    logoId: Schema.Types.ObjectId,
-    headerUrl: String,
-    headerId: Schema.Types.ObjectId,
-    containerId: Schema.Types.ObjectId
+    type: Number,
+    title: String,
+    body: String,
+    attachments: [],
+    permissionRoles: []
 });
+
+FeedItem.statics.getFeedByUserId = function(userId: string, cb) {
+    //console.log("inside getProfileByUserId:" + userId);
+    this.find(
+        {
+            'userId': new mongoose.Types.ObjectId(userId)
+        },
+        (err, feedItems) => {
+            console.log("getFeedByUserId: User Id: " + userId + JSON.stringify(feedItems, null, 1));
+            if (err) {
+                console.log("getFeedByUserId " + err);
+                cb(err, null);
+            };
+            cb(null, feedItems);
+        });
+}
+
+export =  mongoose.model('feedItem', FeedItem);

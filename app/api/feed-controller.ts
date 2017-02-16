@@ -7,7 +7,7 @@ import { AzureDownloader } from "../services/azure-storage/downloader";
 import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 import { db } from "../data/db";
 
-export class ProfileController extends BaseController {
+export class FeedController extends BaseController {
     config: Configuration;
     mailer: VerificationEmailer;
     repository: db;
@@ -17,29 +17,32 @@ export class ProfileController extends BaseController {
         this.config = configuration;
         this.repository = new db(this.config);
 
-        this["Profile:path"] = "/profile/:userId:";
+        this["Feed:path"] = "/feed/:userId:";
     }
 
-    public getProfile = (req: Express.Request, res: Express.Response, next, params) => {
-        let id: string = "";
-        this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
-            if(error) {
+    public getFeed = (req: Express.Request, res: Express.Response, next, params) => {
+        this.repository.FeedItem.getFeedByUserId(req.user._id, (error, values) =>{
+            if(error != null){
                 res.sendStatus(500);
-            }
-            else{
-                res.send(profile);
+            }else
+            {
+                res.send(values);
             }
         });
     }
 
-    public putProfile = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
-        req.logger.info({ req: req }, "putProfile");
-        this.repository.Profile.update(req.body, (error, profile) => {
+    public postFeed = (req: Express.Request, res: Express.Response, next, params) => {
+        console.log("POST Feed:" + JSON.stringify (req.body, null, 1));
+        this.repository.FeedItem.create(new this.repository.FeedItem({
+            title: req.body.title,
+            body: req.body.body,
+            userId: req.user._id
+        }), (error) => {
             if(error) {
                 res.sendStatus(500);
             }
             else{
-                res.send(profile);
+                res.send({ title: req.body.title, body: req.body.body, userId: req.user._id });
             }
         });
     }

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+import * as mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
 var Profile = new Schema({
@@ -20,16 +20,14 @@ Profile.statics.getProfileByUserId = function(userId: string, cb) {
     //console.log("inside getProfileByUserId:" + userId);
     this.findOne(
         {
-            'userId': mongoose.Types.ObjectId(userId)
+            'userId': new mongoose.Types.ObjectId(userId)
         },
         (err, profile) => {
-            //console.log("User Id: " + userId);
             if (err) {
-                //console.log("findProfileByUserId " + err);
                 cb(err, null);
             };
             cb(null, profile);
         });
 }
 
-module.exports = mongoose.model('profile', Profile);
+module.exports = mongoose.model("profile", Profile);

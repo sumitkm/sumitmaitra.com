@@ -1,7 +1,7 @@
 /// <reference path="../../typings/index.d.ts"/>
 requirejs.config(
 {
-    baseUrl: '/scripts-built/',
+    baseUrl: '/scripts/',
     paths:
     {
         "jquery": "../libs/jquery/dist/jquery.min",

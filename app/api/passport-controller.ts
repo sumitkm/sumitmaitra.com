@@ -105,7 +105,6 @@ export class PassportLocalController extends BaseController {
         //console.log("Going to sign in");
         try {
             passport.authenticate('local', (err, authResult, message) => {
-                this.logger.error({ err: err}, "POST LOGIN: Error");
                 //console.log("AuthResult  :" + authResult.username);
                 //console.log("Message  :" + message);
 
@@ -113,9 +112,9 @@ export class PassportLocalController extends BaseController {
                     if (authResult.isVerified) {
                         this.logger.info({ message: "Account is verified" });
                         //console.log();
-
                         req.login(authResult, (err) => {
                             if (err) {
+                                this.logger.error(err, "POST LOGIN: Error");
                                 res.redirect('/login');
                             } else {
                                 res.redirect('/');
@@ -129,12 +128,14 @@ export class PassportLocalController extends BaseController {
                     };
                 }
                 else {
+                    this.logger.error({ message: "Invalid username or password"}, "POST LOGIN: Error");
+
                     res.redirect('/login');
                 }
             })(req, res, next);
         } catch (error) {
             //console.log(error);
-            this.logger.error({ error: error, message: "Account is verified" });
+            this.logger.error({ error: error, message: "Unexpected error" });
 
         }
     }

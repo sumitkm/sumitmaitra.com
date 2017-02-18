@@ -25,9 +25,11 @@ export class UploadController extends BaseController {
     }
 
     postUpload = (req, res, net, params) => {
+        this.logger.info("Uploading file");
+
         try {
             req.files.forEach((file) => {
-                req.logger.info({ file: file }, "Uploading file");
+                this.logger.info({ file: file }, "Uploading file");
                 //console.log("Saving" + file + " for user: " + JSON.stringify(req.user));
                 let newContent = new this.repository.Content({
                     ownerId: req.user._id,
@@ -41,20 +43,20 @@ export class UploadController extends BaseController {
                     size: file.size
                 });
                 this.repository.Content.create(newContent, (error) => {
-                    req.logger.info({ content: newContent }, "Uploading file");
+                    this.logger.info({ content: newContent }, "Uploading file");
                 });
                 this.uploader.saveFileToBlob(newContent._id, newContent.ownerId, file.path, (error, result) => {
                     if (error != null) {
-                        req.logger.error({ error: error }, "Saving file to BLOB");
+                        this.logger.error(error, "Saving file to BLOB");
                     }
                     this.repository.Content.findById(newContent._id, (err, content) => {
                         if (err) {
-                            req.logger.error({ error: err }, "Content findById error");
+                            this.logger.error({ error: err }, "Content findById error");
                         }
                         content.assetetag = result.etag.toString();
                         content.save((err) => {
                             if (err) {
-                                req.logger.error({ error: err }, "Content Save");
+                                this.logger.error({ error: err }, "Content Save");
                             }
                             res.send(content);
                         });
@@ -62,7 +64,7 @@ export class UploadController extends BaseController {
 
                     this.repository.Profile.getProfileByUserId(req.user._id, (error, result) => {
                         if (error) {
-                            req.logger.error({ error: error }, "Get Profile by UserId");
+                            this.logger.error({ error: error }, "Get Profile by UserId");
                         }
                         else {
                             if (result == null) {
@@ -80,12 +82,12 @@ export class UploadController extends BaseController {
                                 //console.log("Profile to be updated");
                                 this.repository.Profile.findById(result._id, (err, profile) => {
                                     if (err) {
-                                        req.logger.error({ error: err }, "Get Profile by Id");
+                                        this.logger.error({ error: err }, "Get Profile by Id");
                                     }
                                     profile.logoId = newContent._id;
                                     profile.save((err) => {
                                         if (err) {
-                                            req.logger.error({ error: err }, "Save Profile by Id");
+                                            this.logger.error({ error: err }, "Save Profile by Id");
 
                                         }
                                     });
@@ -97,7 +99,7 @@ export class UploadController extends BaseController {
             });
         }
         catch (error) {
-            req.logger({ error: error }, "upload-controller: Unhandled error in upload-controller");
+            this.logger({ error: error }, "upload-controller: Unhandled error in upload-controller");
         }
     }
 }

@@ -23,22 +23,23 @@ export class ProfileController extends BaseController {
     public getProfile = (req: Express.Request, res: Express.Response, next, params) => {
         let id: string = "";
         this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
-            if(error) {
+            if (error) {
+                this.logger.error(error, "Profile for userId not found:" + req.user._id);
                 res.sendStatus(500);
             }
-            else{
+            else {
                 res.send(profile);
             }
         });
     }
 
     public putProfile = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
-        req.logger.info({ req: req }, "putProfile");
+        this.logger.info({ req: req }, "putProfile");
         this.repository.Profile.update(req.body, (error, profile) => {
-            if(error) {
+            if (error) {
                 res.sendStatus(500);
             }
-            else{
+            else {
                 res.send(profile);
             }
         });

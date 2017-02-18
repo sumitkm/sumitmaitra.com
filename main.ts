@@ -130,6 +130,7 @@ try {
         // will print stacktrace
         if (app.get('env') === 'development') {
             app.use((err, req, res, next) => {
+                logger.error(err, 'Internal server error');
                 res.status(err.status || 500);
                 res.render('error', {
                     message: err.message,

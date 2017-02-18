@@ -1,4 +1,6 @@
 import { Configuration } from "../settings/config-model";
+import * as bunyan from "bunyan";
+
 let azure = require("azure-storage");
 let lwip = require('lwip');
 let fs = require('fs');
@@ -6,7 +8,7 @@ let path = require("path");
 
 export class AzureDownloader {
     private configuration: Configuration;
-    private logger: any;
+    private logger: bunyan.Logger;
     private blobSvc;
     private cacheFolder = "";
     private cacheFile = "";
@@ -14,7 +16,7 @@ export class AzureDownloader {
     private contentId = "";
     private callback: any;
 
-    constructor(configuration: Configuration, logger: any) {
+    constructor(configuration: Configuration, logger: bunyan.Logger) {
         this.configuration = configuration;
         this.logger = logger;
         this.blobSvc = azure.createBlobService(this.configuration.azureStorageConnectionString);
@@ -34,7 +36,7 @@ export class AzureDownloader {
                 else {
                     lwip.open(this.cacheFile, 'jpg', (err, image) => {
                         if (err) {
-                            this.logger.error({ error: err }, "Retrieving from cache errored out.");
+                            this.logger.error(err, "getImageFromBlob: Retrieving from cache errored out.");
                         }
                         else {
                             this.logger.info("Returning scaled image");
@@ -49,7 +51,7 @@ export class AzureDownloader {
         }
         catch (err) {
             //console.log("Something blew up" + err);
-            this.logger.error({ error: err }, "Unhandled error in downloader");
+            this.logger.error(err, "Unhandled error in downloader");
 
         }
     }
@@ -64,7 +66,7 @@ export class AzureDownloader {
                             // check err
                             lwip.open(buffer, 'jpg', (err, image) => {
                                 if (err) {
-                                    this.logger.error({ error: err }, "Retrieving from cache errored out.");
+                                    this.logger.error({ error: err }, "writeToCache: Retrieving from cache errored out.");
                                 }
                                 else {
                                     //console.log("Returning scaled image");

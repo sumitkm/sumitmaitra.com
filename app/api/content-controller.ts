@@ -23,22 +23,23 @@ export class ContentController extends BaseController {
 
     public getContent = (req, res, next, params) => {
         //console.log("going to get content:" + JSON.stringify(params));
-        let downloader = new AzureDownloader(this.config, super.getLogger());
-        downloader.getImageFromBlob(params.contentId, params.ownerId, (error, result) => {
-            try {
-              if(error)
-              {
-                //console.error("ERROR: Getting content:", error);
-                this.logger.error(error, "ERROR: Getting content");
-              }
-              else{
-                res.send(result);
-              }
+        try {
+            let downloader = new AzureDownloader(this.config, super.getLogger());
+            downloader.getImageFromBlob(params.contentId, params.ownerId, (error, result) => {
 
-            } catch (err) {
-                this.logger.error(err, "getContent failed");
-            }
-        });
+                if (error) {
+                    //console.error("ERROR: Getting content:", error);
+                    this.logger.error(error, "ERROR: Getting content");
+                }
+                else {
+                    res.send(result);
+                }
+
+            });
+        }
+        catch (err) {
+            this.logger.error(err, "getContent failed");
+        }
         //res.send("Came here");
     }
 }

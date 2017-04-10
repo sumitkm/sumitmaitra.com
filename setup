@@ -6,8 +6,6 @@ rm -rf cache
 mkdir cache
 
 npm install
-typings install
 
 cd app/www
 bower install
-typings install

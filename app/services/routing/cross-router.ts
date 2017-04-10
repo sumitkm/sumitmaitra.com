@@ -1,11 +1,8 @@
 // This is the routing middleware that uses crossroads.js
-/// <reference path="../../../typings/index.d.ts"/>
-
+import * as crossroads from "crossroads";
 import * as express from "express";
 import { CrossRoute } from "./cross-route";
 import { EventEmitter } from "events";
-
-var crossroads: CrossroadsJs.CrossRoadsStatic = require("crossroads");
 
 export class CrossRouter extends EventEmitter {
     private nxt: any;

@@ -1,5 +1,3 @@
-/// <reference path="../../typings/index.d.ts"/>
-
 import * as ko from "knockout";
 import { Router } from "./st-router";
 import { Route } from "./st-route";

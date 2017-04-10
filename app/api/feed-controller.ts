@@ -31,6 +31,10 @@ export class FeedController extends BaseController {
         });
     }
 
+    public deleteFeed = (req: Express.Request, res: Express.Response, next, params) => {
+        // this.repository.FeedItem.()
+    }
+
     public postFeed = (req: Express.Request, res: Express.Response, next, params) => {
         console.log("POST Feed:" + JSON.stringify (req.body, null, 1));
         this.repository.FeedItem.create(new this.repository.FeedItem({

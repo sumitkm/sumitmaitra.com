@@ -1,5 +1,3 @@
-/// <reference path="./typings/index.d.ts"/>
-
 import nconf = require('nconf');
 import { Config } from "./app/services/settings/config";
 import { SpaEngine } from "./spa-engine";

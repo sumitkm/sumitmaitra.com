@@ -4,7 +4,7 @@ import * as bodyParser from "body-parser";
 //import * as passport from "passport-local";
 
 export interface Request {
-    logger: bunyan.Logger;
+    logger: bunyan;
     body: any;
     files: Array<any>;
     send: (response: any) => void;

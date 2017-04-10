@@ -1,4 +1,3 @@
-/// <reference path="../../typings/index.d.ts"/>
 requirejs.config(
 {
     baseUrl: '/scripts/',
@@ -18,7 +17,7 @@ requirejs.config(
     }
 });
 
-require(["jquery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app"], ($, ko, text, history, RSVP, silkthread) => {
+requirejs(["jquery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app"], ($, ko, text, history, RSVP, silkthread) => {
     var spaApp = new silkthread.app();
     spaApp.startUp();
 });

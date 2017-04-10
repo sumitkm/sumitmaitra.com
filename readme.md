@@ -14,7 +14,7 @@ Taking control of our online presence, it starts here!!!
 A lot of work is planned but here's an outline.
 1. It will serve as the web front-end for a personal cloud backup system.
 2. It will showcase ones open source projects from various online repositories.
-3. It will be able showcase ones professional career.
+3. It will be able to showcase ones professional career.
 4. It will be able to showcase **selected** moments from ones personal life (publicly).
 5. It will act as a personal portal for information interchange between friends and family.
 6. It is and always will be free as in freedom (not free as in beer)!!!   

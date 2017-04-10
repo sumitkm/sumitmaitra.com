@@ -1,4 +1,3 @@
-/// <reference path="../typings/index.d.ts"/>
 describe("Expect", () => {
     let testRequire;
     let CONTEXT_NAME = "test";
@@ -13,7 +12,7 @@ describe("Expect", () => {
             }
         }
         testConfig.context = CONTEXT_NAME;
-        testRequire = require.config(testConfig);
+        testRequire = requirejs.config(testConfig);
     });
 
     afterEach(() => {

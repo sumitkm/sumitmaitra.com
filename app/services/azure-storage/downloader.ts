@@ -8,7 +8,7 @@ let path = require("path");
 
 export class AzureDownloader {
     private configuration: Configuration;
-    private logger: bunyan.Logger;
+    private logger: bunyan;
     private blobSvc;
     private cacheFolder = "";
     private cacheFile = "";
@@ -16,7 +16,7 @@ export class AzureDownloader {
     private contentId = "";
     private callback: any;
 
-    constructor(configuration: Configuration, logger: bunyan.Logger) {
+    constructor(configuration: Configuration, logger: bunyan) {
         this.configuration = configuration;
         this.logger = logger;
         this.blobSvc = azure.createBlobService(this.configuration.azureStorageConnectionString);

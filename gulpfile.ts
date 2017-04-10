@@ -1,5 +1,3 @@
-/// <reference path="./typings/index.d.ts" />
-
 var gulp = require('gulp');
 var watch = require('gulp-watch');
 var prefix = require('gulp-autoprefixer');

@@ -1,10 +1,10 @@
 import nconf = require('nconf');
-import { Config } from "./app/services/settings/config";
+import { Config } from "./services/settings/config";
 import { SpaEngine } from "./spa-engine";
-import { Container } from "./app/di/container";
-import { CrossRouter } from "./app/services/routing/cross-router";
-import { Configuration } from "./app/services/settings/config-model";
-import { PassportLocalAuthenticator } from "./app/services/passport-local/passport-local-authenticator";
+import { Container } from "./di/container";
+import { CrossRouter } from "./services/routing/cross-router";
+import { Configuration } from "./services/settings/config-model";
+import { PassportLocalAuthenticator } from "./services/passport-local/passport-local-authenticator";
 
 var express = require('express');
 var multer = require('multer');
@@ -89,7 +89,7 @@ try {
         app.use(passport.session());
 
         // Configure passport-local to use account model for authentication
-        var Account = require('./app/data/account');
+        var Account = require('./data/account');
         passport.use(Account.createStrategy());
         passport.serializeUser(Account.serializeUser());
         passport.deserializeUser(Account.deserializeUser());
@@ -100,12 +100,12 @@ try {
             next();
         });
         // Register routes
-        app.use(express.static(__dirname + '/app/www/')); // All static stuff from /app/wwww
+        app.use(express.static(__dirname + '/www/')); // All static stuff from /wwww
         // SpaEngine - Handle server side requests by rendering the same index.html pages
         // for all routes
 
         var spaEngine = new SpaEngine(config);
-        app.set('views', __dirname + '/app/www');
+        app.set('views', __dirname + '/www');
         app.set("view options", { layout: false });
         app.engine('html', spaEngine.renderer);
         app.set('view engine', 'html');

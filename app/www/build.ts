@@ -1,7 +1,8 @@
 ({
-    baseUrl: './scripts',
-    mainConfigFile: "./scripts/st-app/st-boot.js",
-    dir: './scripts-built',
+    appDir: "./",
+    baseUrl: './spa',
+    mainConfigFile: "./spa/st-app/st-boot.js",
+    dir: '../../build/www/app',
     modules: [
         {
             "name": 'st-app/st-boot',
@@ -20,5 +21,7 @@
               'st-ui/components/st-base-component/base-component'
             ]
         },
-    ]
+
+    ],
+    exclude: [ 'libs' ]
 })

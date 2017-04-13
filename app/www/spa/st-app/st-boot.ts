@@ -1,6 +1,6 @@
 requirejs.config(
 {
-    baseUrl: '/scripts/',
+    baseUrl: './spa',
     paths:
     {
         "jquery": "../libs/jquery/dist/jquery.min",

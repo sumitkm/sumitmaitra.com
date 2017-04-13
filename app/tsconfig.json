@@ -7,7 +7,7 @@
     },
     "exclude": [
         "node_modules",
-        "app/www",
-        "app/www/typings"
+        "www",
+        "www/typings"
     ]
 }

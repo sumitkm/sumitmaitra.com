@@ -4,7 +4,7 @@ typings/
 certs/
 uploads/
 cache/
-scripts-built/
+build/
 logs/
 .DS_Store
 

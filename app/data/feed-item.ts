@@ -10,7 +10,7 @@ var FeedItem = new Schema({
     permissionRoles: []
 });
 
-FeedItem.statics.getFeedByUserId = (userId: string, cb) => {
+FeedItem.statics.getFeedByUserId = function(userId: string, cb) {
     //console.log("inside getProfileByUserId:" + userId);
     this.find(
         {
@@ -26,8 +26,8 @@ FeedItem.statics.getFeedByUserId = (userId: string, cb) => {
         });
 }
 
-FeedItem.statics.deleteFeedItem = (userId: string, cb) => {
-    this.deleteFeed
+FeedItem.statics.deleteFeedItem = function(userId: string, cb) {
+    // this.deleteFeed
 }
 
 export =  mongoose.model('feedItem', FeedItem);

@@ -14,12 +14,12 @@ var onError = (err) => {
 gulp.task('connect', () => {
     connect.server({
         livereload: true,
-        root: ['./app/www']
+        root: ['./www']
     });
 });
 
 gulp.task('html', () => {
-    gulp.src('./app/**/*.html')
+    gulp.src('./**/*.html')
         .pipe(plumber({
           errorHandler: onError
         }))
@@ -27,7 +27,7 @@ gulp.task('html', () => {
 });
 
 gulp.task('js', () => {
-    gulp.src('./app/**/*.js')
+    gulp.src('./**/*.js')
         .pipe(plumber({
           errorHandler: onError
         }))

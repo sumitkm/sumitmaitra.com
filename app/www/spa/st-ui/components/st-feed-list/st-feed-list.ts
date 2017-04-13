@@ -20,7 +20,6 @@ export class viewModel {
                 ko.utils.arrayPushAll(this.recents, newValues);
             }));
             ko.utils.arrayPushAll(this.recents, params.feedItems());
-
         }
     }
 

@@ -1,15 +1,21 @@
 echo "Compiling build scripts"
+cd app
 tsc
 
 echo "Compiling UI"
-cd app/www
+cd www
 tsc
+
+echo "Cleaning build folder"
+rm -rf ../../build
 
 echo "Uglifying with r.js"
 
 node libs/r.js/dist/r.js -o ./build.js
 
-cd ../../
+cd ../
 
 echo "Compiling Server"
 tsc
+
+cd ..

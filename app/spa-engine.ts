@@ -1,4 +1,4 @@
-import { Configuration } from "./app/services/settings/config-model";
+import { Configuration } from "./services/settings/config-model";
 export class SpaEngine {
     private configuration: Configuration;
 
@@ -7,9 +7,9 @@ export class SpaEngine {
     }
 
     public renderer = (filename: string, options, callback) => {
-        console.log("In renderer!!!! looking for " + filename + " at " + __dirname + "/app/www/index.html");
+        console.log("In renderer!!!! looking for " + filename + " at " + __dirname + "/www/index.html");
         let fs = require('fs');
-        fs.readFile(__dirname + "/app/www/index.html", 'UTF8', (err, data) => {
+        fs.readFile(__dirname + "/www/index.html", 'UTF8', (err, data) => {
             if (err) {
                 callback(err, null);
             }

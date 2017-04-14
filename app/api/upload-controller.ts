@@ -99,7 +99,7 @@ export class UploadController extends BaseController {
             });
         }
         catch (error) {
-            this.logger({ error: error }, "upload-controller: Unhandled error in upload-controller");
+            this.logger.error(error, "upload-controller: Unhandled error in upload-controller");
         }
     }
 }

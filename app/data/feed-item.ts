@@ -1,8 +1,7 @@
 import * as mongoose from "mongoose";
-var Schema = mongoose.Schema;
 
-var FeedItem = new Schema({
-    userId: Schema.Types.ObjectId,
+var FeedItem = new mongoose.Schema({
+    userId: mongoose.Schema.Types.ObjectId,
     type: Number,
     title: String,
     body: String,
@@ -26,8 +25,24 @@ FeedItem.statics.getFeedByUserId = function(userId: string, cb) {
         });
 }
 
-FeedItem.statics.deleteFeedItem = function(userId: string, cb) {
-    // this.deleteFeed
+FeedItem.statics.deleteFeedItem = function(userId: string, feedItemId: string, cb) {
+    console.log("deleteFeedItem: User Id: ${userId}, feedItemId: ${feedItemId}", null, 1);
+
+    this.deleteOne({
+        'userId' : new mongoose.Types.ObjectId(userId),
+        '_id' : new mongoose.Types.ObjectId(feedItemId)
+    },
+    (err, feedItems) => {
+        console.log("deleteFeedItem: User Id: ${userId}, feedItemId: ${feedItemId}", null, 1);
+        if(err)
+        {
+            cb(err, null);
+        }
+        else
+        {
+            cb(null, { "message" : "Deleted successfully" } );
+        }
+    });
 }
 
 export =  mongoose.model('feedItem', FeedItem);

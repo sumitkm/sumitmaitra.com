@@ -36,7 +36,7 @@ export class Config {
         catch(error)
         {
             //console.log(error);
-            this.logger.error({ error: error.message, message: "Error loading config" });
+            this.logger.error(error,  "Error loading config");
 
         }
     }

@@ -6,12 +6,12 @@ echo "Compiling UI"
 cd www
 tsc
 
-echo "Cleaning build folder"
-rm -rf ../../build
+#echo "Cleaning build folder"
+#rm -rf ../../build
 
-echo "Uglifying with r.js"
+#echo "Uglifying with r.js"
 
-node libs/r.js/dist/r.js -o ./build.js
+#node libs/r.js/dist/r.js -o ./build.js
 
 cd ../
 

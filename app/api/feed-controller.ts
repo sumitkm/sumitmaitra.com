@@ -22,9 +22,11 @@ export class FeedController extends BaseController {
 
     public getFeed = (req: Express.Request, res: Express.Response, next, params) => {
         this.repository.FeedItem.getFeedByUserId(req.user._id, (error, values) =>{
-            if(error != null){
+            if(error != null)
+            {
                 res.sendStatus(500);
-            }else
+            }
+            else
             {
                 res.send(values);
             }
@@ -32,7 +34,15 @@ export class FeedController extends BaseController {
     }
 
     public deleteFeed = (req: Express.Request, res: Express.Response, next, params) => {
-        // this.repository.FeedItem.()
+        this.logger.info("FeedItem _id:" + req.body._id + ": Request UserId: "+req.user._id);
+        this.repository.FeedItem.deleteFeedItem(req.user._id, req.body._id, (error, value)=>{
+            if(error != null) {
+                res.sendStatus(500);
+            }
+            else{
+                res.status(200).send(value);
+            }
+        });
     }
 
     public postFeed = (req: Express.Request, res: Express.Response, next, params) => {
@@ -43,10 +53,17 @@ export class FeedController extends BaseController {
             userId: req.user._id
         }), (error) => {
             if(error) {
-                res.sendStatus(500);
+                if(req.user!=null && req.user._id!=null)
+                {
+                    res.status(500).send({ message: "Error saving post!" });
+                }
+                else
+                {
+                    res.status(403).send({ message: "Unauthorized, please sign in to post!"});
+                }
             }
             else{
-                res.send({ title: req.body.title, body: req.body.body, userId: req.user._id });
+                res.status(200).send({ title: req.body.title, body: req.body.body, userId: req.user._id });
             }
         });
     }

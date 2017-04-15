@@ -14,6 +14,7 @@ export class viewModel extends BaseComponent{
     getFeeditemsService: HttpBase;
     saveFeeditemsService: HttpBase;
     deleteFeedItemService: HttpBase;
+    selectedItem : KnockoutObservable<any> = ko.observable<any>();
 
     constructor(params){
         super(params);
@@ -60,7 +61,7 @@ export class viewModel extends BaseComponent{
 
     feedItemDeleted = (data) => {
         console.log("Feed item deleted");
-
+        this.feedItems.remove(item => item._id == this.selectedItem()._id );
     }
 
     feedItemNotDeleted = (data) => {
@@ -69,6 +70,7 @@ export class viewModel extends BaseComponent{
 
     deleteFeedItem = (item) => {
         console.log(JSON.stringify(ko.toJS(item)));
+        this.selectedItem(item);
         this.deleteFeedItemService.execute( ko.toJS(item));
     }
 }

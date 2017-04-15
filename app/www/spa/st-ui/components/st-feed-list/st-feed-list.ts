@@ -18,6 +18,7 @@ export class viewModel {
             this.dataSource = params.feedItems;
             this.subscriptions.push(this.dataSource.subscribe((newValues) => {
                 console.log("Data source changed: " + JSON.stringify(newValues, null, 1));
+                this.recents.removeAll(); //TODO: Optimize
                 ko.utils.arrayPushAll(this.recents, newValues);
 
             }));

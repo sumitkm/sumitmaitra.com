@@ -24,7 +24,7 @@ export class FeedController extends BaseController {
         this.repository.FeedItem.getFeedByUserId(req.user._id, (error, values) =>{
             if(error != null)
             {
-                res.sendStatus(500);
+                res.status(500).send({ message: error.message});
             }
             else
             {
@@ -37,7 +37,7 @@ export class FeedController extends BaseController {
         this.logger.info("FeedItem _id:" + req.body._id + ": Request UserId: "+req.user._id);
         this.repository.FeedItem.deleteFeedItem(req.user._id, req.body._id, (error, value)=>{
             if(error != null) {
-                res.sendStatus(500);
+                res.status(500).send({ message: error.message });
             }
             else{
                 res.status(200).send(value);
@@ -51,7 +51,7 @@ export class FeedController extends BaseController {
             title: req.body.title,
             body: req.body.body,
             userId: req.user._id
-        }), (error) => {
+        }), (error, value) => {
             if(error) {
                 if(req.user!=null && req.user._id!=null)
                 {
@@ -63,7 +63,7 @@ export class FeedController extends BaseController {
                 }
             }
             else{
-                res.status(200).send({ title: req.body.title, body: req.body.body, userId: req.user._id });
+                res.status(200).send(value);
             }
         });
     }

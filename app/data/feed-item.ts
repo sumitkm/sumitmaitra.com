@@ -14,8 +14,10 @@ FeedItem.statics.getFeedByUserId = function(userId: string, cb) {
     this.find(
         {
             'userId': new mongoose.Types.ObjectId(userId)
-        },
-        (err, feedItems) => {
+        })
+        .sort({ "_id" : -1 })
+        .select({ _id: 1, type: 1, title: 1, body: 1, attachments: 1, permissionRoles: 1 })
+        .exec((err, feedItems) => {
             console.log("getFeedByUserId: User Id: " + userId + JSON.stringify(feedItems, null, 1));
             if (err) {
                 console.log("getFeedByUserId " + err);

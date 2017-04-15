@@ -1,4 +1,5 @@
 import * as ko from "knockout";
+import * as toastr from "toastr";
 import { Router } from "./st-router";
 import { Route } from "./st-route";
 import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";

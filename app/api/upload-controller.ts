@@ -1,4 +1,4 @@
-import * as Express from "express-serve-static-core";
+import * as Express from "express";
 import { Configuration } from "../services/settings/config-model";
 import { BaseController } from "./base-controller";
 import { VerificationEmailer } from "../services/mailing/verification-email";

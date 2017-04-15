@@ -5,6 +5,8 @@ import * as amplify from "amplify";
 import { BaseComponent } from "../../../st-ui/components/st-base-component/base-component";
 import { HttpBase } from "../../../st-services/base/http-base";
 import { FeedListEvents } from "../../../st-ui/components/st-feed-list/st-feed-list-events";
+import { Notifications } from "../../../st-app/st-notifications";
+
 export var template = require("text!./reflections.html");
 
 export class viewModel extends BaseComponent{
@@ -40,11 +42,16 @@ export class viewModel extends BaseComponent{
     }
 
     feedItemSaved = (data) => {
-        console.log("Feeditem saved");
+        Notifications.showSuccessToast("Success", "You posted successfully!");
+        this.title("");
+        this.body("");
+        this.feedItems.unshift(data);
     }
 
     feedItemNotSaved = (error) => {
         console.log("Feeditem not saved");
+        Notifications.showErrorToast("Error", "Failed to save your reflection. <br />Error: " + error.message);
+
     }
 
     feedLoaded = (data) => {
@@ -60,12 +67,12 @@ export class viewModel extends BaseComponent{
     }
 
     feedItemDeleted = (data) => {
-        console.log("Feed item deleted");
+        Notifications.showSuccessToast("Success", "Your post was deleted successfully");
         this.feedItems.remove(item => item._id == this.selectedItem()._id );
     }
 
-    feedItemNotDeleted = (data) => {
-        console.log("Feed item not deleted");
+    feedItemNotDeleted = (error) => {
+        Notifications.showErrorToast("Error", "Failed to delete reflection. <br />Error: " + error.message);
     }
 
     deleteFeedItem = (item) => {

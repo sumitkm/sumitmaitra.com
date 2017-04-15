@@ -12,7 +12,8 @@ requirejs.config(
         "text": "../libs/text/text",
         "historyjs": "../libs/history.js/scripts/bundled/html4+html5/native.history",
         "RSVP": "../libs/rsvp.js/rsvp.min",
-        "amplify": "../libs/amplify/lib/amplify.min"
+        "amplify": "../libs/amplify/lib/amplify.min",
+        "toastr":"../libs/toastr/toastr.min"
     },
     shim:
     {
@@ -20,6 +21,10 @@ requirejs.config(
         "amplify": {
             exports: "amplify",
             deps : ["jQuery"]
+        },
+        "toastr": {
+            exports: "toastr",
+            deps: ["jQuery"]
         }
     }
 });

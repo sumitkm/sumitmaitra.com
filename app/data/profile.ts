@@ -17,7 +17,7 @@ var Profile = new Schema({
 });
 
 Profile.statics.getProfileByUserId = function(userId: string, cb) {
-    //console.log("inside getProfileByUserId:" + userId);
+    console.log("inside getProfileByUserId:" + userId);
     this.findOne(
         {
             'userId': new mongoose.Types.ObjectId(userId)
@@ -28,6 +28,26 @@ Profile.statics.getProfileByUserId = function(userId: string, cb) {
             };
             cb(null, profile);
         });
+}
+
+Profile.statics.putProfile = function(profile: any, cb) {
+    let updatedProfile = {
+        _id: new mongoose.Types.ObjectId(profile._id),
+        userId: new mongoose.Types.ObjectId(profile.userId),
+        nickname: profile.nickname,
+        birthdate: new Date(profile.birthdate),
+        fullname: profile.fullname,
+        logoId: new mongoose.Types.ObjectId(profile.logoId)
+    };
+    this.updateOne({ _id: new mongoose.Types.ObjectId(profile._id) }, updatedProfile, (error, data)=>{
+            if(error !=null)
+            {
+                cb(error, null);
+            }
+            else{
+                this.getProfileByUserId(profile.userId, cb);
+            }
+    });
 }
 
 module.exports = mongoose.model("profile", Profile);

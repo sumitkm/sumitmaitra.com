@@ -22,22 +22,28 @@ export class ProfileController extends BaseController {
 
     public getProfile = (req: Express.Request, res: Express.Response, next, params) => {
         let id: string = "";
-        this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
-            if (error) {
-                this.logger.error(error, "Profile for userId not found:" + req.user._id);
-                res.sendStatus(500);
-            }
-            else {
-                res.send(profile);
-            }
-        });
+        if(req.user != null && req.user._id != "" && req.user._id != null) {
+            this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
+                if (error) {
+                    this.logger.error(error, "Profile for userId not found:" + req.user._id);
+                    res.status(500).send({ message: "Failed to get profile" });
+                }
+                else {
+                    res.status(200).send(profile);
+                }
+            });
+        }
+        else {
+            res.status(403).send({ message: "Unauthozed: Please login"});
+        }
     }
 
     public putProfile = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
-        this.logger.info({ req: req }, "putProfile");
-        this.repository.Profile.update(req.body, (error, profile) => {
+        this.logger.info({ req: req.body }, "putProfile");
+        this.repository.Profile.putProfile(req.body, (error, profile) => {
             if (error) {
-                res.sendStatus(500);
+                this.logger.error(error, "Failed to save");
+                res.status(500).send({ message: "Failed to save" });
             }
             else {
                 res.send(profile);

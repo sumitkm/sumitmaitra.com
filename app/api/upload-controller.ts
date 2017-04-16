@@ -18,7 +18,6 @@ export class UploadController extends BaseController {
         super(auther, logger);
         this.config = configuration;
         this.repository = new db(this.config);
-        console.log("Constructor of Upload Controller: " + (logger == null));
         this.uploader = new AzureUploader(this.config, logger);
 
         this["Upload:path"] = "/uploader/files";
@@ -30,7 +29,6 @@ export class UploadController extends BaseController {
         try {
             req.files.forEach((file) => {
                 this.logger.info({ file: file }, "Uploading file");
-                //console.log("Saving" + file + " for user: " + JSON.stringify(req.user));
                 let newContent = new this.repository.Content({
                     ownerId: req.user._id,
                     name: file.name,
@@ -47,18 +45,18 @@ export class UploadController extends BaseController {
                 });
                 this.uploader.saveFileToBlob(newContent._id, newContent.ownerId, file.path, (error, result) => {
                     if (error != null) {
-                        this.logger.error(error, "Saving file to BLOB");
+                        this.logger.error(error, "Error: Saving file to BLOB");
                     }
                     this.repository.Content.findById(newContent._id, (err, content) => {
                         if (err) {
-                            this.logger.error({ error: err }, "Content findById error");
+                            this.logger.error(err, "Content findById error");
                         }
                         content.assetetag = result.etag.toString();
                         content.save((err) => {
                             if (err) {
-                                this.logger.error({ error: err }, "Content Save");
+                                this.logger.error(err, "Content Save");
                             }
-                            res.send(content);
+                            res.status(200).send(content);
                         });
                     });
 

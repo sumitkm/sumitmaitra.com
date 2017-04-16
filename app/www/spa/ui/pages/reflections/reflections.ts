@@ -51,7 +51,6 @@ export class viewModel extends BaseComponent{
     feedItemNotSaved = (error) => {
         console.log("Feeditem not saved");
         Notifications.showErrorToast("Error", "Failed to save your reflection. <br />Error: " + error.message);
-
     }
 
     feedLoaded = (data) => {

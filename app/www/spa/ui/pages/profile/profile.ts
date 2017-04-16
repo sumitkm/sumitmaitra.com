@@ -4,6 +4,7 @@ import { BaseComponent } from "../../../st-ui/components/st-base-component/base-
 import { TabItem } from "../../../st-ui/view-models/st-nav-tab/st-tab-item";
 import { TabStrip } from "../../../st-ui/view-models/st-nav-tab/st-nav-tab-strip";
 import { Route } from "../../../st-app/st-route";
+import { Notifications } from "../../../st-app/st-notifications";
 import { HttpBase } from "../../../st-services/base/http-base";
 import { Profile } from "./profile-vm";
 
@@ -48,13 +49,13 @@ export class viewModel extends BaseComponent {
 
     initBirthdaySelector = () => {
       let currentYear = new Date().getFullYear();
-      this.years.push({ value: "0", text: "YEAR" });
+      this.years.push({ value: "0", text: "Year" });
       for(let i=0; i < 110; i++) {
         this.years.push({ value: currentYear.toString(), text: currentYear.toString() });
         currentYear--;
       }
 
-      this.months.push( { value: "0", text: "MONTH" });
+      this.months.push( { value: "0", text: "Month" });
       for(let m=0; m < 12; m++) {
         this.months.push({ value: (m+1).toString(), text: (m+1).toString() });
       }
@@ -75,15 +76,20 @@ export class viewModel extends BaseComponent {
     }
 
     saveProfile = () => {
-      console.log(ko.toJS("Current Profile"+ this.currentProfile()));
+        console.log(ko.toJS("Current Profile"+ this.currentProfile()));
         this.saveProfileService.execute(ko.toJS(this.currentProfile()));
     }
 
-    profileSaved = () =>{
-        console.log("profile saved");
+    profileSaved = (updatedProfile) => {
+        Notifications.showSuccessToast("Success", "Updated profile successfully");
+        Profile.updateFromJS(this.currentProfile, updatedProfile);
+
+        //console.log("profile saved");
     }
 
     profileNotSaved = () =>{
+        Notifications.showErrorToast("Error", "Failed to update profile successfully");
+
         console.log("profile not saved");
     }
 }

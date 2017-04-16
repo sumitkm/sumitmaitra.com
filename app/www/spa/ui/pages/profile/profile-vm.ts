@@ -34,4 +34,15 @@ export class Profile {
         }
         return newProfile;
     }
+
+    public static updateFromJS = (currentProfile: KnockoutObservable<Profile>, updatedProfile) =>{
+        currentProfile().fullname(updatedProfile.fullname);
+        currentProfile().nickname(updatedProfile.nickname);
+        currentProfile().birthDay(updatedProfile.birthDay);
+        currentProfile().birthYear(updatedProfile.birthYear);
+        currentProfile().birthMonth(updatedProfile.birthMonth);
+        currentProfile().birthdate(updatedProfile.birthdate);
+        currentProfile().logoId(updatedProfile.logoId);
+        currentProfile().headerId(updatedProfile.headerId!=null?updatedProfile.headerId: "");
+    }
 }

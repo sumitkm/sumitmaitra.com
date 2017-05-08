@@ -79,11 +79,15 @@ class Router {
 
     private handleAnchorClick = (event) => {
         try {
-            let url = $(event.target).attr("href");
-            Historyjs.pushState({ url: url }, "", url);
+            let target = (event.target.tagName=='A')
+                ? event.target
+                : $(event.target).closest('a')[0];
+            let url = $(target).attr("href");
+            Historyjs.pushState(null, null, url);
         }
         catch(error) {
             //todo: log
+            console.error(error);
         }
         return false;
     }

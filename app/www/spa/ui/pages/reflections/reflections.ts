@@ -50,7 +50,7 @@ export class viewModel extends BaseComponent{
 
     feedItemNotSaved = (error) => {
         console.log("Feeditem not saved");
-        Notifications.showErrorToast("Error", "Failed to save your reflection. <br />Error: " + error.message);
+        Notifications.showErrorToast("Error: " + error.status, "Failed to save your reflection. <br />Error: " + error.response.message);
     }
 
     feedLoaded = (data) => {
@@ -61,8 +61,8 @@ export class viewModel extends BaseComponent{
         console.log(this.feedItems().length);
     }
 
-    feedNotLoaded = (data) => {
-        console.log("Feed not loaded");
+    feedNotLoaded = (error) => {
+        Notifications.showErrorToast("Error:" + error.status, "Failed to load feed. <br />Error: " + error.response.message);
     }
 
     feedItemDeleted = (data) => {
@@ -71,7 +71,7 @@ export class viewModel extends BaseComponent{
     }
 
     feedItemNotDeleted = (error) => {
-        Notifications.showErrorToast("Error", "Failed to delete reflection. <br />Error: " + error.message);
+        Notifications.showErrorToast("Error:" + error.status, "Failed to delete reflection. <br />Error: " + error.response.message);
     }
 
     deleteFeedItem = (item) => {

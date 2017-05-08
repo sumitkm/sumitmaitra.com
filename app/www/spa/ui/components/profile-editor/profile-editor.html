@@ -1,0 +1,55 @@
+<div class="container" data-bind="with: currentProfile">
+    <div class="form">
+        <div class="center">
+            <label class="input-label">Profile picture</label>
+            <img src="" data-bind="attr : { src: $component.profileLogoUrl }" />
+            <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
+        </div>
+    </div>
+    <div class="form">
+        <label class="input-label">User Name</label>
+        <label class="input-text" data-bind="text: $component.userName"></label>
+    </div>
+    <div class="form">
+        <label class="input-label">Name</label>
+        <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
+    </div>
+    <div class="form">
+        <label class="input-label">Nickname</label>
+        <input class="input-text" name="nickname" type="text" data-bind="textInput: nickname" />
+    </div>
+    <div class="form">
+        <label class="input-label">Birthday</label>
+        <div class="row">
+            <div class="col-sm-4">
+                <select class="input-text" data-bind="value: birthYear, options: $component.years, optionsValue: 'value', optionsText: 'text'"></select>
+            </div>
+            <div class="col-sm-4">
+                <select class="input-text" data-bind="value: birthMonth, options: $component.months, optionsValue: 'value', optionsText: 'text'"></select>
+            </div>
+            <div class="col-sm-4">
+                <input class="input-text" name="birthDay" type="text" data-bind="textInput: birthDay" />
+            </div>
+        </div>
+    </div>
+    <div class="form">
+        <label class="input-label">Header Image</label>
+        <input class="input-text" name="fullname" type="text" />
+    </div>
+    <div class="form">
+        <label class="input-label">Header image</label>
+        <img src="" data-bind="attr : { src: headerUrl }" />
+        <st-image-uploader params="id: 'profile-header-uploader'"></st-image-uploader>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3 col-offset-md-3">
+            <form class="form" action="/api/accounts/logout" method="POST">
+                <input class="btn-primary" type="submit" value="Logout" />
+            </form>
+        </div>
+        <div class="col-md-3">
+            <button class="btn-primary pull-right" data-bind="click: $component.saveProfile">Save Profile</button>
+        </div>
+    </div>
+</div>

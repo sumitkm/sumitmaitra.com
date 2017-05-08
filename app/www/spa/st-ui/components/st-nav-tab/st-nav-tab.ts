@@ -1,7 +1,7 @@
-/// <amd-dependency path="text!./st-nav-tab.html"/>
+import "text!./st-nav-tab.html";
 import * as ko from "knockout";
 import { BaseComponent } from "../st-base-component/base-component";
-import { TabStrip } from "../../view-models/st-nav-tab/st-nav-tab-strip";
+import { TabStrip } from "../../view-models/st-nav-tab/st-tab-strip";
 
 export var template = require("text!./st-nav-tab.html");
 

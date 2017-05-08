@@ -20,16 +20,13 @@ export class app {
     private registerMenuItems = () => {
         //console.log("Registering menu items.");
         this.router.leftMenuItems.push(MenuItem.factory('&#xf015;', '/', 'nav-header nav-menu-item', 'fa', false, []));
-        this.router.leftMenuItems.push(MenuItem.factory('Projects', '/projects', 'nav-menu-item', '', false, []));
-        this.router.leftMenuItems.push(MenuItem.factory('Blog', '', 'nav-menu-item', '', false, []));
+        this.router.leftMenuItems.push(MenuItem.factory('Blog', '/blog', 'nav-menu-item', '', false, []));
         this.router.leftMenuItems.push(MenuItem.factory('Reflection', '/feed', 'nav-menu-item', '', true, ['owner']));
-        this.router.leftMenuItems.push(MenuItem.factory('Events', '/events', 'nav-menu-item', '', true, ['owner']));
     }
 
     private registerComponents = () => {
         this.registerComponent("home", "./ui/pages/home/home");
         this.registerComponent("blog", "./ui/pages/blog/blog");
-        this.registerComponent("projects", "./ui/pages/projects/projects");
         this.registerComponent("login", "./ui/pages/login/login");
         this.registerComponent("profile", "./ui/pages/profile/profile");
         this.registerComponent("verify", "./ui/pages/verify/verify");
@@ -39,12 +36,13 @@ export class app {
         this.registerComponent("print-preview", "./ui/print-preview/print-preview");
         this.registerComponent("st-nav-menu", "./st-ui/components/st-nav-menu/st-nav-menu");
         this.registerComponent("st-nav-tab", "./st-ui/components/st-nav-tab/st-nav-tab");
+        this.registerComponent("st-side-nav", "./st-ui/components/st-side-nav/st-side-nav");
         this.registerComponent("st-image-uploader", "./st-ui/components/st-image-uploader/st-image-uploader");
         this.registerComponent("st-feed-list", "./st-ui/components/st-feed-list/st-feed-list");
     }
 
     private registerRoutes = () => {
-        this.registerRoute(Router.newRouteFactory("/projects/:routeParams*:", "projects",  "Projects | The lazy blogger!"));
+        this.registerRoute(Router.newRouteFactory("/blog/:routeParams*:", "blog",  "Blog | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/login/:routeParams*:", "login",  "Login | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/profile/:tab:/:routeParams*:", "profile",  "Profile | :tab: | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/profile/:routeParams*:", "profile",  "Profile | The lazy blogger!"));

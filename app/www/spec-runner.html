@@ -3,24 +3,21 @@
     <head>
         <meta charset="utf-8">
         <title>Jasmine Spec Runner v2.5.0</title>
-
+        <link href="/libs/gnb/dist/gnb.css" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" type="image/png" href="/libs/jasmine/jasmine_favicon.png">
         <link rel="stylesheet" href="/libs/jasmine/jasmine.css">
 
         <script src="/libs/jasmine/jasmine.js"></script>
         <script src="/libs/jasmine/jasmine-html.js"></script>
         <script src="/libs/jasmine/boot.js"></script>
-        <link href="/libs/gnb/dist/gnb.css" rel="stylesheet" type="text/css" />
         <script src="/libs/requirejs/require.js"></script>
         <script src="/scripts/st-app/st-boot.js"></script>
 
         <!-- include source files here... -->
         <script>
-            require.config(
-                {
-                    baseUrl: "/scripts/"
-                }
-            )
+            require.config({
+                    baseUrl: "/spa/"
+                })
         </script>
 
         <!-- include spec files here... -->

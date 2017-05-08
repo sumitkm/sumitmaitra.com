@@ -1,62 +1,16 @@
 <div class="container top">
-    <st-nav-tab params="tabStrip: $component.tabStrip"></st-nav-tab>
-    <!-- ko if: $component.tabStrip().selectedTabItem !=null && $component.tabStrip().selectedTabItem() != null -->
-    <!-- ko if: $component.tabStrip().selectedTabItem().name() == 'home' -->
-    <div class="row" data-bind="with: currentProfile" style="min-height:400px">
-        <div class="col col-offset-md-3 col-md-6">
-            <div class="form">
-                <label class="input-label">Profile picture</label>
-                <img style="width:100%" src="" data-bind="attr : { src: $component.profileLogoUrl }" />
-                <st-image-uploader params="id: 'profile-avataar-uploader'"></st-image-uploader>
-            </div>
-            <div class="form">
-                <label class="input-label">User Name</label>
-                <label class="input-text" data-bind="text: $component.userName"></label>
-            </div>
-            <div class="form">
-                <label class="input-label">Name</label>
-                <input class="input-text" name="fullname" type="text" data-bind="textInput: fullname" />
-            </div>
-            <div class="form">
-                <label class="input-label">Nickname</label>
-                <input class="input-text" name="nickname" type="text" data-bind="textInput: nickname" />
-            </div>
-            <div class="form">
-                <label class="input-label">Birthday</label>
-                <div class="row">
-                  <div class="col-sm-4">
-                    <select class="input-text" data-bind="value: birthYear, options: $component.years, optionsValue: 'value', optionsText: 'text'"></select>
-                  </div>
-                  <div class="col-sm-4">
-                    <select class="input-text" data-bind="value: birthMonth, options: $component.months, optionsValue: 'value', optionsText: 'text'"></select>
-                  </div>
-                  <div class="col-sm-4">
-                    <input class="input-text" name="birthDay" type="text" data-bind="textInput: birthDay" />
-                  </div>
-                </div>
-            </div>
-            <div class="form">
-                <label class="input-label">Header Image</label>
-                <input class="input-text" name="fullname" type="text" />
-            </div>
-            <div class="form">
-                <label class="input-label">Header image</label>
-                <img src="" data-bind="attr : { src: headerUrl }" />
-                <st-image-uploader params="id: 'profile-header-uploader'"></st-image-uploader>
-            </div>
+    <div class="row" style="min-height:400px">
+        <div class="col col-md-3">
+            <st-side-nav params="tabStrip: $component.tabStrip, menuItems: $component.menuItems"></st-side-nav>
+        </div>
+        <div class="col col-md-6">
+            <!-- ko if: $component.tabStrip().selectedTabItem != null -->
+            <div data-bind="component: {
+                name:  $component.tabStrip().selectedTabItem().componentName(),
+                params : { tabStrip: $component.tabStrip }
+                }"></div>
+            <!-- /ko -->
         </div>
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-md-3 col-offset-md-3">
-            <form class="form" action="/api/accounts/logout" method="POST">
-                <input class="btn-primary" type="submit" value="Logout" />
-            </form>
-        </div>
-        <div class="col-md-3">
-            <button class="btn-primary pull-right" data-bind="click: saveProfile">Save Profile</button>
-        </div>
-    </div>
-    <!-- /ko -->
-    <!-- /ko -->
+
 </div>

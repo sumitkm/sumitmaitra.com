@@ -39,6 +39,7 @@ export class app {
         this.registerComponent("st-side-nav", "./st-ui/components/st-side-nav/st-side-nav");
         this.registerComponent("st-image-uploader", "./st-ui/components/st-image-uploader/st-image-uploader");
         this.registerComponent("st-feed-list", "./st-ui/components/st-feed-list/st-feed-list");
+        this.registerComponent("st-modal", "./st-ui/components/st-modal/st-modal");
     }
 
     private registerRoutes = () => {

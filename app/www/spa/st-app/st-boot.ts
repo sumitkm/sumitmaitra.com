@@ -34,4 +34,5 @@ requirejs(["jQuery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app", "
     spa.startUp();
     spa.registerComponent("profile-editor", "./ui/components/profile-editor/profile-editor");
     spa.registerComponent("invitations-list", "./ui/components/invitations-list/invitations-list");
+    spa.registerComponent("invitation-editor", "./ui/components/invitation-editor/invitation-editor");
 });

@@ -1,3 +1,4 @@
+echo "Running"
 cd app
 node .
 cd ..

@@ -21,50 +21,57 @@ export class FeedController extends BaseController {
     }
 
     public getFeed = (req: Express.Request, res: Express.Response, next, params) => {
-        this.repository.FeedItem.getFeedByUserId(req.user._id, (error, values) =>{
-            if(error != null)
-            {
-                res.status(500).send({ message: error.message});
-            }
-            else
-            {
-                res.send(values);
-            }
-        });
+        if (this.isLoggedIn(req)) {
+            this.repository.FeedItem.getFeedByUserId(req.user._id, (error, values) => {
+                if (error != null) {
+                    res.status(500).send({ message: error.message });
+                }
+                else {
+                    res.send(values);
+                }
+            });
+        }
+        else {
+            res.status(403).send({ message: "Unauthorized: Please login" });
+
+        }
     }
 
     public deleteFeed = (req: Express.Request, res: Express.Response, next, params) => {
-        this.logger.info("FeedItem _id:" + req.body._id + ": Request UserId: "+req.user._id);
-        this.repository.FeedItem.deleteFeedItem(req.user._id, req.body._id, (error, value)=>{
-            if(error != null) {
-                res.status(500).send({ message: error.message });
-            }
-            else{
-                res.status(200).send(value);
-            }
-        });
+        if (this.isLoggedIn(req)) {
+            this.logger.info("FeedItem _id:" + req.body._id + ": Request UserId: " + req.user._id);
+            this.repository.FeedItem.deleteFeedItem(req.user._id, req.body._id, (error, value) => {
+                if (error != null) {
+                    res.status(500).send({ message: error.message });
+                }
+                else {
+                    res.status(200).send(value);
+                }
+            });
+        }
+        else {
+            res.status(403).send({ message: "Unauthorized: Please login" });
+        }
     }
 
     public postFeed = (req: Express.Request, res: Express.Response, next, params) => {
-        console.log("POST Feed:" + JSON.stringify (req.body, null, 1));
-        this.repository.FeedItem.create(new this.repository.FeedItem({
-            title: req.body.title,
-            body: req.body.body,
-            userId: req.user._id
-        }), (error, value) => {
-            if(error) {
-                if(req.user!=null && req.user._id!=null)
-                {
+        if (this.isLoggedIn(req)) {
+            console.log("POST Feed:" + JSON.stringify(req.body, null, 1));
+            this.repository.FeedItem.create(new this.repository.FeedItem({
+                title: req.body.title,
+                body: req.body.body,
+                userId: req.user._id
+            }), (error, value) => {
+                if (error) {
                     res.status(500).send({ message: "Error saving post!" });
                 }
-                else
-                {
-                    res.status(403).send({ message: "Unauthorized, please sign in to post!"});
+                else {
+                    res.status(200).send(value);
                 }
-            }
-            else{
-                res.status(200).send(value);
-            }
-        });
+            });
+        }
+        else {
+            res.status(403).send({ message: "Unauthorized, please sign in to post!" });
+        }
     }
 }

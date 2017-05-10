@@ -22,7 +22,7 @@ export class ProfileController extends BaseController {
 
     public getProfile = (req: Express.Request, res: Express.Response, next, params) => {
         let id: string = "";
-        if(req.user != null && req.user._id != "" && req.user._id != null) {
+        if (req.user != null && req.user._id != "" && req.user._id != null) {
             this.repository.Profile.getProfileByUserId(req.user._id, (error, profile) => {
                 if (error) {
                     this.logger.error(error, "Profile for userId not found:" + req.user._id);
@@ -34,7 +34,7 @@ export class ProfileController extends BaseController {
             });
         }
         else {
-            res.status(403).send({ message: "Unauthozed: Please login"});
+            res.status(403).send({ message: "Unauthorized: Please login" });
         }
     }
 
@@ -49,5 +49,31 @@ export class ProfileController extends BaseController {
                 res.send(profile);
             }
         });
+    }
+
+    public postProfile = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+        if (this.isLoggedIn(req)) {
+            this.repository.Profile.getProfileByUserId(req.user._id, (error, result) => {
+                if (error) {
+                    this.logger.error(error, "Create Profile for UserId");
+                }
+                else {
+                    if (result == null) {
+                        //console.log("Profile is NULL");
+                        this.repository.Profile.createProfile(new this.repository.Profile({
+                            userId: req.user._id,
+                            nickname: req.body.nickname,
+                            birthdate: req.body.birthdate,
+                            fullname: req.body.fullname,
+                            logoUrl: "",
+                            logoId: req.body.logoId
+                        }));
+                    }
+                }
+            });
+        }
+        else {
+            res.status(403).send({ message: "Unauthorized! " })
+        }
     }
 }

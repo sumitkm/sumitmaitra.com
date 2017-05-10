@@ -50,4 +50,10 @@ Profile.statics.putProfile = function(profile: any, cb) {
     });
 }
 
+Profile.statics.createProfile = function(profile: any, cb) {
+    let newProfile = {
+
+    }
+}
+
 module.exports = mongoose.model("profile", Profile);

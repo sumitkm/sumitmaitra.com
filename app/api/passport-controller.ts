@@ -43,9 +43,9 @@ export class PassportLocalController extends BaseController {
         if (req.body.verificationcode != '' && req.body.verificationcode != null) {
             this.respository.Account.verifyAccount(req.body.verificationcode, (err, account) => {
                 if (err) {
-                    res.send({ message: "Verification Failed", error: err });
+                    res.status(500).send({ message: "Verification Failed", error: err });
                 } else {
-                    res.send({ message: "Verification complete, please <a href='/' title='Login'>login to continue</a>", error: null });
+                    res.status(200).send({ message: "Verification complete, please <a href='/' title='Login'>login to continue</a>", error: null });
                 }
             });
         }
@@ -64,18 +64,18 @@ export class PassportLocalController extends BaseController {
                     //console.log(JSON.stringify(user));
                     this.mailer.sendEmail(user.verificationCode.toString(), user.email, (error, result) => {
                         if (error) {
-                            res.send({ message: "Error sending verification email", error: error });
+                            res.status(500).send({ message: "Error sending verification email", error: error });
                             this.logger.error(error, "Error sending verification email");
                         }
                         else {
-                            res.send({ message: "Verification email sent successfully", error: error });
+                            res.status(200).send({ message: "Verification email sent successfully", error: error });
                             this.logger.debug({ message: "Verification email sent successfully" });
                         }
                     });
                 }
             });
         }
-        else{
+        else {
 
         }
     }

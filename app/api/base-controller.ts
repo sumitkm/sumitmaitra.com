@@ -13,4 +13,12 @@ export class BaseController implements ApiController{
     public getLogger() {
         return this.logger;
     }
+
+    public isLoggedIn = (req: Express.Request): boolean =>{
+        if(req.user != null && req.user._id != null && req.user._id != '')
+        {
+            return true;
+        }
+        return false;
+    }
 }

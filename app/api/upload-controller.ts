@@ -54,45 +54,13 @@ export class UploadController extends BaseController {
                         content.assetetag = result.etag.toString();
                         content.save((err) => {
                             if (err) {
-                                this.logger.error(err, "Content Save");
+                                this.logger.error(err, "Error saving Content in DB");
                             }
                             res.status(200).send(content);
                         });
                     });
 
-                    this.repository.Profile.getProfileByUserId(req.user._id, (error, result) => {
-                        if (error) {
-                            this.logger.error({ error: error }, "Get Profile by UserId");
-                        }
-                        else {
-                            if (result == null) {
-                                //console.log("Profile is NULL");
-                                this.repository.Profile.create(new this.repository.Profile({
-                                    userId: req.user._id,
-                                    nickname: "",
-                                    birthdate: null,
-                                    fullname: "",
-                                    logoUrl: "",
-                                    logoId: newContent._id
-                                }));
-                            }
-                            else {
-                                //console.log("Profile to be updated");
-                                this.repository.Profile.findById(result._id, (err, profile) => {
-                                    if (err) {
-                                        this.logger.error({ error: err }, "Get Profile by Id");
-                                    }
-                                    profile.logoId = newContent._id;
-                                    profile.save((err) => {
-                                        if (err) {
-                                            this.logger.error({ error: err }, "Save Profile by Id");
-
-                                        }
-                                    });
-                                });
-                            }
-                        }
-                    });
+                    
                 });
             });
         }

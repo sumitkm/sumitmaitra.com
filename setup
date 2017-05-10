@@ -1,11 +1,15 @@
+echo "Setting up uploads folder"
 rm -rf uploads
 mkdir uploads
 mkdir uploads/temp
 
+echo "Setting up cache folder"
 rm -rf cache
 mkdir cache
 
+echo "Installing npm packages"
 npm install
 
+echo "Installing bower packages"
 cd app/www
 bower install

@@ -1,7 +1,7 @@
 import * as Express from "express-serve-static-core";
 import { BaseController } from "./base-controller";
 import { Configuration } from "../services/settings/config-model";
-import { VerificationEmailer } from "../services/mailing/verification-email";
+import { VerificationEmailer } from "../services/mailing/verification-emailer";
 import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 import { db } from "../data/db";
 import { AzureDownloader } from "../services/azure-storage/downloader";

@@ -1,7 +1,7 @@
 import "text!./profile-editor.html";
 import * as ko from "knockout";
 import { BaseComponent } from "../../../st-ui/components/st-base-component/base-component";
-import { Profile } from "./profile-vm";
+import { Profile } from "../../view-models/profile-vm";
 import { HttpBase } from "../../../st-services/base/http-base";
 import { Notifications } from "../../../st-app/st-notifications";
 

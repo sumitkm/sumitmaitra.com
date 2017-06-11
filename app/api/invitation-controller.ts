@@ -7,7 +7,7 @@ import { AzureDownloader } from "../services/azure-storage/downloader";
 import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 import { db } from "../data/db";
 
-export class InvitesController extends BaseController {
+export class InvitationController extends BaseController {
     config: Configuration;
     mailer: VerificationEmailer;
     repository: db;
@@ -17,6 +17,23 @@ export class InvitesController extends BaseController {
         this.config = configuration;
         this.repository = new db(this.config);
 
-        this["Profile:path"] = "/profile/:userId:";
+        this["Invitation:path"] = "/invitations/new";
+    }
+
+    public postInvitation = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+        console.log(JSON.stringify(req.body));
+        try {
+            this.repository.Invite.createInvite(req.body, req.user._id, (error, value) => {
+                if (error) {
+                    res.status(500).send({ message: "Error saving invite!" });
+                }
+                else {
+                    res.status(200).send(value);
+                }
+            });
+        }
+        catch (ex) {
+            console.log(ex);
+        }
     }
 }

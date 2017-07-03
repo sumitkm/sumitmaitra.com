@@ -1,23 +1,23 @@
 <div class="container">
     <!-- ko foreach: recents -->
     <div class="row">
-        <div class="col-sm-8" >
-            <div style="float:right; margin-right: 5px; margin-top: 5px; cursor: pointer; color: silver" data-bind="click: $component.deleteClick">
-                <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </div>
-            <div style="border: solid 1px silver; background-color: white; border-radius: 6px; padding: 15px;">
-                <div class="row">
-                    <!-- ko if: title != null -->
-                    <div data-bind="text: title"></div>
-                    <!-- /ko -->
-                    <div data-bind="text: body"></div>
+        <div class="col-sm-8 border-primary all rounded" >
+            <div class=" element-padding">
+                <div style="float: right; cursor: pointer; color: silver" data-bind="click: $component.deleteClick">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </div>
+                <!-- ko if: title != null -->
+                <div data-bind="text: title"></div>
+                <!-- /ko -->
+                <span data-bind="text: body"></span>
             </div>
         </div>
     </div>
     <!-- ko if: $index() < $component.recents().length-1 -->
     <div class="row">
-        <div style="width: 100%; border-left: solid 1px silver; margin-left:25px; background-color: white; padding: 10px; height: auto;">
+        <div class="col-xs-12">
+            <div class="tl-separator">
+            </div>
         </div>
     </div>
     <!-- /ko -->

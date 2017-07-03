@@ -19,10 +19,29 @@ export class InvitationController extends BaseController {
         this.mailer = new InvitesEmailer(this.config);
 
         this["Invitation:path"] = "/invitations/new";
+        this["Invitations:path"] = "/invitations";
+    }
+
+    public getInvitations = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+        console.log("get invitations");
+        if (this.isLoggedIn(req)) {
+            this.repository.Invite.getInvitesByUserId(req.user._id, (error, values) => {
+                if (error != null) {
+                    res.status(500).send({ message: error.message });
+                }
+                else {
+                    res.send(values);
+                }
+            });
+        }
+        else {
+            res.status(403).send({ message: "Unauthorized: Please login" });
+        }
+
     }
 
     public postInvitation = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
-        console.log(JSON.stringify(req.body));
+        console.log("post invitation");
         try {
             this.repository.Invite.createInvite(req.body, req.user._id, (error, value) => {
                 if (error) {

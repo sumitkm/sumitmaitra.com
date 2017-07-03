@@ -1,21 +1,32 @@
 <div class="panel">
     <div class="fill panel-header">
         <div class="row">
-            <div class="col-xs-12">
-                <div style="float: left">
-                    <h4>Manage Invites</h4>
+            <div class="col-xs-8">
+                <div style="">
+                    <h4 style="padding: 7px">Manage Invites</h4>
                 </div>
+            </div>
+            <div class="col-xs-4">
                 <div style="float: right">
                     <button class="btn-primary" data-bind="click: $component.showModal">Send invite</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="no-border panel-body">
-        <div class="row">
-
+    <div class="panel-body">
+        <!-- ko foreach: $component.sentInvites -->
+        <div class="row element-padding border-primary bottom">
+            <div class="col-xs-8">
+                <p data-bind="text: inviteName"></p>
+                <p data-bind="text: sentDate"></p>
+                <p data-bind="text: inviteEmail"></p>
+                <p data-bind="text: inviteMessage"></p>
+            </div>
+            <div class="col-xs-4" style="text-align: right">
+                <button class="btn-default" title="Send message again. Please don't spam users">Re-send</button>
+            </div>
         </div>
-
+        <!-- /ko -->
     </div>
 </div>
 <st-modal params="childComponent: childComponent, childComponentParams: childComponentParams, modalConfig: modalConfig">

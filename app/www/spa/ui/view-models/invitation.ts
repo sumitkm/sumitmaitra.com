@@ -15,3 +15,29 @@ export class Invitation{
         return newInvitation;
     }
 }
+
+export class Invite {
+    inviteName: KnockoutObservable<string> = ko.observable<string>("");
+    inviteEmail: KnockoutObservable<string> = ko.observable<string>("");
+    inviteMessage: KnockoutObservable<string> = ko.observable<string>("");
+    _id: KnockoutObservable<string> = ko.observable<string>("");
+    sentDate: KnockoutObservable<Date> = ko.observable<Date>();
+    status: KnockoutObservable<number> = ko.observable<number>(0);
+    inviteType: KnockoutObservable<InviteType> = ko.observable<InviteType>();
+
+    public static fromJS = (source: any): Invite => {
+        let newInvite = new Invite();
+        newInvite._id(source._id);
+        newInvite.inviteEmail(source.inviteEmail);
+        newInvite.inviteMessage(source.inviteMessage);
+        newInvite.inviteName(source.inviteName);
+        newInvite.sentDate(source.sentDate);
+        newInvite.status(source.status);
+        newInvite.inviteType(source.inviteType);
+        return newInvite;
+    }
+}
+
+export enum InviteType{
+
+}

@@ -33,7 +33,6 @@ export class FeedController extends BaseController {
         }
         else {
             res.status(403).send({ message: "Unauthorized: Please login" });
-
         }
     }
 

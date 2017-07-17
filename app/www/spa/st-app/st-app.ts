@@ -32,6 +32,7 @@ export class app {
         this.registerComponent("verify", "./ui/pages/verify/verify");
         this.registerComponent("register", "./ui/pages/register/register");
         this.registerComponent("reflections", "./ui/pages/reflections/reflections");
+        this.registerComponent("invitation", "./ui/pages/invitation/invitation");
 
         this.registerComponent("print-preview", "./ui/print-preview/print-preview");
         this.registerComponent("st-nav-menu", "./st-ui/components/st-nav-menu/st-nav-menu");
@@ -50,6 +51,7 @@ export class app {
         this.registerRoute(Router.newRouteFactory("/verify/:verificationCode:/:routeParams*:", "verify",  "Verify Account | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/register/:routeParams*:", "register",  "Register | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/feed/:routeParams*:", "reflections",  "My Reflections"));
+        this.registerRoute(Router.newRouteFactory("/invitation/:invitationid:", "invitation",  "Invitation | The lazy blogger!"));
         this.registerRoute(Router.newRouteFactory("/:routeParams*:", "home",  "Home | The lazy blogger!"));
 
         this.router.parseCurrentRoute();

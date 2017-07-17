@@ -28,23 +28,37 @@ InviteSchema.statics.createInvite = function(appModel : any, userId: string, cal
     this.create(invite, callback)
 }
 
-InviteSchema.statics.updateInvite = function(appModel : any, userId: string, callback){
-    let updatedProfile = {
-        _id: new Types.ObjectId(appModel._id),
-        userId: new Types.ObjectId(appModel.userId),
-        nickname: appModel.nickname,
-        birthdate: new Date(appModel.birthdate),
-        fullname: appModel.fullname,
-        logoId: new Types.ObjectId(appModel.logoId)
-    };
-    this.updateOne({ _id: new Types.ObjectId(appModel._id) }, updatedProfile, (error, data)=>{
+InviteSchema.statics.updateInvite = function(appModel : any, callback){
+
+    this.updateOne({ _id: new Types.ObjectId(appModel._id) }, appModel, (error, data)=>{
             if(error !=null)
             {
                 callback(error, null);
             }
             else{
-                this.getProfileByUserId(appModel.userId, callback);
+                callback(null, data);
             }
+    });
+}
+
+InviteSchema.statics.getInviteById = function(inviteId: string, cb) {
+    this.find({
+        _id: new Types.ObjectId(inviteId)
+    })
+    .exec((err, invites)=>{
+        console.log()
+        if (err) {
+            console.log("getInviteId " + err);
+            cb(err, null);
+        }
+        else {
+            if(invites.length == 1){
+                cb(null, invites[0]);
+            }
+            else{
+                cb({ message: "More than one result found"}, null);
+            }
+        }
     });
 }
 
@@ -56,12 +70,14 @@ InviteSchema.statics.getInvitesByUserId = function(userId: string, cb){
         .sort({ "_id" : -1 })
         .select({ _id: 1, invitedByUserId: 1, sentDate: 1, inviteType: 1, status: 1, inviteName: 1, inviteEmail: 1, inviteMessage: 1 })
         .exec((err, invites) => {
-            console.log("getFeedByUserId: User Id: " + userId + JSON.stringify(invites, null, 1));
+            console.log("getInviteByUserId: User Id: " + userId + JSON.stringify(invites, null, 1));
             if (err) {
-                console.log("getFeedByUserId " + err);
+                console.log("getInviteByUserId " + err);
                 cb(err, null);
-            };
-            cb(null, invites);
+            }
+            else {
+                cb(null, invites);
+            }
         });
 }
 

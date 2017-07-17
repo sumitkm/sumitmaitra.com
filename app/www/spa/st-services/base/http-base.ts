@@ -21,10 +21,10 @@ export class HttpBase {
             let client = new XMLHttpRequest();
 
             client.open(this.serviceType, this.serviceUrl);
-            client.onreadystatechange = handler;
+            client.onload = handler;
             client.responseType = "json";
             client.setRequestHeader("Accept", "application/json");
-            client.send();
+            client.setRequestHeader("Content-Type", "application/json");
 
             function handler() {
                 if (this.readyState === this.DONE) {
@@ -36,6 +36,8 @@ export class HttpBase {
                     }
                 }
             };
+            client.send(JSON.stringify(data));
+            
         });
         return promise;
     }

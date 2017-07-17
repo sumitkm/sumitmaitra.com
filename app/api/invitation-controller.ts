@@ -18,11 +18,44 @@ export class InvitationController extends BaseController {
         this.repository = new db(this.config);
         this.mailer = new InvitesEmailer(this.config);
 
-        this["Invitation:path"] = "/invitations/new";
-        this["Invitations:path"] = "/invitations";
+        this["All:path"] = "/invitations";
+        this["Update:path"] = "/invitation/update";
+        this["Create:path"] = "/invitation/new";
+        this["Single:path"] = "/invitation";
+
     }
 
-    public getInvitations = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+    public putUpdate = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+        console.log("Put Invitation:" + JSON.stringify(req.body.id));
+        this.repository.Invite.getInviteById(req.body.id, (error, value) =>{
+            if(error == null){
+                console.log(JSON.stringify(value));
+                if (error != null) {
+                    res.status(500).send({ message: error.message });
+                }
+                else {
+                    value.status = req.body.status;
+                    this.repository.Invite.updateInvite(value, (err, response)=>{
+                        if(err != null){
+                            console.log(JSON.stringify(err));
+                            res.status(500).send(response)
+                        }
+                        else{
+                            this.repository.Invite.getInviteById(req.body.id, (error, updatedValue) =>{
+                                res.send(updatedValue);
+                            });
+                        }
+                    });
+                }
+            }
+            else{
+                res.status(500).send({ message: error.message });
+            }
+        });
+    }
+
+
+    public getAll = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
         console.log("get invitations");
         if (this.isLoggedIn(req)) {
             this.repository.Invite.getInvitesByUserId(req.user._id, (error, values) => {
@@ -40,7 +73,12 @@ export class InvitationController extends BaseController {
 
     }
 
-    public postInvitation = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+    public getSingle = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
+        console.log("get Invitation");
+        this.repository.Invite.get()
+    }
+
+    public postCreate = (req: Express.Request & ExpressExtensions.Request, res: Express.Response, next, params) => {
         console.log("post invitation");
         try {
             this.repository.Invite.createInvite(req.body, req.user._id, (error, value) => {

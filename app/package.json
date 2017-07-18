@@ -48,6 +48,7 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
+    "@types/mongoose": "^4.7.18",
     "@types/toastr": "^2.1.33",
     "azure-storage": "^1.4.0",
     "body-parser": "^1.15.2",

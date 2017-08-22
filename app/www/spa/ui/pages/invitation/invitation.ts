@@ -1,5 +1,4 @@
 import * as ko from "knockout";
-import { Route } from "../../../st-app/st-route";
 import { HttpBase } from "../../../st-services/base/http-base";
 import { BaseComponent } from "../../../st-ui/components/st-base-component/base-component";
 

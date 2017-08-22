@@ -1,5 +1,4 @@
-import { app } from "./st-app";
-
+import { silkthread } from "./st-app";
 requirejs.config(
 {
     baseUrl: '/spa',
@@ -29,10 +28,11 @@ requirejs.config(
     }
 });
 
-requirejs(["jQuery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app", "amplify"], ($, ko, text, history, RSVP, silkthread, amplify) => {
-    var spa: app = new silkthread.app();
-    spa.startUp();
-    spa.registerComponent("profile-editor", "./ui/components/profile-editor/profile-editor");
-    spa.registerComponent("invitations-list", "./ui/components/invitations-list/invitations-list");
-    spa.registerComponent("invitation-editor", "./ui/components/invitation-editor/invitation-editor");
+requirejs(["jQuery", "knockout", "text", "historyjs", "RSVP", "st-app/st-app", "amplify"], ($, ko, text, history, RSVP, app, amplify) => {
+    document.app = null;
+    document.app = new app.silkthread();
+    document.app.startUp();
+    document.app.registerComponent("profile-editor", "./ui/components/profile-editor/profile-editor");
+    document.app.registerComponent("invitations-list", "./ui/components/invitations-list/invitations-list");
+    document.app.registerComponent("invitation-editor", "./ui/components/invitation-editor/invitation-editor");
 });

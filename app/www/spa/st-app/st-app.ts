@@ -1,10 +1,10 @@
 import * as ko from "knockout";
 import * as toastr from "toastr";
 import { Router } from "./st-router";
-import { Route } from "./st-route";
-import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
+import { stRoute } from "./st-route";
+import { stMenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
 
-export class app {
+export class silkthread implements SilkThread{
     router: Router;
 
     constructor() {
@@ -19,9 +19,9 @@ export class app {
 
     private registerMenuItems = () => {
         //console.log("Registering menu items.");
-        this.router.leftMenuItems.push(MenuItem.factory('&#xf015;', '/', 'nav-header nav-menu-item', 'fa', false, []));
-        this.router.leftMenuItems.push(MenuItem.factory('Blog', '/blog', 'nav-menu-item', '', false, []));
-        this.router.leftMenuItems.push(MenuItem.factory('Reflection', '/feed', 'nav-menu-item', '', true, ['owner']));
+        this.router.leftMenuItems.push(stMenuItem.factory('&#xf015;', '/', 'nav-header nav-menu-item', 'fa', false, []));
+        this.router.leftMenuItems.push(stMenuItem.factory('Blog', '/blog', 'nav-menu-item', '', false, []));
+        this.router.leftMenuItems.push(stMenuItem.factory('Reflection', '/feed', 'nav-menu-item', '', true, ['owner']));
     }
 
     private registerComponents = () => {
@@ -58,7 +58,7 @@ export class app {
         ko.applyBindings(this.router.currentRoute);
     }
 
-    public registerRoute = (newRoute: Route) => {
+    public registerRoute = (newRoute: stRoute) => {
         this.router.registerRoute(newRoute);
     }
 

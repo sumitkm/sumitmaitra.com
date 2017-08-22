@@ -1,13 +1,13 @@
 import * as ko from "knockout";
-import { Route } from "./st-route";
-import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
+import { stRoute } from "./st-route";
+import { stMenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
 import * as crossroads from "crossroads";
 
 var Historyjs : Historyjs = <any> History;
 
 class Router {
-    currentRoute: KnockoutObservable<Route> = ko.observable<Route>();
-    routes: KnockoutObservableArray<Route> = ko.observableArray<Route>([]);
+    currentRoute: KnockoutObservable<stRoute> = ko.observable<stRoute>();
+    routes: KnockoutObservableArray<stRoute> = ko.observableArray<stRoute>([]);
     leftMenuItems: KnockoutObservableArray<MenuItem> = ko.observableArray<MenuItem>([]);
     rightMenuItems: KnockoutObservableArray<MenuItem> = ko.observableArray<MenuItem>([]);
 
@@ -17,17 +17,17 @@ class Router {
     }
 
     public static newRouteFactory = (routePath: string, pageComponent: string, title?: string, roles? : Array<string>) => {
-        let newRoute = new Route(routePath, title, pageComponent, roles);
+        let newRoute = new stRoute(routePath, title, pageComponent, roles);
         newRoute.title(title);
         return newRoute;
     }
 
-    public registerRoute = (newRoute: Route) => {
+    public registerRoute = (newRoute: stRoute) => {
         this.routes.push(newRoute);
 
         crossroads.addRoute(newRoute.path(), (crRoute) => {
             console.log(newRoute.path());
-            let selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==newRoute.path());
+            let selectedRoute = ko.utils.arrayFirst<stRoute>(this.routes(), r=>r.path()==newRoute.path());
             selectedRoute.crRoute(crRoute);
             this.currentRoute(selectedRoute);
 
@@ -35,13 +35,13 @@ class Router {
                 this.rightMenuItems.removeAll();
                 if(data.user!=null)
                 {
-                    this.rightMenuItems.push(MenuItem.factory(data.user.username, '/profile', 'nav-menu-item', '', true, ['owner']));
+                    this.rightMenuItems.push(stMenuItem.factory(data.user.username, '/profile', 'nav-menu-item', '', true, ['owner']));
                     selectedRoute.userName(data.user.username);
                     selectedRoute.userId(data.user._id);
                 }
                 else
                 {
-                    this.rightMenuItems.push(MenuItem.factory('Login', '/login', 'nav-menu-item', '', false, []));
+                    this.rightMenuItems.push(stMenuItem.factory('Login', '/login', 'nav-menu-item', '', false, []));
                 }
                 if(selectedRoute!=null)
                 {
@@ -73,8 +73,8 @@ class Router {
         this.historyStateChanged();
     }
 
-    public parse = (route: string) => {
-        crossroads.parse(route);
+    public parse = (stRoute: string) => {
+        crossroads.parse(stRoute);
     }
 
     private handleAnchorClick = (event) => {
@@ -83,7 +83,19 @@ class Router {
                 ? event.target
                 : $(event.target).closest('a')[0];
             let url = $(target).attr("href");
-            Historyjs.pushState(null, null, url);
+            if(url.indexOf('#') >= 0){
+                let id = url.slice(url.indexOf('#'));
+                console.log(id);
+                if(window.innerWidth < 1024){
+                    $('html, body').animate({scrollTop: $(id).offset().top - 72}, 'slow');
+                }
+                else{
+                    $('html, body').animate({scrollTop: $(id).offset().top - 132}, 'slow');
+
+                }
+                return true;
+            }
+            Historyjs.pushState(null, document.title, url);
         }
         catch(error) {
             //todo: log
@@ -110,7 +122,7 @@ class Router {
     }
 
     private getRoute = (url: string) => {
-        var selectedRoute = ko.utils.arrayFirst<Route>(this.routes(), r=>r.path()==url);
+        var selectedRoute = ko.utils.arrayFirst<stRoute>(this.routes(), r=>r.path()==url);
         return selectedRoute;
     }
 

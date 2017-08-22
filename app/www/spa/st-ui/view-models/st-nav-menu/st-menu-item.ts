@@ -1,6 +1,6 @@
 import * as ko from "knockout";
 
-export class MenuItem {
+export class stMenuItem implements MenuItem {
     text: KnockoutObservable<string> = ko.observable<string>("");
     href: KnockoutObservable<string> = ko.observable<string>("");
     css: KnockoutObservable<string> = ko.observable<string>("");
@@ -11,7 +11,7 @@ export class MenuItem {
     authorizedForRoles: KnockoutObservableArray<string> = ko.observableArray<string>([]);
 
     public static factory = (text: string, href: string, css: string, hrefCss: string, authenticated: boolean, roles: Array<string>): MenuItem => {
-        let newMenuItem = new MenuItem();
+        let newMenuItem = new stMenuItem();
         newMenuItem.text(text);
         newMenuItem.href(href);
         newMenuItem.css(css);

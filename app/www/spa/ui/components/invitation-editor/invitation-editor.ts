@@ -16,7 +16,7 @@ export class viewModel{
     }
 
     private initServices = () => {
-        this.postInvitationQuery = new HttpBase("POST", "/api/invitation/new", this.invitationSent, this.invitationNotSent);
+        this.postInvitationQuery = new HttpBase("POST", "/api/contactus/sendmail", this.invitationSent, this.invitationNotSent);
     }
 
     private sendInvitation = () =>{

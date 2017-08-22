@@ -18,7 +18,7 @@ export class viewModel extends BaseComponent{
     deleteFeedItemService: HttpBase;
     selectedItem : KnockoutObservable<any> = ko.observable<any>();
 
-    constructor(params){
+    constructor(params : Route){
         super(params);
         amplify.subscribe(FeedListEvents.DeleteFeedItem, this, this.deleteFeedItem);
         this.initServices();

@@ -1,7 +1,6 @@
-/// <amd-dependency path="text!./login.html" />
+import "text!./login.html";
 import * as ko from "knockout";
 import { BaseComponent } from "../../../st-ui/components/st-base-component/base-component";
-import { Route } from "../../../st-app/st-route";
 
 export var template = require("text!./login.html");
 export class viewModel extends BaseComponent{

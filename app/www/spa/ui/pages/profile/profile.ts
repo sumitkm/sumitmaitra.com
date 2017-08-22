@@ -3,7 +3,7 @@ import * as ko from "knockout";
 import { BaseComponent } from "../../../st-ui/components/st-base-component/base-component";
 import { TabItem } from "../../../st-ui/view-models/st-nav-tab/st-tab-item";
 import { TabStrip } from "../../../st-ui/view-models/st-nav-tab/st-tab-strip";
-import { Route } from "../../../st-app/st-route";
+import { stRoute } from "../../../st-app/st-route";
 
 export var template = require("text!./profile.html");
 

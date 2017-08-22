@@ -1,7 +1,7 @@
 import * as ko from "knockout";
-import { MenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
+import { stMenuItem } from "../st-ui/view-models/st-nav-menu/st-menu-item";
 
-class Route {
+class stRoute implements Route {
     path : KnockoutObservable<string> = ko.observable<string>();
     title : KnockoutObservable<string> = ko.observable<string>("");
     pageComponent: KnockoutObservable<string> = ko.observable<string>();
@@ -20,4 +20,4 @@ class Route {
     }
 }
 
-export { Route } ;
+export { stRoute } ;

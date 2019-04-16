@@ -16,8 +16,16 @@ export class db {
 	}
 
 	public getConnection = () => {
+		var options = {
+			server: { auto_reconnect: true },
+			auth: {
+	        	authSource: "admin"
+	    	},
+			user: "piotsuperuser",
+			pwd: "db2play201&"
+		}
 		if (mongoose.connection.readyState === 0)
-			mongoose.connect(this._configuration.mongodbUri, { server: { auto_reconnect: true } });
+			mongoose.connect(this._configuration.mongodbUri, options );
 		return mongoose.connection;
 	}
 

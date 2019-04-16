@@ -69,7 +69,15 @@ export class main {
                 };
 
                 // Connect mongoose
-                mongoose.connect(config.mongodbUri, (err) => {
+                var options = {
+        			server: { auto_reconnect: true },
+        			auth: {
+        	        	authSource: "admin"
+        	    	},
+        	    	user: "piotsuperuser",
+        	    	pwd: "db2play201&"
+        		}
+                mongoose.connect(config.mongodbUri, options, (err) => {
                     if (err) {
                         //console.log('Could not connect to mongodb on localhost. Ensure that you have mongodb running on localhost and mongodb accepts connections on standard ports!');
                         this.logger.info({ error: err }, 'Connect error');

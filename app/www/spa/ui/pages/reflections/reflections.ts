@@ -1,4 +1,4 @@
-/// <amd-dependency path="text!./reflections.html" />
+import "text!./reflections.html";
 
 import * as ko from "knockout";
 import * as amplify from "amplify";

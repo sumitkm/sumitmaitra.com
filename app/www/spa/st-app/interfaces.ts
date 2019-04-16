@@ -7,6 +7,7 @@ interface SilkThread {
     startUp : () => void;
     registerRoute : (newRoute: Route) => void;
     registerComponent : (name: string, location: string) => void;
+    registerMenu : (text: string, url: string, menuCssClass: string, menuHrefClass: string, authenticated: boolean, roles: Array<string> ) => void;
 }
 
 
@@ -22,6 +23,9 @@ interface Route {
     rightMenuItems: KnockoutObservableArray<MenuItem>;
 }
 
+interface Router {
+    
+}
 interface MenuItem {
     text: KnockoutObservable<string>;
     href: KnockoutObservable<string> ;

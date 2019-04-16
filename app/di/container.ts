@@ -1,8 +1,9 @@
 import * as express from "express";
 
 import { Configuration } from "../services/settings/config-model";
-import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 import { BaseController } from "../api/base-controller";
+
+import { PassportLocalAuthenticator } from "../services/passport-local/passport-local-authenticator";
 
 import { HomeController } from "../api/home-controller";
 import { PassportLocalController } from "../api/passport-controller";

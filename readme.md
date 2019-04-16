@@ -1,6 +1,6 @@
 *sumitmaitra.com*
 
- [![Known Vulnerabilities](https://snyk.io/test/github/sumitkm/sumitmaitra.com/badge.svg)](https://snyk.io/test/github/sumitkm/sumitmaitra.com)
+[![Known Vulnerabilities](https://snyk.io/test/github/sumitkm/sumitmaitra.com/badge.svg?targetFile=app%2Fpackage.json)](https://snyk.io/test/github/sumitkm/sumitmaitra.com?targetFile=app%2Fpackage.json)
 
 Taking control of our online presence, it starts here!!!
 

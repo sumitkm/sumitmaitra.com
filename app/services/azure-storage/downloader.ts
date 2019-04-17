@@ -1,8 +1,7 @@
 import { Configuration } from "../settings/config-model";
 import * as bunyan from "bunyan";
-
+import * as Jimp from 'jimp';
 let azure = require("azure-storage");
-let lwip = require('lwip');
 let fs = require('fs');
 let path = require("path");
 
@@ -34,18 +33,17 @@ export class AzureDownloader {
                     fs.mkdir(this.cacheFolder, this.writeToCache);
                 }
                 else {
-                    lwip.open(this.cacheFile, 'jpg', (err, image) => {
-                        if (err) {
-                            this.logger.error(err, "getImageFromBlob: Retrieving from cache errored out.");
-                        }
-                        else {
+                    Jimp.read(this.cacheFile)
+                        .then(image => {
                             this.logger.info("Returning scaled image");
-                            image.scale(0.5, (err, result) => {
-                                image.toBuffer('jpg', callback);
-                            });
-                        }
-                    });
-
+                            image.scale(0.5);
+                            image.getBuffer('image/jpg', callback);
+                        })
+                        .catch(err => {
+                            if (err) {
+                                this.logger.error(err, "getImageFromBlob: Retrieving from cache errored out.");
+                            }
+                        });
                 }
             });
         }
@@ -64,19 +62,22 @@ export class AzureDownloader {
                     if (!error) {
                         fs.readFile(this.cacheFile, (err, buffer) => {
                             // check err
-                            lwip.open(buffer, 'jpg', (err, image) => {
-                                if (err) {
-                                    this.logger.error({ error: err }, "writeToCache: Retrieving from cache errored out.");
-                                }
-                                else {
+                            Jimp.read(buffer)
+                                .then(image => {
+
                                     //console.log("Returning scaled image");
                                     //console.log(image);
                                     this.logger.debug(image, "Scaled Image");
                                     if (this.callback != null) {
                                         image.scale(0.5, this.callback);
                                     }
-                                }
-                            });
+
+                                })
+                                .catch(err => {
+                                    if (err) {
+                                        this.logger.error({ error: err }, "writeToCache: Retrieving from cache errored out.");
+                                    }
+                                });
                         });
                     } else {
                         this.logger.error({ error: error }, "getBlobToStream errored out");

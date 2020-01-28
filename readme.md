@@ -5,6 +5,7 @@
 Taking control of our online presence, it starts here!!!
 
 ## Why? ##
+
 1. I got tired of being pushed around by various social media and so called, free, cloud platforms, that simply track your online presence to display ads and build privacy invading online profiles to push their own agenda. I decided to do something about it, and this code is the starting point. It serves as a site template for building your own online platform.  
 2. If you have an Azure account, you will be able to clone the code and deploy this application very easily to host a personal social profile without being dependent on ad based, privacy sucking social media sites.  
 3. In future I'll build extension points for other popular cloud infrastructure providers as well. In the meantime if you want to host it off a Raspberry Pi from your basement you are most welcome, all you need is NodeJS and MongoDB.  
@@ -23,6 +24,7 @@ A lot of work is planned but here's an outline.
 9. I will try to make it as easy as possible to use, however this may never become a single click install and run kind of thing. At least there is no plan to make it such.  
 
 ## When? ##
+
 1. **This is something I do after-work hours and it doesn't do most of what is outlined above, yet.** Follow the repo to get an idea of the progress. Refer to [features.md](/features.md) for a more complete (but still dynamic) list of TODOs and their progress.   
 2. **Note:** I am learning Node as I build this, so expect periods of apparent inactivity. This is likely because I am stuck at work or being boneheaded about something in Node.
 3. First cut will land as my own home page at https://www.sumitmaitra.com hopefully by the end of 2016.

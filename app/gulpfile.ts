@@ -1,7 +1,5 @@
-var gulp = require('gulp');
+import { src, dest, parallel } from "gulp";
 var watch = require('gulp-watch');
-var prefix = require('gulp-autoprefixer');
-var plumber = require('gulp-plumber');
 var livereload = require('gulp-livereload');
 
 var connect = require('gulp-connect');
@@ -11,32 +9,30 @@ var onError = (err) => {
   this.emit('end');
 }
 
-gulp.task('connect', () => {
+export var connectTask = (done, error) => {
     connect.server({
         livereload: true,
         root: ['./www']
     });
-});
+    done();
+}
 
-gulp.task('html', () => {
-    gulp.src('./**/*.html')
-        .pipe(plumber({
-          errorHandler: onError
-        }))
+export var htmlTask = (done, error) => {
+    src('./**/*.html')
         .pipe(connect.reload());
-});
+        done();
+}
 
-gulp.task('js', () => {
-    gulp.src('./**/*.js')
-        .pipe(plumber({
-          errorHandler: onError
-        }))
+export var jsTask = (done, error) => {
+    src('./**/*.js')
         .pipe(connect.reload());
-});
+        done();
+}
 
-gulp.task('watch', () => {
-    gulp.watch(['./**/*.html'], ['html']);
-    gulp.watch(['./**/*.js'], ['js']);
-});
+export var watchTask = (done, error) => {
+    watch(['./**/*.html'], ['html']);
+    watch(['./**/*.js'], ['js']);
+    done();
+}
 
-gulp.task('dev', ['connect', 'watch']);
+export var dev= parallel(connectTask, watchTask);

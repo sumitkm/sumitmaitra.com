@@ -55,7 +55,7 @@
     "azure-storage": "^2.10.3",
     "body-parser": "^1.18.3",
     "bson": "^4.0.2",
-    "bunyan": "^2.0.2",
+    "bunyan": "^2.0.3",
     "connect-mongo": "^3.0.0",
     "connect-mongodb-session": "^2.0.4",
     "cookie-parser": "^1.4.3",

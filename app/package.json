@@ -52,7 +52,7 @@
     "mocha": "^7.0.1"
   },
   "dependencies": {
-    "azure-storage": "^2.10.3",
+    "azure-storage": "^2.10.5",
     "body-parser": "^1.18.3",
     "bson": "^4.0.2",
     "bunyan": "^2.0.3",

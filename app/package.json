@@ -43,7 +43,7 @@
     "@types/requirejs": "^2.1.29",
     "@types/serve-static": "^1.7.31",
     "@types/toastr": "^2.1.33",
-    "braces": "^3.0.2",
+    "braces": "^3.0.3",
     "gulp": "^4.0.0",
     "gulp-connect": "^5.7.0",
     "gulp-livereload": "^4.0.1",
